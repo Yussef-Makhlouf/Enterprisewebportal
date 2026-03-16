@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useApp } from '../../context/AppContext';
-import { Plus, Download, Search, Eye, Printer, Mail, ChevronLeft, ChevronRight, Plane, Car, Stethoscope, Home, HardHat, type LucideIcon } from 'lucide-react';
+import { Plus, Download, Search, Eye, Printer, Mail, ChevronLeft, ChevronRight, Plane, Car, Stethoscope, Home, HardHat, Trash2, AlertTriangle, type LucideIcon } from 'lucide-react';
 import { PolicyDetailDrawer } from '../../components/broker/PolicyDetailDrawer';
+import { ConfirmationModal } from '../../components/global/ConfirmationModal';
 
 const LOB_ICONS: Record<string, LucideIcon> = {
   Travel: Plane, Motor: Car, Medical: Stethoscope, Home: Home, Domestic: HardHat
@@ -46,12 +47,14 @@ const LOB_TABS: LOBTab[] = [
 ];
 
 export function MyPolicies() {
-  const { theme, language, isRTL } = useApp();
+  const { theme, language, isRTL, addToast } = useApp();
   const navigate = useNavigate();
   const isAr = language === 'ar';
   const [activeTab, setActiveTab] = useState('All');
   const [search, setSearch] = useState('');
   const [selectedPolicy, setSelectedPolicy] = useState<any>(null);
+  const [policies, setPolicies] = useState(POLICIES);
+  const [deleteConfirm, setDeleteConfirm] = useState<any>(null);
 
   const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
   const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
@@ -60,11 +63,24 @@ export function MyPolicies() {
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
   const rowHover = theme === 'dark' ? 'rgba(255,255,255,0.025)' : 'rgba(13,31,60,0.025)';
 
-  const filtered = POLICIES.filter(p => {
+  const filtered = policies.filter(p => {
     const matchTab = activeTab === 'All' || p.typeKey === activeTab;
     const matchSearch = !search || p.no.toLowerCase().includes(search.toLowerCase()) || p.name.toLowerCase().includes(search.toLowerCase());
     return matchTab && matchSearch;
   });
+
+  const handleDeleteClick = (policy: any, e: any) => {
+    e.stopPropagation();
+    setDeleteConfirm(policy);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteConfirm) {
+      setPolicies(prev => prev.filter(p => p.id !== deleteConfirm.id));
+      setDeleteConfirm(null);
+      addToast({ type: 'success', title: isAr ? 'تم حذف الوثيقة' : 'Policy deleted successfully' });
+    }
+  };
 
   return (
     <div className="p-5 min-h-full" style={{ background: bg }}>
@@ -89,7 +105,7 @@ export function MyPolicies() {
       {/* LOB Filter Tabs */}
       <div className="flex gap-2 mb-4">
         {LOB_TABS.map(tab => {
-          const count = tab.key === 'All' ? POLICIES.length : POLICIES.filter(p => p.typeKey === tab.key).length;
+          const count = tab.key === 'All' ? policies.length : policies.filter(p => p.typeKey === tab.key).length;
           return (
             <button key={tab.key}
               className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium border transition-all"
@@ -211,6 +227,13 @@ export function MyPolicies() {
                       </button>
                       <button className="p-1.5 rounded-lg hover:bg-white/8 transition-all" style={{ color: textSecondary }}>
                         <Mail size={14} />
+                      </button>
+                      <button
+                        className="p-1.5 rounded-lg hover:bg-red-500/10 transition-all"
+                        style={{ color: '#FF4060' }}
+                        onClick={e => handleDeleteClick(p, e)}
+                      >
+                        <Trash2 size={14} />
                       </button>
                     </div>
                   </td>
