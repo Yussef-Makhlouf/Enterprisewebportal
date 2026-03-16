@@ -17,7 +17,10 @@ export function SubBrokers() {
   const isAr = language === 'ar';
   const [brokers, setBrokers] = useState(SUBBBROKERS);
   const [addDrawerOpen, setAddDrawerOpen] = useState(false);
+  const [editDrawerOpen, setEditDrawerOpen] = useState(false);
+  const [editingBroker, setEditingBroker] = useState<typeof SUBBBROKERS[0] | null>(null);
   const [form, setForm] = useState({ name: '', id: '', mobile: '', email: '' });
+  const [editForm, setEditForm] = useState({ name: '', id: '', mobile: '', email: '' });
 
   const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
   const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
@@ -42,6 +45,26 @@ export function SubBrokers() {
       setAddDrawerOpen(false);
       setForm({ name: '', id: '', mobile: '', email: '' });
       addToast({ type: 'success', title: isAr ? 'تم الإضافة' : 'Sub-Broker Added' });
+    }
+  };
+
+  const handleEditClick = (broker: typeof SUBBBROKERS[0]) => {
+    setEditingBroker(broker);
+    setEditForm({ name: broker.name, id: broker.id.toString(), mobile: broker.mobile, email: broker.email });
+    setEditDrawerOpen(true);
+  };
+
+  const handleSaveEdit = () => {
+    if (editingBroker && editForm.name && editForm.email && editForm.mobile) {
+      setBrokers(prev => prev.map(b =>
+        b.id === editingBroker.id
+          ? { ...b, name: editForm.name, email: editForm.email, mobile: editForm.mobile }
+          : b
+      ));
+      setEditDrawerOpen(false);
+      setEditingBroker(null);
+      setEditForm({ name: '', id: '', mobile: '', email: '' });
+      addToast({ type: 'success', title: isAr ? 'تم التحديث' : 'Sub-Broker Updated' });
     }
   };
 
@@ -86,7 +109,11 @@ export function SubBrokers() {
                   <p style={{ fontSize: '12px', color: textSecondary }}>{broker.email}</p>
                 </div>
               </div>
-              <button className="p-1.5 rounded-lg hover:bg-white/8 transition-all" style={{ color: textSecondary }}>
+              <button
+                className="p-1.5 rounded-lg hover:bg-white/8 transition-all"
+                style={{ color: textSecondary }}
+                onClick={() => handleEditClick(broker)}
+              >
                 <Edit2 size={15} />
               </button>
             </div>
@@ -174,6 +201,58 @@ export function SubBrokers() {
               </button>
               <button className="flex-1 py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90" style={{ background: '#C8102E' }} onClick={handleAdd}>
                 {isAr ? 'إضافة وسيط' : 'Add Sub-Broker'}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Edit Sub-Broker Drawer */}
+      {editDrawerOpen && editingBroker && (
+        <>
+          <div className="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={() => setEditDrawerOpen(false)} />
+          <div className={`fixed top-0 ${isRTL ? 'left-0' : 'right-0'} h-full z-50 flex flex-col shadow-2xl`}
+            style={{ width: '400px', background: cardBg, borderLeft: isRTL ? 'none' : `1px solid ${borderColor}` }}>
+            <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor }}>
+              <h2 style={{ fontSize: '15px', fontWeight: 600, color: textPrimary }}>{isAr ? 'تحرير الوسيط الفرعي' : 'Edit Sub-Broker'}</h2>
+              <button onClick={() => setEditDrawerOpen(false)} className="p-1.5 rounded-lg hover:bg-white/8" style={{ color: textSecondary }}><X size={18} /></button>
+            </div>
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+              <div className="flex items-center gap-4 p-3 rounded-xl" style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB', border: `1px solid ${borderColor}` }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, #0DB4CC, #0D1F3C)', fontSize: '16px' }}>
+                  {editForm.name.slice(0, 2).toUpperCase() || 'U'}
+                </div>
+                <div>
+                  <p style={{ fontSize: '14px', fontWeight: 600, color: textPrimary }}>{editForm.name || 'Unnamed'}</p>
+                  <p style={{ fontSize: '12px', color: textSecondary }}>{editForm.email}</p>
+                </div>
+              </div>
+              {[
+                { key: 'name', label: isAr ? 'الاسم الكامل' : 'Full Name', placeholder: isAr ? 'أدخل الاسم الكامل' : 'Enter full name' },
+                { key: 'id', label: isAr ? 'رقم الهوية الوطنية' : 'National ID', placeholder: '10 digits', mono: true },
+                { key: 'mobile', label: isAr ? 'رقم الهاتف' : 'Mobile Number', placeholder: '+962 XX XXX XXXX' },
+                { key: 'email', label: isAr ? 'البريد الإلكتروني' : 'Email Address', placeholder: 'name@email.com' },
+              ].map(f => (
+                <div key={f.key}>
+                  <label className="block mb-1.5" style={{ fontSize: '12px', fontWeight: 500, color: textSecondary }}>{f.label}</label>
+                  <input
+                    type={f.key === 'email' ? 'email' : 'text'}
+                    value={editForm[f.key as keyof typeof editForm]}
+                    onChange={e => setEditForm(prev => ({ ...prev, [f.key]: e.target.value }))}
+                    className="w-full px-3 py-2.5 rounded-lg border outline-none text-sm"
+                    style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB', borderColor, color: textPrimary, fontFamily: f.mono ? "'IBM Plex Mono', monospace" : 'inherit' }}
+                    placeholder={f.placeholder}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="px-5 py-4 border-t flex gap-3" style={{ borderColor }}>
+              <button className="flex-1 py-2.5 rounded-xl border text-sm font-medium" style={{ borderColor, color: textSecondary }} onClick={() => setEditDrawerOpen(false)}>
+                {isAr ? 'إلغاء' : 'Cancel'}
+              </button>
+              <button className="flex-1 py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90" style={{ background: '#C8102E' }} onClick={handleSaveEdit}>
+                {isAr ? 'حفظ التغييرات' : 'Save Changes'}
               </button>
             </div>
           </div>
