@@ -2,271 +2,343 @@ import { Outlet, Navigate, useNavigate, useLocation } from 'react-router';
 import { useApp } from '../../context/AppContext';
 import {
   LayoutDashboard, Users, Shield, FileText, BookOpen,
-  TrendingUp, Bell, User, Settings, LogOut, ChevronRight,
-  Globe, Sun, Moon, Search, Command, Building2, HelpCircle,
-  ClipboardList, CreditCard, UserCheck, Home, Layers, X
+  Bell, User, Settings, LogOut, ChevronRight,
+  Globe, Sun, Moon, Search, Building2,
+  ClipboardList, CreditCard, UserCheck, Layers
 } from 'lucide-react';
 import { useState } from 'react';
 
+/* ── Brand tokens ─────────────────────────────────── */
+const GIG = {
+  indigo:    '#19058C',
+  roseGold:  '#D28C64',
+  deepBlue:  '#1F0F4D',
+  rail:      '#070D18',   /* dark mode icon rail  */
+  railLight: '#1F0F4D',   /* light mode icon rail */
+  navDark:   '#0F1825',   /* dark mode nav panel  */
+  ocean:     '#8094E6',
+  seafoam:   '#6BCABA',
+} as const;
+
+/* ── Nav data ─────────────────────────────────────── */
 const adminNav = [
   {
-    group: 'PORTAL MANAGEMENT',
-    groupAr: 'إدارة البوابة',
+    group: 'PORTAL MANAGEMENT', groupAr: 'إدارة البوابة',
     items: [
-      { icon: LayoutDashboard, label: 'Dashboard', labelAr: 'لوحة التحكم', path: '/admin' },
+      { icon: LayoutDashboard, label: 'Dashboard',          labelAr: 'لوحة التحكم',       path: '/admin' },
     ]
   },
   {
-    group: 'BROKER MANAGEMENT',
-    groupAr: 'إدارة الوسطاء',
+    group: 'BROKER MANAGEMENT', groupAr: 'إدارة الوسطاء',
     items: [
-      { icon: Users, label: 'Manage Brokers', labelAr: 'إدارة الوسطاء', path: '/admin/brokers' },
-      { icon: Shield, label: 'Roles & Permissions', labelAr: 'الأدوار والصلاحيات', path: '/admin/roles' },
-      { icon: ClipboardList, label: 'Audit Trail', labelAr: 'سجل المراجعة', path: '/admin/audit' },
+      { icon: Users,         label: 'Manage Brokers',      labelAr: 'إدارة الوسطاء',     path: '/admin/brokers' },
+      { icon: Shield,        label: 'Roles & Permissions', labelAr: 'الأدوار والصلاحيات', path: '/admin/roles' },
+      { icon: ClipboardList, label: 'Audit Trail',         labelAr: 'سجل المراجعة',       path: '/admin/audit' },
     ]
   },
   {
-    group: 'SHOWCASE',
-    groupAr: 'العرض',
+    group: 'SHOWCASE', groupAr: 'العرض',
     items: [
-      { icon: Layers, label: 'Design System', labelAr: 'نظام التصميم', path: '/design-system' },
-      { icon: BookOpen, label: 'Components', labelAr: 'المكونات', path: '/components' },
+      { icon: Layers,   label: 'Design System', labelAr: 'نظام التصميم', path: '/design-system' },
+      { icon: BookOpen, label: 'Components',     labelAr: 'المكونات',     path: '/components' },
     ]
   }
 ];
 
 const brokerNav = [
   {
-    group: 'OVERVIEW',
-    groupAr: 'نظرة عامة',
+    group: 'OVERVIEW', groupAr: 'نظرة عامة',
     items: [
-      { icon: LayoutDashboard, label: 'Dashboard', labelAr: 'لوحة التحكم', path: '/broker' },
-      { icon: Bell, label: 'Notifications', labelAr: 'الإشعارات', path: '/broker/notifications', badge: 2 },
+      { icon: LayoutDashboard, label: 'Dashboard',     labelAr: 'لوحة التحكم', path: '/broker' },
+      { icon: Bell,            label: 'Notifications', labelAr: 'الإشعارات',  path: '/broker/notifications', badge: 2 },
     ]
   },
   {
-    group: 'POLICY ISSUANCE',
-    groupAr: 'إصدار الوثائق',
+    group: 'POLICY ISSUANCE', groupAr: 'إصدار الوثائق',
     items: [
       { icon: FileText, label: 'Issue Policy', labelAr: 'إصدار وثيقة', path: '/broker/issuance' },
-      { icon: BookOpen, label: 'My Policies', labelAr: 'وثائقي', path: '/broker/policies' },
+      { icon: BookOpen, label: 'My Policies',  labelAr: 'وثائقي',       path: '/broker/policies' },
     ]
   },
   {
-    group: 'ACCOUNT',
-    groupAr: 'الحساب',
+    group: 'ACCOUNT', groupAr: 'الحساب',
     items: [
-      { icon: Users, label: 'Sub-Brokers', labelAr: 'الوسطاء الفرعيون', path: '/broker/sub-brokers' },
-      { icon: CreditCard, label: 'Statement', labelAr: 'كشف الحساب', path: '/broker/statement' },
-      { icon: Building2, label: 'Corporate', labelAr: 'العملاء المؤسسيون', path: '/broker/corporate' },
-      { icon: User, label: 'My Profile', labelAr: 'ملفي الشخصي', path: '/broker/profile' },
+      { icon: Users,      label: 'Sub-Brokers', labelAr: 'الوسطاء الفرعيون',  path: '/broker/sub-brokers' },
+      { icon: CreditCard, label: 'Statement',   labelAr: 'كشف الحساب',        path: '/broker/statement' },
+      { icon: Building2,  label: 'Corporate',   labelAr: 'العملاء المؤسسيون', path: '/broker/corporate' },
+      { icon: User,       label: 'My Profile',  labelAr: 'ملفي الشخصي',       path: '/broker/profile' },
     ]
   },
   {
-    group: 'SHOWCASE',
-    groupAr: 'العرض',
+    group: 'SHOWCASE', groupAr: 'العرض',
     items: [
-      { icon: Layers, label: 'Design System', labelAr: 'نظام التصميم', path: '/design-system' },
-      { icon: BookOpen, label: 'Components', labelAr: 'المكونات', path: '/components' },
+      { icon: Layers,   label: 'Design System', labelAr: 'نظام التصميم', path: '/design-system' },
+      { icon: BookOpen, label: 'Components',     labelAr: 'المكونات',     path: '/components' },
     ]
   }
 ];
 
 const iconRailItems = [
-  { icon: LayoutDashboard, label: 'Dashboard', labelAr: 'لوحة التحكم', matchPath: (p: string, r: string) => r === 'admin' ? p === '/admin' : p === '/broker' },
-  { icon: Users, label: 'Brokers / Sub-Brokers', labelAr: 'الوسطاء', matchPath: (p: string, r: string) => r === 'admin' ? p.startsWith('/admin/brokers') : p.startsWith('/broker/sub') },
-  { icon: FileText, label: 'Policies', labelAr: 'الوثائق', matchPath: (p: string, r: string) => r === 'broker' && (p.startsWith('/broker/policies') || p.startsWith('/broker/issuance')) },
-  { icon: Shield, label: 'Roles', labelAr: 'الأدوار', matchPath: (p: string, r: string) => r === 'admin' && p.startsWith('/admin/roles') },
-  { icon: ClipboardList, label: 'Audit', labelAr: 'المراجعة', matchPath: (p: string, r: string) => r === 'admin' && p.startsWith('/admin/audit') },
-  { icon: CreditCard, label: 'Statement', labelAr: 'الحساب', matchPath: (p: string, r: string) => r === 'broker' && p.startsWith('/broker/statement') },
-  { icon: Bell, label: 'Notifications', labelAr: 'الإشعارات', matchPath: (p: string) => p.includes('/notifications'), badge: 2 },
-  { icon: User, label: 'Profile', labelAr: 'الملف', matchPath: (p: string, r: string) => r === 'broker' && p.startsWith('/broker/profile') },
+  { icon: LayoutDashboard, label: 'Dashboard',             labelAr: 'لوحة التحكم',
+    matchPath: (p: string, r: string) => r === 'admin' ? p === '/admin' : p === '/broker' },
+  { icon: Users,           label: 'Brokers / Sub-Brokers', labelAr: 'الوسطاء',
+    matchPath: (p: string, r: string) => r === 'admin' ? p.startsWith('/admin/brokers') : p.startsWith('/broker/sub') },
+  { icon: FileText,        label: 'Policies',              labelAr: 'الوثائق',
+    matchPath: (p: string, r: string) => r === 'broker' && (p.startsWith('/broker/policies') || p.startsWith('/broker/issuance')) },
+  { icon: Shield,          label: 'Roles',                 labelAr: 'الأدوار',
+    matchPath: (p: string, r: string) => r === 'admin' && p.startsWith('/admin/roles') },
+  { icon: ClipboardList,   label: 'Audit',                 labelAr: 'المراجعة',
+    matchPath: (p: string, r: string) => r === 'admin' && p.startsWith('/admin/audit') },
+  { icon: CreditCard,      label: 'Statement',             labelAr: 'الحساب',
+    matchPath: (p: string, r: string) => r === 'broker' && p.startsWith('/broker/statement') },
+  { icon: Bell,            label: 'Notifications',         labelAr: 'الإشعارات',
+    matchPath: (p: string) => p.includes('/notifications'), badge: 2 },
+  { icon: User,            label: 'Profile',               labelAr: 'الملف',
+    matchPath: (p: string, r: string) => r === 'broker' && p.startsWith('/broker/profile') },
 ];
 
+/* ── Component ────────────────────────────────────── */
 export function Shell() {
-  const { isAuthenticated, userRole, setUserRole, setIsAuthenticated, language, isRTL, toggleTheme, toggleLanguage, theme, openCommandPalette, t, currentUser } = useApp();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [navPanelOpen, setNavPanelOpen] = useState(true);
+  const {
+    isAuthenticated, userRole, setUserRole, setIsAuthenticated,
+    language, isRTL, toggleTheme, toggleLanguage, theme,
+    openCommandPalette, currentUser
+  } = useApp();
+  const location  = useLocation();
+  const navigate  = useNavigate();
+  const [navOpen, setNavOpen] = useState(true);
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
+  if (!isAuthenticated) return <Navigate to="/" replace />;
 
-  const navItems = userRole === 'admin' ? adminNav : brokerNav;
+  const navItems    = userRole === 'admin' ? adminNav : brokerNav;
   const currentPath = location.pathname;
+  const isAr        = language === 'ar';
+  const isDark      = theme === 'dark';
+
+  /* ── Dark-mode palette ──────────────────────────── */
+  const railBg    = isDark ? GIG.rail    : GIG.railLight;
+  const navBg     = isDark ? GIG.navDark : GIG.indigo;
+  const topbarBg  = isDark ? GIG.navDark : '#FFFFFF';
+  const topbarBdr = isDark ? 'rgba(128,148,230,0.12)' : 'rgba(25,5,140,0.10)';
+  const fgMuted   = isDark ? 'rgba(160,185,245,0.55)' : 'rgba(61,53,96,0.60)';
+  const fgPrimary = isDark ? '#E8F0FF' : GIG.indigo;
+
+  /* font families */
+  const ff  = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"   : "'Reforma', Verdana, sans-serif";
 
   const getBreadcrumb = () => {
-    const flat = navItems.flatMap(g => g.items);
+    const flat  = navItems.flatMap(g => g.items);
     const found = flat.find(i => i.path === currentPath || currentPath.startsWith(i.path + '/'));
-    if (!found) return language === 'ar' ? 'لوحة التحكم' : 'Dashboard';
-    return language === 'ar' ? found.labelAr : found.label;
+    if (!found) return isAr ? 'لوحة التحكم' : 'Dashboard';
+    return isAr ? found.labelAr : found.label;
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    navigate('/');
-  };
-
+  const handleLogout     = () => { setIsAuthenticated(false); navigate('/'); };
   const handleSwitchRole = () => {
-    const newRole = userRole === 'admin' ? 'broker' : 'admin';
-    setUserRole(newRole);
-    navigate(newRole === 'admin' ? '/admin' : '/broker');
+    const next = userRole === 'admin' ? 'broker' : 'admin';
+    setUserRole(next);
+    navigate(next === 'admin' ? '/admin' : '/broker');
   };
+
+  /* nav item active border color */
+  const activeAccent = GIG.roseGold;
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
-      {/* Icon Rail */}
+
+      {/* ── Icon Rail ─────────────────────────────── */}
       <div
-        className="flex flex-col items-center py-3 gap-1 shrink-0 z-40 relative"
+        className="flex flex-col items-center py-3 gap-0.5 shrink-0 z-40 relative"
         style={{
-          width: '68px',
-          background: 'var(--rail-bg)',
-          borderRight: isRTL ? 'none' : '1px solid rgba(255,255,255,0.05)',
-          borderLeft: isRTL ? '1px solid rgba(255,255,255,0.05)' : 'none',
+          width: '64px',
+          background: railBg,
+          borderInlineEnd: isDark ? '1px solid rgba(128,148,230,0.08)' : '1px solid rgba(255,255,255,0.05)',
         }}
       >
-        {/* GIG Logo */}
+        {/* Logo mark */}
         <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer mb-4 shrink-0"
+          className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer mb-1 shrink-0"
           style={{
-            background: 'linear-gradient(135deg, #C8102E, #A00D25)',
-            boxShadow: '0 4px 20px rgba(200, 16, 46, 0.4)'
+            background: `linear-gradient(135deg, ${GIG.deepBlue}, ${GIG.indigo})`,
+            boxShadow: isDark ? '0 4px 16px rgba(128,148,230,0.25)' : '0 4px 20px rgba(25,5,140,0.5)',
+            border: '1px solid rgba(255,255,255,0.12)',
           }}
           onClick={() => navigate(userRole === 'admin' ? '/admin' : '/broker')}
         >
-          <span className="text-white font-bold text-sm tracking-tight">G</span>
+          <span style={{ color: '#FFFFFF', fontFamily: ffH, fontWeight: 700, fontSize: '13px', letterSpacing: '0.02em' }}>GIG</span>
         </div>
 
-        {/* Nav Icons */}
-        <div className="flex-1 flex flex-col gap-1 w-full px-2">
+        {/* Separator */}
+        <div style={{ width: '28px', height: '1px', background: 'rgba(255,255,255,0.10)', marginBottom: '6px' }} />
+
+        {/* Icons */}
+        <div className="flex-1 flex flex-col gap-0.5 w-full px-2">
           {iconRailItems.map((item) => {
             const isActive = item.matchPath(currentPath, userRole);
-            const showItem = item.matchPath.length === 1 ||
+            const showItem =
               (userRole === 'admin' && ['Dashboard','Brokers / Sub-Brokers','Roles','Audit'].includes(item.label)) ||
               (userRole === 'broker' && ['Dashboard','Policies','Statement','Notifications','Profile'].includes(item.label));
+            if (!showItem) return null;
 
             return (
               <div key={item.label} className="relative group w-full">
                 <button
-                  className={`w-full flex items-center justify-center rounded-lg h-10 transition-all duration-150 relative ${
-                    isActive
-                      ? 'bg-[#C8102E] text-white'
-                      : 'text-[#8A96B0] hover:bg-white/8 hover:text-white'
-                  }`}
+                  className="w-full flex items-center justify-center rounded-lg h-10 transition-all duration-150 relative"
+                  style={{
+                    background: isActive ? 'rgba(128,148,230,0.20)' : 'transparent',
+                    color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.40)',
+                    borderInlineStart: isActive ? `2px solid ${activeAccent}` : '2px solid transparent',
+                  }}
+                  onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; (e.currentTarget as HTMLElement).style.color = '#FFFFFF'; } }}
+                  onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.40)'; } }}
                   onClick={() => {
-                    const flat = navItems.flatMap(g => g.items);
+                    const flat  = navItems.flatMap(g => g.items);
                     const found = flat.find(i => i.label === item.label || i.labelAr === item.labelAr);
                     if (found) navigate(found.path);
                   }}
                 >
-                  <item.icon size={18} />
+                  <item.icon size={17} />
                   {item.badge && (
-                    <span className="absolute top-1 right-1 w-4 h-4 bg-[#C8102E] rounded-full text-white flex items-center justify-center"
-                      style={{ fontSize: '9px' }}>
+                    <span className="absolute -top-0.5 -end-0.5 w-4 h-4 rounded-full text-white flex items-center justify-center"
+                      style={{ fontSize: '9px', fontWeight: 700, background: GIG.roseGold }}>
                       {item.badge}
                     </span>
                   )}
                 </button>
                 {/* Tooltip */}
-                <div className={`absolute ${isRTL ? 'right-full mr-2' : 'left-full ml-2'} top-1/2 -translate-y-1/2 bg-[#0D1F3C] text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50`}
-                  style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
-                  {language === 'ar' ? item.labelAr : item.label}
+                <div className="absolute start-full ms-2 top-1/2 -translate-y-1/2 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 px-2 py-1 text-white"
+                  style={{ fontSize: '11px', background: isDark ? '#111C2E' : GIG.deepBlue, border: isDark ? '1px solid rgba(128,148,230,0.15)' : 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.35)', fontFamily: ff }}>
+                  {isAr ? item.labelAr : item.label}
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Bottom section */}
-        <div className="flex flex-col items-center gap-2 w-full px-2 pb-2">
-          <div className="w-full h-px bg-white/5 mb-1" />
-          {/* Role Switch Button */}
-          <button
-            className="w-full flex items-center justify-center rounded-lg h-9 text-[#8A96B0] hover:bg-white/8 hover:text-white transition-all text-xs relative group"
-            onClick={handleSwitchRole}
-          >
-            <UserCheck size={16} />
-            <div className={`absolute ${isRTL ? 'right-full mr-2' : 'left-full ml-2'} top-1/2 -translate-y-1/2 bg-[#0D1F3C] text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50`}>
-              {language === 'ar' ? `التبديل إلى ${userRole === 'admin' ? 'وسيط' : 'مدير'}` : `Switch to ${userRole === 'admin' ? 'Broker' : 'Admin'}`}
+        {/* Bottom actions */}
+        <div className="flex flex-col items-center gap-0.5 w-full px-2 pb-2">
+          <div style={{ width: '100%', height: '1px', background: 'rgba(255,255,255,0.08)', marginBottom: '4px' }} />
+          {[
+            { icon: UserCheck, fn: handleSwitchRole, tooltip: isAr ? `التبديل إلى ${userRole === 'admin' ? 'وسيط' : 'مدير'}` : `Switch to ${userRole === 'admin' ? 'Broker' : 'Admin'}`, danger: false },
+            { icon: LogOut, fn: handleLogout, tooltip: isAr ? 'تسجيل الخروج' : 'Sign Out', danger: true },
+          ].map(({ icon: Icon, fn, tooltip, danger }) => (
+            <div key={tooltip} className="relative group w-full">
+              <button
+                className="w-full flex items-center justify-center rounded-lg h-9 transition-all"
+                style={{ color: 'rgba(255,255,255,0.40)' }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLElement).style.background = danger ? 'rgba(210,140,100,0.18)' : 'rgba(255,255,255,0.08)';
+                  (e.currentTarget as HTMLElement).style.color = danger ? GIG.roseGold : '#FFFFFF';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.40)';
+                }}
+                onClick={fn}
+              >
+                <Icon size={15} />
+              </button>
+              <div className="absolute start-full ms-2 top-1/2 -translate-y-1/2 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 px-2 py-1 text-white"
+                style={{ fontSize: '11px', background: isDark ? '#111C2E' : GIG.deepBlue, border: isDark ? '1px solid rgba(128,148,230,0.15)' : 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.35)', fontFamily: ff }}>
+                {tooltip}
+              </div>
             </div>
-          </button>
-          <button
-            className="w-full flex items-center justify-center rounded-lg h-9 text-[#8A96B0] hover:bg-red-500/20 hover:text-[#FF4060] transition-all relative group"
-            onClick={handleLogout}
-          >
-            <LogOut size={16} />
-            <div className={`absolute ${isRTL ? 'right-full mr-2' : 'left-full ml-2'} top-1/2 -translate-y-1/2 bg-[#0D1F3C] text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50`}>
-              {language === 'ar' ? 'تسجيل الخروج' : 'Sign Out'}
-            </div>
-          </button>
+          ))}
         </div>
       </div>
 
-      {/* Nav Panel */}
-      {navPanelOpen && (
+      {/* ── Nav Panel ─────────────────────────────── */}
+      {navOpen && (
         <div
-          className="flex flex-col h-full shrink-0 overflow-hidden z-30"
+          className="gig-sidebar-watermark flex flex-col h-full shrink-0 overflow-hidden z-30"
           style={{
-            width: '240px',
-            background: 'var(--nav-bg)',
-            borderRight: isRTL ? 'none' : '1px solid rgba(255,255,255,0.05)',
-            borderLeft: isRTL ? '1px solid rgba(255,255,255,0.05)' : 'none',
+            width: '232px',
+            background: navBg,
+            borderInlineEnd: isDark ? '1px solid rgba(128,148,230,0.10)' : '1px solid rgba(255,255,255,0.06)',
           }}
         >
-          {/* Portal Label */}
-          <div className="px-4 pt-4 pb-3">
+          {/* Portal badge + search */}
+          <div className="px-4 pt-4 pb-3 relative z-10">
             <div className="flex items-center gap-2 mb-3">
-              <div className={`px-2 py-0.5 rounded text-xs font-medium ${
-                userRole === 'admin'
-                  ? 'bg-[#C8102E]/20 text-[#C8102E] border border-[#C8102E]/30'
-                  : 'bg-[#C8962A]/20 text-[#C8962A] border border-[#C8962A]/30'
-              }`}>
+              <span
+                className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase"
+                style={{
+                  background: 'rgba(210,140,100,0.15)',
+                  color: GIG.roseGold,
+                  border: '1px solid rgba(210,140,100,0.28)',
+                  letterSpacing: '0.10em',
+                  fontFamily: ff,
+                }}
+              >
                 {userRole === 'admin'
-                  ? (language === 'ar' ? 'بوابة الإدارة' : 'Admin Portal')
-                  : (language === 'ar' ? 'بوابة الوسيط' : 'Broker Portal')}
-              </div>
+                  ? (isAr ? 'بوابة الإدارة' : 'Admin Portal')
+                  : (isAr ? 'بوابة الوسيط' : 'Broker Portal')}
+              </span>
             </div>
-            {/* Search */}
             <div className="relative">
-              <Search size={14} className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 text-[#4A5878]`} />
+              <Search size={13} className={`absolute ${isRTL ? 'end-3' : 'start-3'} top-1/2 -translate-y-1/2`}
+                style={{ color: 'rgba(255,255,255,0.30)' }} />
               <input
-                className={`w-full bg-white/5 border border-white/8 rounded-lg py-2 text-sm text-white placeholder-[#4A5878] outline-none focus:border-[#C8102E]/50 ${isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'}`}
-                placeholder={language === 'ar' ? 'بحث...' : 'Search...'}
+                className={`w-full rounded-lg py-2 text-white outline-none transition-all ${isRTL ? 'pe-9 ps-3' : 'ps-9 pe-3'}`}
+                style={{
+                  fontSize: '12px',
+                  background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.07)',
+                  border: isDark ? '1px solid rgba(128,148,230,0.14)' : '1px solid rgba(255,255,255,0.12)',
+                  fontFamily: ff,
+                }}
+                placeholder={isAr ? 'بحث...' : 'Search...'}
+                onFocus={e => { e.currentTarget.style.borderColor = 'rgba(210,140,100,0.50)'; }}
+                onBlur={e  => { e.currentTarget.style.borderColor = isDark ? 'rgba(128,148,230,0.14)' : 'rgba(255,255,255,0.12)'; }}
               />
             </div>
           </div>
 
-          {/* Nav Items */}
-          <div className="flex-1 overflow-y-auto px-3 py-1">
+          {/* Nav items */}
+          <div className="flex-1 overflow-y-auto px-3 py-1 relative z-10">
             {navItems.map((group) => (
-              <div key={group.group} className="mb-4">
-                <div className="text-[#4A5878] uppercase mb-1 px-2"
-                  style={{ fontSize: '10px', letterSpacing: '0.08em', fontWeight: 600 }}>
-                  {language === 'ar' ? group.groupAr : group.group}
+              <div key={group.group} className="mb-5">
+                <div className="mb-1.5 px-2"
+                  style={{
+                    fontSize: '10px',
+                    letterSpacing: isAr ? '0.04em' : '0.12em',
+                    fontWeight: 700,
+                    color: isDark ? 'rgba(128,148,230,0.70)' : 'rgba(255,255,255,0.45)',
+                    fontFamily: ff,
+                    textAlign: isRTL ? 'right' : 'left',
+                    textTransform: 'uppercase',
+                  }}>
+                  {isAr ? group.groupAr : group.group}
                 </div>
                 {group.items.map((item) => {
-                  const isActive = currentPath === item.path || (item.path !== '/admin' && item.path !== '/broker' && currentPath.startsWith(item.path));
+                  const isActive = currentPath === item.path ||
+                    (item.path !== '/admin' && item.path !== '/broker' && currentPath.startsWith(item.path));
                   return (
                     <button
                       key={item.path}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150 mb-0.5 ${isRTL ? 'text-right' : 'text-left'} ${
-                        isActive
-                          ? 'bg-[#C8102E]/15 text-[#C8102E] font-medium'
-                          : 'text-[#8A96B0] hover:bg-white/5 hover:text-[#E8EDF5]'
-                      }`}
+                      className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg mb-0.5 transition-all duration-150"
+                      style={{
+                        textAlign: isRTL ? 'right' : 'left',
+                        background: isActive
+                          ? (isDark ? 'rgba(210,140,100,0.14)' : 'rgba(255,255,255,0.18)')
+                          : 'transparent',
+                        color: isActive ? '#FFFFFF' : (isDark ? 'rgba(180,205,255,0.60)' : 'rgba(255,255,255,0.80)'),
+                        borderInlineStart: isActive ? `2px solid ${activeAccent}` : '2px solid transparent',
+                        fontFamily: ff,
+                        fontWeight: isActive ? 600 : 400,
+                        fontSize: '13px',
+                      }}
+                      onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.13)'; (e.currentTarget as HTMLElement).style.color = '#FFFFFF'; } }}
+                      onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = isDark ? 'rgba(180,205,255,0.60)' : 'rgba(255,255,255,0.80)'; } }}
                       onClick={() => navigate(item.path)}
                     >
-                      <item.icon size={16} className="shrink-0" />
-                      <span className="flex-1">{language === 'ar' ? item.labelAr : item.label}</span>
+                      <item.icon size={15} className="shrink-0" />
+                      <span className="flex-1">{isAr ? item.labelAr : item.label}</span>
                       {'badge' in item && item.badge && (
-                        <span className="w-5 h-5 bg-[#C8102E] rounded-full text-white flex items-center justify-center shrink-0"
-                          style={{ fontSize: '10px' }}>
+                        <span className="w-5 h-5 rounded-full text-white flex items-center justify-center shrink-0"
+                          style={{ fontSize: '10px', fontWeight: 700, background: GIG.roseGold }}>
                           {item.badge}
                         </span>
-                      )}
-                      {isActive && (
-                        <div className={`w-1 h-4 bg-[#C8102E] rounded-full shrink-0 ${isRTL ? 'mr-auto' : ''}`} />
                       )}
                     </button>
                   );
@@ -275,143 +347,170 @@ export function Shell() {
             ))}
           </div>
 
-          {/* User Card */}
-          <div className="p-3 border-t border-white/5">
-            <div className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/5 cursor-pointer transition-all">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white font-bold"
-                style={{ background: 'linear-gradient(135deg, #C8102E, #A00D25)', fontSize: '11px' }}>
+          {/* User profile strip */}
+          <div className="p-3 relative z-10"
+            style={{ borderTop: isDark ? '1px solid rgba(128,148,230,0.10)' : '1px solid rgba(255,255,255,0.08)' }}>
+            <div
+              className="flex items-center gap-3 px-2 py-2 rounded-lg cursor-pointer transition-all"
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.08)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+            >
+              <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-white"
+                style={{ background: `linear-gradient(135deg, ${GIG.ocean}, ${GIG.indigo})`, fontSize: '11px', fontWeight: 700 }}>
                 {currentUser.avatar}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-white font-medium truncate" style={{ fontSize: '12px' }}>
-                  {language === 'ar' ? currentUser.nameAr : currentUser.name}
+                <div className="text-white truncate" style={{ fontSize: '12px', fontWeight: 600, fontFamily: ff }}>
+                  {isAr ? currentUser.nameAr : currentUser.name}
                 </div>
-                <div className="text-[#4A5878] truncate" style={{ fontSize: '11px' }}>
+                <div className="truncate" style={{ fontSize: '11px', color: isDark ? 'rgba(160,185,245,0.45)' : 'rgba(255,255,255,0.45)' }}>
                   {currentUser.email}
                 </div>
               </div>
-              <Settings size={14} className="text-[#4A5878] shrink-0" />
+              <Settings size={13} style={{ color: isDark ? 'rgba(160,185,245,0.35)' : 'rgba(255,255,255,0.38)', flexShrink: 0 }} />
             </div>
           </div>
         </div>
       )}
 
-      {/* Main Content Area */}
+      {/* ── Main Content ──────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+
         {/* Topbar */}
         <div
           className="shrink-0 flex items-center gap-4 px-5"
-          style={{
-            height: '52px',
-            background: 'var(--topbar-bg)',
-            borderBottom: '1px solid var(--border)',
-          }}
+          style={{ height: '58px', background: topbarBg, borderBottom: `1px solid ${topbarBdr}` }}
         >
           {/* Breadcrumb */}
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <button
-              className="text-[#4A5878] hover:text-foreground transition-colors"
-              onClick={() => setNavPanelOpen(p => !p)}
+              className="transition-colors"
+              style={{ color: fgMuted }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = GIG.roseGold; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = fgMuted; }}
+              onClick={() => setNavOpen(p => !p)}
             >
-              <Layers size={16} />
+              <Layers size={17} />
             </button>
-            <ChevronRight size={14} className={`text-[#4A5878] ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-[#4A5878]" style={{ fontSize: '13px' }}>
+            <ChevronRight size={13} className={isRTL ? 'rotate-180' : ''} style={{ color: fgMuted }} />
+            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: fgMuted, fontFamily: ff }}>
               {userRole === 'admin'
-                ? (language === 'ar' ? 'بوابة الإدارة' : 'Admin Portal')
-                : (language === 'ar' ? 'بوابة الوسيط' : 'Broker Portal')}
+                ? (isAr ? 'بوابة الإدارة' : 'Admin Portal')
+                : (isAr ? 'بوابة الوسيط' : 'Broker Portal')}
             </span>
-            <ChevronRight size={14} className={`text-[#4A5878] ${isRTL ? 'rotate-180' : ''}`} />
-            <span className="text-foreground font-medium" style={{ fontSize: '13px' }}>
+            <ChevronRight size={13} className={isRTL ? 'rotate-180' : ''} style={{ color: fgMuted }} />
+            <span style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.03em', color: fgPrimary, fontFamily: ffH }}>
               {getBreadcrumb()}
             </span>
           </div>
 
-          {/* Command Search */}
+          {/* Search trigger */}
           <button
-            className="flex items-center gap-3 px-4 py-1.5 rounded-lg border border-border bg-muted/50 hover:border-[#C8102E]/40 transition-all text-[#6B7A9B]"
-            style={{ fontSize: '13px', minWidth: '220px' }}
+            className="flex items-center gap-3 px-4 py-2 rounded-full transition-all"
+            style={{
+              fontSize: '12px', minWidth: '216px',
+              background: isDark ? 'rgba(128,148,230,0.07)' : '#F8F7FC',
+              border: `1px solid ${isDark ? 'rgba(128,148,230,0.14)' : 'rgba(25,5,140,0.10)'}`,
+              color: fgMuted, fontFamily: ff,
+            }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(210,140,100,0.45)'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = isDark ? 'rgba(128,148,230,0.14)' : 'rgba(25,5,140,0.10)'; }}
             onClick={openCommandPalette}
           >
-            <Search size={14} />
-            <span className="flex-1 text-left">
-              {language === 'ar' ? 'بحث أو اضغط ⌘K' : 'Search or press ⌘K'}
+            <Search size={13} />
+            <span className="flex-1 text-start" style={{ fontWeight: 500 }}>
+              {isAr ? 'بحث أو اضغط ⌘K' : 'Search or press ⌘K'}
             </span>
-            <div className="flex items-center gap-0.5">
-              <kbd className="px-1.5 py-0.5 rounded bg-border text-[10px] font-mono">⌘</kbd>
-              <kbd className="px-1.5 py-0.5 rounded bg-border text-[10px] font-mono">K</kbd>
+            <div className="flex items-center gap-1">
+              {['⌘','K'].map(k => (
+                <kbd key={k} style={{
+                  padding: '2px 5px', borderRadius: '4px', fontSize: '9px', fontFamily: 'monospace', fontWeight: 700,
+                  background: isDark ? 'rgba(128,148,230,0.12)' : '#FFFFFF',
+                  border: `1px solid ${isDark ? 'rgba(128,148,230,0.20)' : 'rgba(25,5,140,0.12)'}`,
+                  color: isDark ? '#E8F0FF' : GIG.indigo,
+                }}>{k}</kbd>
+              ))}
             </div>
           </button>
 
-          {/* Right Controls */}
+          {/* Controls */}
           <div className="flex items-center gap-2">
-            {/* Language Toggle */}
+            {/* Language */}
             <button
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border hover:border-[#C8102E]/40 hover:bg-[#C8102E]/5 transition-all"
-              style={{ fontSize: '12px' }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all"
+              style={{ fontSize: '12px', fontWeight: 700, color: fgPrimary, border: `1px solid ${topbarBdr}`, fontFamily: ff }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(210,140,100,0.45)'; (e.currentTarget as HTMLElement).style.background = 'rgba(210,140,100,0.08)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = topbarBdr; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
               onClick={toggleLanguage}
             >
-              <Globe size={14} />
-              <span className="font-medium">{language === 'en' ? 'AR' : 'EN'}</span>
+              <Globe size={13} />
+              <span>{language === 'en' ? 'AR' : 'EN'}</span>
             </button>
 
-            {/* Theme Toggle */}
+            {/* Theme toggle */}
             <button
-              className="flex items-center justify-center w-8 h-8 rounded-lg border border-border hover:border-[#C8102E]/40 hover:bg-[#C8102E]/5 transition-all"
+              className="flex items-center justify-center w-9 h-9 rounded-full transition-all"
+              style={{ color: fgPrimary, border: `1px solid ${topbarBdr}` }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(210,140,100,0.45)'; (e.currentTarget as HTMLElement).style.background = 'rgba(210,140,100,0.08)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = topbarBdr; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
               onClick={toggleTheme}
             >
-              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+              {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
 
-            {/* Notifications */}
+            {/* Notifications bell */}
             <div className="relative">
-              <button className="flex items-center justify-center w-8 h-8 rounded-lg border border-border hover:border-[#C8102E]/40 hover:bg-[#C8102E]/5 transition-all">
+              <button
+                className="flex items-center justify-center w-9 h-9 rounded-full transition-all"
+                style={{ color: fgPrimary, border: `1px solid ${topbarBdr}` }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(210,140,100,0.45)'; (e.currentTarget as HTMLElement).style.background = 'rgba(210,140,100,0.08)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = topbarBdr; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+              >
                 <Bell size={15} />
               </button>
-              <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[#C8102E] rounded-full text-white flex items-center justify-center"
-                style={{ fontSize: '9px' }}>2</span>
+              <span className="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white flex items-center justify-center"
+                style={{ fontSize: '9px', fontWeight: 700, background: GIG.roseGold }}>2</span>
             </div>
 
             {/* Avatar */}
-            <div className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer text-white font-bold"
+            <div className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer text-white"
               style={{
-                background: 'linear-gradient(135deg, #C8102E, #A00D25)',
-                fontSize: '11px',
-                boxShadow: '0 2px 8px rgba(200,16,46,0.3)'
+                background: `linear-gradient(135deg, ${isDark ? GIG.ocean : GIG.deepBlue}, ${GIG.indigo})`,
+                fontSize: '12px', fontWeight: 700,
+                boxShadow: isDark ? '0 2px 10px rgba(128,148,230,0.35)' : '0 2px 10px rgba(25,5,140,0.4)',
               }}>
               {currentUser.avatar}
             </div>
           </div>
         </div>
 
-        {/* Page Content */}
-        <div className="flex-1 overflow-y-auto bg-background">
+        {/* Page content */}
+        <div className="flex-1 overflow-y-auto bg-background gig-texture-bg">
           <Outlet />
         </div>
 
-        {/* Status Bar */}
+        {/* Status bar */}
         <div
-          className="shrink-0 flex items-center justify-between px-5 border-t border-border"
-          style={{
-            height: '28px',
-            background: 'var(--topbar-bg)',
-            fontSize: '11px'
-          }}
+          className="shrink-0 flex items-center justify-between px-5"
+          style={{ height: '26px', background: topbarBg, borderTop: `1px solid ${topbarBdr}`, fontSize: '11px' }}
         >
-          <div className="flex items-center gap-3 text-[#4A5878]">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#00C896] animate-pulse" />
-              {language === 'ar' ? 'متصل' : 'Connected'}
+          <div className="flex items-center gap-3" style={{ color: fgMuted, fontFamily: ff }}>
+            <span className="flex items-center gap-1.5 font-bold uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: GIG.seafoam }} />
+              {isAr ? 'متصل' : 'Connected'}
             </span>
             <span>·</span>
-            <span>{language === 'ar' ? 'آخر مزامنة: منذ دقيقتين' : 'Last sync: 2 min ago'}</span>
+            <span>{isAr ? 'آخر مزامنة: منذ دقيقتين' : 'Last sync: 2 min ago'}</span>
           </div>
-          <div className="text-[#4A5878] font-mono">
-            {new Date().toLocaleDateString(language === 'ar' ? 'ar-JO' : 'en-JO', {
+          <div style={{ color: fgMuted, fontFamily: "'IBM Plex Mono', monospace", fontWeight: 500 }}>
+            {new Date().toLocaleDateString(isAr ? 'ar-JO' : 'en-JO', {
               weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
-            })}
+            }).toUpperCase()}
           </div>
         </div>
+
+        {/* Rose-Gold brand bar */}
+        <div style={{ height: '3px', background: `linear-gradient(90deg, ${GIG.roseGold} 0%, #E8B98A 50%, ${GIG.roseGold} 100%)`, flexShrink: 0 }} />
       </div>
     </div>
   );

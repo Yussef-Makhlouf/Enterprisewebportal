@@ -31,12 +31,13 @@ export function MotorIssuance() {
   const [sliderValue, setSliderValue] = useState(10000);
   const [accidentState, setAccidentState] = useState<'loading' | 'done'>('done');
   const [videoUploaded, setVideoUploaded] = useState(false);
+  const [dragging, setDragging] = useState(false);
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.1)';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.10)';
+  const textPrimary = theme === 'dark' ? '#E8F0FF' : '#19058C';
+  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#3D3560';
   const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
 
   const optionalTotal = OPTIONAL_COVERAGE.filter(c => selectedCoverage.includes(c.key)).reduce((s, c) => s + c.price, 0);
@@ -61,11 +62,11 @@ export function MotorIssuance() {
           <div key={s.n} className="flex items-center">
             <div className="flex flex-col items-center">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all ${
-                s.n < step ? 'bg-[#00C896] text-white' : s.n === step ? 'bg-[#C8102E] text-white' : 'border-2'
+                s.n < step ? 'bg-[#6BCABA] text-white' : s.n === step ? 'bg-[#19058C] text-white' : 'border-2'
               }`} style={{ borderColor: s.n > step ? borderColor : 'transparent', color: s.n > step ? textSecondary : 'white', fontSize: '12px' }}>
                 {s.n < step ? <Check size={13} /> : s.n}
               </div>
-              <span className="mt-1" style={{ fontSize: '10px', color: s.n === step ? '#C8102E' : textSecondary, textAlign: 'center', minWidth: '60px' }}>
+              <span className="mt-1" style={{ fontSize: '10px', color: s.n === step ? '#19058C' : textSecondary, textAlign: 'center', minWidth: '60px' }}>
                 {isAr ? s.labelAr : s.label}
               </span>
             </div>
@@ -88,7 +89,7 @@ export function MotorIssuance() {
                   { label: isAr ? 'الجهة الأمامية للرخصة' : 'Front of Vehicle License' },
                   { label: isAr ? 'الجهة الخلفية للرخصة' : 'Back of Vehicle License' },
                 ].map(zone => (
-                  <div key={zone.label} className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#C8102E]/50 transition-all"
+                  <div key={zone.label} className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#D28C64]/50 transition-all"
                     style={{ borderColor }}>
                     <Upload size={24} style={{ color: '#6B7A9B', margin: '0 auto 8px' }} />
                     <p style={{ fontSize: '12px', fontWeight: 500, color: textPrimary }}>{zone.label}</p>
@@ -123,7 +124,7 @@ export function MotorIssuance() {
                 </label>
                 <div className="flex justify-between mt-3 mb-2">
                   <span className="font-mono" style={{ fontSize: '12px', color: textSecondary }}>JOD 8,500</span>
-                  <span className="font-mono font-bold" style={{ fontSize: '14px', color: '#C8102E' }}>JOD {sliderValue.toLocaleString()}</span>
+                  <span className="font-mono font-bold" style={{ fontSize: '14px', color: '#D28C64' }}>JOD {sliderValue.toLocaleString()}</span>
                   <span className="font-mono" style={{ fontSize: '12px', color: textSecondary }}>JOD 11,200</span>
                 </div>
                 <input
@@ -132,7 +133,7 @@ export function MotorIssuance() {
                   max={11200}
                   value={sliderValue}
                   onChange={e => setSliderValue(Number(e.target.value))}
-                  className="w-full accent-[#C8102E]"
+                  className="w-full accent-[#19058C]"
                 />
               </div>
 
@@ -144,10 +145,10 @@ export function MotorIssuance() {
                 <div className="flex gap-3">
                   {[{ k: 'yes', l: isAr ? 'نعم' : 'Yes' }, { k: 'no', l: isAr ? 'لا' : 'No' }].map(opt => (
                     <label key={opt.k} className="flex items-center gap-2 cursor-pointer p-3 rounded-lg border flex-1 justify-center"
-                      style={{ borderColor: isOwner === opt.k ? '#C8102E' : borderColor, background: isOwner === opt.k ? 'rgba(200,16,46,0.08)' : 'transparent' }}>
+                      style={{ borderColor: isOwner === opt.k ? '#D28C64' : borderColor, background: isOwner === opt.k ? 'rgba(210,140,100,0.08)' : 'transparent' }}>
                       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center`}
-                        style={{ borderColor: isOwner === opt.k ? '#C8102E' : textSecondary }}>
-                        {isOwner === opt.k && <div className="w-2 h-2 rounded-full bg-[#C8102E]" />}
+                        style={{ borderColor: isOwner === opt.k ? '#D28C64' : textSecondary }}>
+                        {isOwner === opt.k && <div className="w-2 h-2 rounded-full" style={{ background: '#D28C64' }} />}
                       </div>
                       <input type="radio" className="hidden" checked={isOwner === opt.k} onChange={() => setIsOwner(opt.k as 'yes' | 'no')} />
                       <span style={{ fontSize: '13px', color: textPrimary, fontWeight: 500 }}>{opt.l}</span>
@@ -174,7 +175,7 @@ export function MotorIssuance() {
                   { label: isAr ? 'الجهة الأمامية لرخصة القيادة' : 'Front of Driving License' },
                   { label: isAr ? 'الجهة الخلفية لرخصة القيادة' : 'Back of Driving License' },
                 ].map(zone => (
-                  <div key={zone.label} className="border-2 border-dashed rounded-xl p-5 text-center cursor-pointer hover:border-[#C8102E]/50"
+                  <div key={zone.label} className="border-2 border-dashed rounded-xl p-5 text-center cursor-pointer hover:border-[#D28C64]/50"
                     style={{ borderColor }}>
                     <Upload size={20} style={{ color: '#6B7A9B', margin: '0 auto 6px' }} />
                     <p style={{ fontSize: '12px', color: textPrimary, fontWeight: 500 }}>{zone.label}</p>
@@ -227,7 +228,7 @@ export function MotorIssuance() {
                         <table className="w-full">
                           <thead>
                             <tr>
-                              {[isAr ? 'التاريخ' : 'Date', isAr ? 'النوع' : 'Type', isAr ? 'المناطق' : 'Damage Areas', isAr ? 'المتسبب' : 'At-Fault', isAr ? 'التأثير' : 'Impact'].map(h => (
+                              {[isAr ? 'التاريخ' : 'Date', isAr ? 'النوع' : 'Type', isAr ? 'المناطق' : 'Damage Areas', isAr ? 'المسبب' : 'At-Fault', isAr ? 'التأثير' : 'Impact'].map(h => (
                                 <th key={h} style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textAlign: 'left', paddingBottom: '8px' }}>{h}</th>
                               ))}
                             </tr>
@@ -239,7 +240,7 @@ export function MotorIssuance() {
                                 <td className="py-2" style={{ fontSize: '12px', color: textPrimary }}>{a.type}</td>
                                 <td className="py-2" style={{ fontSize: '12px', color: textSecondary }}>{a.damage}</td>
                                 <td className="py-2">
-                                  <span style={{ fontSize: '11px', fontWeight: 600, color: a.atFault ? '#FF4060' : '#00C896' }}>
+                                  <span style={{ fontSize: '11px', fontWeight: 600, color: a.atFault ? '#D28C64' : '#6BCABA' }}>
                                     {a.atFault ? (isAr ? 'نعم' : 'Yes') : (isAr ? 'لا' : 'No')}
                                   </span>
                                 </td>
@@ -306,19 +307,19 @@ export function MotorIssuance() {
                       <div
                         key={cov.key}
                         className="flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all"
-                        style={{ borderColor: checked ? '#C8102E' : borderColor, background: checked ? 'rgba(200,16,46,0.06)' : 'transparent' }}
+                        style={{ borderColor: checked ? '#8094E6' : borderColor, background: checked ? 'rgba(128,148,230,0.08)' : 'transparent' }}
                         onClick={() => setSelectedCoverage(prev => prev.includes(cov.key) ? prev.filter(k => k !== cov.key) : [...prev, cov.key])}
                       >
                         <div className="flex items-center gap-3">
                           <div className={`w-4 h-4 rounded border-2 flex items-center justify-center`}
-                            style={{ borderColor: checked ? '#C8102E' : borderColor, background: checked ? '#C8102E' : 'transparent' }}>
+                            style={{ borderColor: checked ? '#8094E6' : borderColor, background: checked ? '#8094E6' : 'transparent' }}>
                             {checked && <Check size={10} className="text-white" />}
                           </div>
                           <div>
                             <p style={{ fontSize: '13px', fontWeight: 500, color: textPrimary }}>{isAr ? cov.labelAr : cov.label}</p>
                           </div>
                         </div>
-                        <span className="font-mono font-medium" style={{ fontSize: '13px', color: checked ? '#C8102E' : textSecondary }}>
+                        <span className="font-mono font-medium" style={{ fontSize: '13px', color: checked ? '#8094E6' : textSecondary }}>
                           +JOD {cov.price}
                         </span>
                       </div>
@@ -352,7 +353,7 @@ export function MotorIssuance() {
                         style={{
                           fontSize: item.bold ? '15px' : '13px',
                           fontWeight: item.bold ? 700 : 500,
-                          color: item.red ? '#C8102E' : item.green ? '#00C896' : item.orange ? '#F0B030' : textPrimary
+                          color: item.red ? '#D28C64' : item.green ? '#6BCABA' : item.orange ? '#D28C64' : textPrimary
                         }}>
                         {item.value}
                       </span>
@@ -401,7 +402,7 @@ export function MotorIssuance() {
               </div>
 
               {!videoUploaded ? (
-                <div className="border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer hover:border-[#C8102E]/50 transition-all"
+                <div className="border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer hover:border-[#D28C64]/50 transition-all"
                   style={{ borderColor }}
                   onClick={() => setVideoUploaded(true)}>
                   <div className="text-4xl mb-3">🎬</div>
@@ -422,7 +423,7 @@ export function MotorIssuance() {
                     </div>
                     <CheckCircle size={20} style={{ color: '#00C896' }} />
                   </div>
-                  <button style={{ fontSize: '12px', color: '#C8102E', marginTop: '8px' }} onClick={() => setVideoUploaded(false)}>
+                  <button style={{ fontSize: '12px', color: '#D28C64', marginTop: '8px' }} onClick={() => setVideoUploaded(false)}>
                     {isAr ? 'استبدال' : 'Replace'}
                   </button>
                 </div>
@@ -463,7 +464,7 @@ export function MotorIssuance() {
                 </div>
                 <div className="pt-2 mt-2 border-t flex justify-between" style={{ borderColor }}>
                   <span style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>{isAr ? 'الإجمالي' : 'Total'}</span>
-                  <span className="font-mono font-bold" style={{ fontSize: '1.25rem', color: '#C8102E' }}>JOD {total}</span>
+                  <span className="font-mono font-bold" style={{ fontSize: '1.25rem', color: '#D28C64' }}>JOD {total}</span>
                 </div>
               </div>
             </div>
@@ -489,7 +490,7 @@ export function MotorIssuance() {
           )}
           <button
             className="px-6 py-2.5 rounded-xl text-white font-medium text-sm hover:opacity-90 flex items-center gap-2"
-            style={{ background: '#C8102E', boxShadow: '0 2px 10px rgba(200,16,46,0.3)' }}
+            style={{ background: 'linear-gradient(135deg, #D28C64 0%, #E8B98A 50%, #D28C64 100%)', boxShadow: '0 2px 10px rgba(210,140,100,0.30)' }}
             onClick={() => {
               if (step < 6) setStep(s => s + 1);
               else { navigate('/broker/issuance/motor?stage=approval'); addToast({ type: 'info', title: isAr ? 'تم التقديم' : 'Submitted for Review', description: 'CASE-2025-4421' }); navigate('/broker/issuance'); }

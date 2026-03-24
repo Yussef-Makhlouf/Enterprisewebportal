@@ -15,16 +15,16 @@ export function StatementPage() {
   const { theme, language, isRTL } = useApp();
   const isAr = language === 'ar';
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.08)';
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
   const kpis = [
     { label: isAr ? 'الرصيد الحالي' : 'Current Balance', value: 'JOD 1,234.50', color: '#00C896', icon: Wallet, bg: 'rgba(0,200,150,0.1)' },
-    { label: isAr ? 'إجمالي العمولات' : 'Total Commissions', value: 'JOD 174.00', color: '#C8962A', icon: TrendingUp, bg: 'rgba(200,150,42,0.1)' },
-    { label: isAr ? 'المسحوبات' : 'Withdrawals', value: 'JOD 500.00', color: '#FF4060', icon: ArrowDownCircle, bg: 'rgba(255,64,96,0.1)' },
+    { label: isAr ? 'إجمالي العمولات' : 'Total Commissions', value: 'JOD 174.00', color: '#D28C64', icon: TrendingUp, bg: 'rgba(210,140,100,0.10)' },
+    { label: isAr ? 'المسحوبات' : 'Withdrawals', value: 'JOD 500.00', color: '#8094E6', icon: ArrowDownCircle, bg: 'rgba(128,148,230,0.10)' },
   ];
 
   return (
@@ -40,7 +40,7 @@ export function StatementPage() {
           <input type="date" className="px-3 py-2 rounded-lg border text-sm outline-none"
             style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} defaultValue="2025-03-31" />
           <button className="px-4 py-2 rounded-lg text-white text-sm font-medium flex items-center gap-2 hover:opacity-90"
-            style={{ background: '#C8102E' }}>
+            style={{ background: `linear-gradient(135deg, #D28C64 0%, #E8B98A 50%, #D28C64 100%)`, boxShadow: '0 2px 10px rgba(210,140,100,0.25)' }}>
             <Download size={15} />{isAr ? 'تصدير PDF' : 'Export PDF'}
           </button>
         </div>
@@ -88,7 +88,7 @@ export function StatementPage() {
                 className="border-b transition-all"
                 style={{
                   borderColor,
-                  borderLeft: tx.type === 'credit' ? '3px solid rgba(0,200,150,0.5)' : '3px solid rgba(255,64,96,0.5)',
+                  borderLeft: tx.type === 'credit' ? '3px solid rgba(107,202,186,0.55)' : '3px solid rgba(128,148,230,0.55)',
                 }}>
                 <td className="px-5 py-3">
                   <span className="font-mono" style={{ fontSize: '13px', color: textSecondary }}>{tx.date}</span>
@@ -98,7 +98,7 @@ export function StatementPage() {
                 </td>
                 <td className="px-5 py-3">
                   {tx.debit && (
-                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#FF4060' }}>
+                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#8094E6' }}>
                       -{tx.debit}
                     </span>
                   )}
@@ -121,7 +121,7 @@ export function StatementPage() {
                 <span style={{ fontSize: '13px', fontWeight: 700, color: textPrimary }}>{isAr ? 'الإجمالي' : 'Totals'}</span>
               </td>
               <td className="px-5 py-3">
-                <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#FF4060' }}>700.00</span>
+                <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#8094E6' }}>700.00</span>
               </td>
               <td className="px-5 py-3">
                 <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#00C896' }}>1,934.50</span>

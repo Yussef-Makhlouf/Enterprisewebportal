@@ -17,7 +17,9 @@ export function RootLayout() {
       className={`min-h-screen w-full ${theme === 'dark' ? 'dark' : ''}`}
       dir={language === 'ar' ? 'rtl' : 'ltr'}
       style={{
-        fontFamily: language === 'ar' ? "'Tajawal', system-ui, sans-serif" : "'IBM Plex Sans', system-ui, sans-serif"
+        fontFamily: language === 'ar'
+          ? "'Almarai', Tahoma, system-ui, sans-serif"
+          : "'Georama', Verdana, system-ui, sans-serif"
       }}
     >
       <div className="min-h-screen bg-background text-foreground">

@@ -8,7 +8,7 @@ const LOB_ICONS: Record<string, LucideIcon> = {
   Travel: Plane, Motor: Car, Medical: Stethoscope, Home: Home, Domestic: HardHat, Assistance: Wrench
 };
 const LOB_COLORS: Record<string, string> = {
-  Travel: '#C8102E', Motor: '#C8962A', Medical: '#00C896', Home: '#0DB4CC', Domestic: '#7B61FF', Assistance: '#F0B030'
+  Travel: '#19058C', Motor: '#8094E6', Medical: '#6BCABA', Home: '#D28C64', Domestic: '#D28C64', Assistance: '#8094E6'
 };
 
 export function PolicyDetailDrawer({ policy, onClose }: Props) {
@@ -16,11 +16,11 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
   const isAr = language === 'ar';
   const [activeTab, setActiveTab] = useState('overview');
 
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.1)';
-  const rowBg = theme === 'dark' ? 'rgba(255,255,255,0.03)' : '#F5F7FB';
+  const cardBg        = theme === 'dark' ? 'linear-gradient(165deg, #0F1825 0%, #131D2E 100%)' : '#FFFFFF';
+  const textPrimary   = theme === 'dark' ? '#E8F0FF'                   : '#19058C';
+  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)'    : '#3D3560';
+  const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)'    : 'rgba(13,31,60,0.10)';
+  const rowBg         = theme === 'dark' ? 'rgba(128,148,230,0.05)'    : '#F8F7FC';
 
   const tabs = [
     { key: 'overview', label: isAr ? 'نظرة عامة' : 'Overview' },
@@ -31,15 +31,15 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
   ];
 
   const statusStyle = {
-    Active: { color: '#00C896', bg: 'rgba(0,200,150,0.12)' },
-    Expired: { color: '#FF4060', bg: 'rgba(255,64,96,0.12)' },
-    Cancelled: { color: '#6B7A9B', bg: 'rgba(107,122,155,0.12)' },
-  }[policy.status] || { color: '#00C896', bg: 'rgba(0,200,150,0.12)' };
+    Active:    { color: '#6BCABA', bg: 'rgba(107,202,186,0.13)' },
+    Expired:   { color: '#8094E6', bg: 'rgba(128,148,230,0.13)' },
+    Cancelled: { color: '#D28C64', bg: 'rgba(210,140,100,0.13)' },
+  }[policy.status] || { color: '#6BCABA', bg: 'rgba(107,202,186,0.13)' };
 
   // Support both old (type: '✈️ Travel') and new (typeKey: 'Travel') format
   const typeKey = policy.typeKey || (policy.type ? policy.type.replace(/[^a-zA-Z]/g, '').trim() : 'Travel');
   const PolicyIcon = LOB_ICONS[typeKey] || Plane;
-  const lobColor = LOB_COLORS[typeKey] || '#C8102E';
+  const lobColor = LOB_COLORS[typeKey] || '#19058C';
 
   return (
     <>
@@ -61,7 +61,7 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
               <PolicyIcon size={26} style={{ color: lobColor }} />
             </div>
             <div>
-              <div className="font-mono font-bold" style={{ fontSize: '1.1rem', color: '#C8102E' }}>{policy.no}</div>
+              <div className="font-mono font-bold" style={{ fontSize: '1.1rem', color: theme === 'dark' ? '#8094E6' : '#19058C' }}>{policy.no}</div>
               <div className="flex items-center gap-2 mt-1">
                 <span className="px-2.5 py-0.5 rounded-full font-medium"
                   style={{ fontSize: '12px', background: statusStyle.bg, color: statusStyle.color }}>
@@ -79,8 +79,8 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
             <button key={tab.key}
               className="flex-1 py-2.5 text-xs font-medium transition-all border-b-2"
               style={{
-                borderColor: activeTab === tab.key ? '#C8102E' : 'transparent',
-                color: activeTab === tab.key ? '#C8102E' : textSecondary,
+                borderColor: activeTab === tab.key ? '#D28C64' : 'transparent',
+                color: activeTab === tab.key ? '#D28C64' : textSecondary,
               }}
               onClick={() => setActiveTab(tab.key)}>
               {tab.label}
@@ -154,7 +154,7 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
                   <div key={row.label} className="flex justify-between px-4 py-2.5 border-b last:border-0"
                     style={{ borderColor }}>
                     <span style={{ fontSize: '12px', color: textSecondary }}>{row.label}</span>
-                    <span className="font-mono" style={{ fontSize: row.bold ? '15px' : '13px', fontWeight: row.bold ? 700 : 500, color: row.bold ? '#C8102E' : textPrimary }}>
+                    <span className="font-mono" style={{ fontSize: row.bold ? '15px' : '13px', fontWeight: row.bold ? 700 : 500, color: row.bold ? (theme === 'dark' ? '#D28C64' : '#19058C') : textPrimary }}>
                       {row.value}
                     </span>
                   </div>
@@ -163,7 +163,7 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
               <div className="p-4 rounded-xl" style={{ background: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.2)' }}>
                 <div className="flex justify-between">
                   <span style={{ fontSize: '13px', color: textSecondary }}>{isAr ? 'عمولتك المكتسبة' : 'Your Commission Earned'}</span>
-                  <span className="font-mono font-bold" style={{ fontSize: '16px', color: '#00C896' }}>JOD 14.80</span>
+                  <span className="font-mono font-bold" style={{ fontSize: '16px', color: '#6BCABA' }}>JOD 14.80</span>
                 </div>
               </div>
             </div>
@@ -171,9 +171,9 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
           {activeTab === 'history' && (
             <div className="space-y-3">
               {[
-                { event: isAr ? 'تم إصدار الوثيقة' : 'Policy Issued', time: policy.issueDate + ' 14:35', Icon: CheckCircle, color: '#00C896' },
-                { event: isAr ? 'تم إرسال الوثيقة للعميل' : 'Policy Sent to Customer', time: policy.issueDate + ' 14:36', Icon: Mail, color: '#0DB4CC' },
-                { event: isAr ? 'تم تأكيد الدفع' : 'Payment Confirmed', time: policy.issueDate + ' 14:30', Icon: CreditCard, color: '#C8962A' },
+                { event: isAr ? 'تم إصدار الوثيقة'          : 'Policy Issued',             time: policy.issueDate + ' 14:35', Icon: CheckCircle, color: '#6BCABA' },
+                { event: isAr ? 'تم إرسال الوثيقة للعميل'    : 'Policy Sent to Customer',   time: policy.issueDate + ' 14:36', Icon: Mail,        color: '#8094E6' },
+                { event: isAr ? 'تم تأكيد الدفع'             : 'Payment Confirmed',          time: policy.issueDate + ' 14:30', Icon: CreditCard,  color: '#D28C64' },
               ].map((h, i) => (
                 <div key={i} className="flex items-start gap-3 pb-3 border-b last:border-0" style={{ borderColor }}>
                   <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: h.color + '20' }}>
@@ -207,7 +207,8 @@ export function PolicyDetailDrawer({ policy, onClose }: Props) {
             {isAr ? 'واتساب' : 'WhatsApp'}
           </button>
           <button
-            className="py-2.5 px-4 rounded-xl bg-[#C8102E] text-white text-sm font-medium hover:opacity-90 transition-all"
+            className="py-2.5 px-4 rounded-xl text-white text-sm font-medium hover:opacity-90 transition-all"
+            style={{ background: `linear-gradient(135deg, #D28C64 0%, #E8B98A 50%, #D28C64 100%)`, boxShadow: '0 2px 10px rgba(210,140,100,0.30)' }}
             onClick={onClose}>
             {isAr ? 'إغلاق' : 'Close'}
           </button>

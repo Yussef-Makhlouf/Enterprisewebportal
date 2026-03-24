@@ -3,10 +3,10 @@ import { useApp } from '../../context/AppContext';
 import { CheckCircle, AlertTriangle, XCircle, Info, X } from 'lucide-react';
 
 const TOAST_CONFIG = {
-  success: { icon: CheckCircle, color: '#00C896', borderColor: '#00C896', bg: { dark: 'rgba(0,200,150,0.08)', light: 'rgba(0,200,150,0.06)' } },
-  warning: { icon: AlertTriangle, color: '#F0B030', borderColor: '#F0B030', bg: { dark: 'rgba(240,176,48,0.08)', light: 'rgba(240,176,48,0.06)' } },
-  error: { icon: XCircle, color: '#FF4060', borderColor: '#FF4060', bg: { dark: 'rgba(255,64,96,0.08)', light: 'rgba(255,64,96,0.06)' } },
-  info: { icon: Info, color: '#0DB4CC', borderColor: '#0DB4CC', bg: { dark: 'rgba(13,180,204,0.08)', light: 'rgba(13,180,204,0.06)' } },
+  success: { icon: CheckCircle, color: '#6BCABA', borderColor: '#6BCABA', bg: { dark: 'rgba(107,202,186,0.08)', light: 'rgba(107,202,186,0.06)' } },
+  warning: { icon: AlertTriangle, color: '#D28C64', borderColor: '#D28C64', bg: { dark: 'rgba(210,140,100,0.08)', light: 'rgba(210,140,100,0.06)' } },
+  error:   { icon: XCircle,      color: '#D28C64', borderColor: '#D28C64', bg: { dark: 'rgba(210,140,100,0.08)', light: 'rgba(210,140,100,0.06)' } },
+  info:    { icon: Info,         color: '#8094E6', borderColor: '#8094E6', bg: { dark: 'rgba(128,148,230,0.08)', light: 'rgba(128,148,230,0.06)' } },
 };
 
 function ToastItem({ toast, onRemove }: { toast: any; onRemove: () => void }) {
@@ -24,10 +24,10 @@ function ToastItem({ toast, onRemove }: { toast: any; onRemove: () => void }) {
     return () => clearInterval(interval);
   }, []);
 
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
+  const cardBg       = theme === 'dark' ? 'rgba(25,5,140,0.75)' : '#FFFFFF';
+  const textPrimary  = theme === 'dark' ? '#FFFFFF'              : '#19058C';
+  const textSecondary = theme === 'dark' ? 'rgba(255,255,255,0.60)' : '#3D3560';
+  const borderColor  = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(25,5,140,0.10)';
 
   return (
     <div
