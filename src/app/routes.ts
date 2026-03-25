@@ -25,6 +25,7 @@ import { StatementPage } from './pages/broker/StatementPage';
 import { NotificationsPage } from './pages/broker/NotificationsPage';
 import { ProfilePage } from './pages/broker/ProfilePage';
 import { CorporateRegistration } from './pages/broker/CorporateRegistration';
+import { AwaitingApproval } from './pages/broker/AwaitingApproval';
 import { DesignSystem } from './pages/DesignSystem';
 import { ComponentsPage } from './pages/ComponentsPage';
 
@@ -70,6 +71,7 @@ export const router = createBrowserRouter([
           { path: 'broker/notifications', Component: NotificationsPage },
           { path: 'broker/profile', Component: ProfilePage },
           { path: 'broker/corporate', Component: CorporateRegistration },
+          { path: 'broker/awaiting-approval', Component: AwaitingApproval },
           // Showcase pages
           { path: 'design-system', Component: DesignSystem },
           { path: 'components', Component: ComponentsPage },
