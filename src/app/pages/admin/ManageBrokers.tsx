@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Search, Filter, Download, Plus, Eye, Edit2, MoreHorizontal, ChevronLeft, ChevronRight, UserCheck } from 'lucide-react';
 import { BrokerDetailDrawer } from '../../components/admin/BrokerDetailDrawer';
@@ -18,16 +18,16 @@ const BROKERS = [
 ];
 
 const LOB_COLORS: Record<string, string> = {
-  Travel: '#C8102E', Motor: '#C8962A', Medical: '#00C896',
-  Home: '#0DB4CC', Domestic: '#7B61FF', Assistance: '#F0B030'
+  Travel: '#19058C', Motor: '#8094E6', Medical: '#6BCABA',
+  Home: '#FF7366', Domestic: '#D28C64', Assistance: '#8094E6'
 };
 
 const STATUS_STYLES: Record<string, { color: string; bg: string; dot: string }> = {
-  Active: { color: '#00C896', bg: 'rgba(0,200,150,0.12)', dot: '#00C896' },
-  Pending: { color: '#F0B030', bg: 'rgba(240,176,48,0.12)', dot: '#F0B030' },
-  Expired: { color: '#FF4060', bg: 'rgba(255,64,96,0.12)', dot: '#FF4060' },
-  Blocked: { color: '#FF4060', bg: 'rgba(255,64,96,0.15)', dot: '#FF4060' },
-  Inactive: { color: '#6B7A9B', bg: 'rgba(107,122,155,0.12)', dot: '#6B7A9B' },
+  Active:   { color: '#6BCABA', bg: 'rgba(107,202,186,0.13)', dot: '#6BCABA' },
+  Pending:  { color: '#D28C64', bg: 'rgba(210,140,100,0.13)', dot: '#D28C64' },
+  Expired:  { color: '#8094E6', bg: 'rgba(128,148,230,0.14)', dot: '#8094E6' },
+  Blocked:  { color: '#D28C64', bg: 'rgba(210,140,100,0.15)', dot: '#D28C64' },
+  Inactive: { color: '#8094E6', bg: 'rgba(128,148,230,0.10)', dot: '#8094E6' }
 };
 
 const FILTER_CHIPS = ['All', 'Broker', 'Agent', 'Active', 'Pending', 'Blocked', 'Expired'];
@@ -45,12 +45,14 @@ export function ManageBrokers() {
   const [page, setPage] = useState(1);
   const perPage = 8;
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const rowHover = theme === 'dark' ? 'rgba(255,255,255,0.025)' : 'rgba(13,31,60,0.025)';
+  const isDark = theme === 'dark';
+  const bg          = isDark ? '#070E1C' : '#F0F4FA';
+  const cardBg        = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const textPrimary   = isDark ? '#E8F0FF'                   : '#19058C';
+  const textSecondary = isDark ? 'rgba(180,205,255,0.65)'   : '#3D3560';
+  const borderColor   = isDark ? 'rgba(128,148,230,0.16)'   : 'rgba(13,31,60,0.10)';
+  const rowBg         = isDark ? 'rgba(128,148,230,0.05)'   : '#FFFFFF';
+  const rowHover      = isDark ? 'rgba(128,148,230,0.09)'   : '#F5F8FF';
 
   const filteredBrokers = BROKERS.filter(b => {
     const matchSearch = b.name.toLowerCase().includes(search.toLowerCase()) || b.email.toLowerCase().includes(search.toLowerCase());
@@ -61,13 +63,25 @@ export function ManageBrokers() {
   });
 
   const stats = [
-    { label: isAr ? 'الإجمالي' : 'Total', value: 148, color: textPrimary },
-    { label: isAr ? 'نشط' : 'Active', value: 124, color: '#00C896' },
-    { label: isAr ? 'منتهي' : 'Expired', value: 11, color: '#FF4060' },
+    { label: isAr ? 'الإجمالي' : 'Total',   value: 148, color: textPrimary },
+    { label: isAr ? 'نشط'      : 'Active',  value: 124, color: '#6BCABA' },
+    { label: isAr ? 'منتهي'    : 'Expired', value: 11,  color: '#D28C64' },
   ];
 
   const toggleSelect = (id: number) => {
     setSelected(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const allVisibleIds = filteredBrokers.map(b => b.id);
+  const allSelected = allVisibleIds.length > 0 && allVisibleIds.every(id => selected.includes(id));
+  const someSelected = allVisibleIds.some(id => selected.includes(id)) && !allSelected;
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelected(prev => prev.filter(id => !allVisibleIds.includes(id)));
+    } else {
+      setSelected(prev => [...new Set([...prev, ...allVisibleIds])]);
+    }
   };
 
   return (
@@ -92,7 +106,7 @@ export function ManageBrokers() {
           </button>
           <button
             className="px-4 py-2 rounded-lg text-white font-medium text-sm flex items-center gap-2 hover:opacity-90 transition-all"
-            style={{ background: '#C8102E', boxShadow: '0 2px 10px rgba(200,16,46,0.3)' }}
+            style={{ background: '#19058C', boxShadow: '0 2px 10px rgba(25,5,140,0.30)' }}
             onClick={() => setInviteBroker(BROKERS[0])}
           >
             <Plus size={15} />
@@ -121,8 +135,8 @@ export function ManageBrokers() {
               key={chip}
               className="px-3 py-1.5 rounded-full text-sm font-medium transition-all border"
               style={{
-                background: activeFilter === chip ? '#C8102E' : 'transparent',
-                borderColor: activeFilter === chip ? '#C8102E' : borderColor,
+                background: activeFilter === chip ? '#19058C' : 'transparent',
+                borderColor: activeFilter === chip ? '#19058C' : borderColor,
                 color: activeFilter === chip ? '#fff' : textSecondary,
               }}
               onClick={() => setActiveFilter(chip)}
@@ -190,7 +204,15 @@ export function ManageBrokers() {
                 ].map(col => (
                   <th key={col.key} className={`px-4 py-3 text-left`}
                     style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: isRTL ? 'right' : 'left' }}>
-                    {col.label}
+                    {col.key === 'check' ? (
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        ref={el => { if (el) el.indeterminate = someSelected; }}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                      />
+                    ) : col.label}
                   </th>
                 ))}
               </tr>
@@ -198,23 +220,23 @@ export function ManageBrokers() {
             <tbody>
               {filteredBrokers.map((broker) => {
                 const statusStyle = STATUS_STYLES[broker.status] || STATUS_STYLES.Inactive;
-                const expiryColor = broker.daysToExpiry < 0 ? '#FF4060' : broker.daysToExpiry < 30 ? '#F0B030' : textPrimary;
+                const expiryColor = broker.daysToExpiry < 0 ? '#D28C64' : broker.daysToExpiry < 30 ? '#8094E6' : textPrimary;
                 return (
                   <tr key={broker.id}
                     className="transition-all cursor-pointer border-b"
-                    style={{ borderColor, background: selected.includes(broker.id) ? 'rgba(200,16,46,0.05)' : 'transparent' }}
+                    style={{ borderColor, background: selected.includes(broker.id) ? 'rgba(128,148,230,0.06)' : 'transparent' }}
                     onMouseEnter={e => (e.currentTarget.style.background = rowHover)}
-                    onMouseLeave={e => (e.currentTarget.style.background = selected.includes(broker.id) ? 'rgba(200,16,46,0.05)' : 'transparent')}
+                    onMouseLeave={e => (e.currentTarget.style.background = selected.includes(broker.id) ? 'rgba(128,148,230,0.06)' : 'transparent')}
                   >
                     <td className="px-4 py-3">
                       <input type="checkbox" checked={selected.includes(broker.id)}
                         onChange={() => toggleSelect(broker.id)}
-                        className="w-4 h-4 rounded cursor-pointer accent-[#C8102E]" />
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3" onClick={() => setDrawerBroker(broker)}>
                         <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold shrink-0"
-                          style={{ background: 'linear-gradient(135deg, #C8102E, #0D1F3C)', fontSize: '11px' }}>
+                          style={{ background: 'linear-gradient(135deg, #19058C, #8094E6)', fontSize: '11px' }}>
                           {broker.avatar}
                         </div>
                         <div>
@@ -255,7 +277,7 @@ export function ManageBrokers() {
                       </span>
                     </td>
                     <td className="px-4 py-3">
-                      <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#00C896' }}>
+                      <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#6BCABA' }}>
                         {broker.commission}%
                       </span>
                     </td>
@@ -268,7 +290,7 @@ export function ManageBrokers() {
                       ) : (
                         <button
                           className="px-2.5 py-1 rounded-full border text-xs font-medium hover:opacity-80 transition-all"
-                          style={{ borderColor: '#C8102E', color: '#C8102E' }}
+                          style={{ borderColor: '#D28C64', color: '#D28C64' }}
                           onClick={() => setInviteBroker(broker)}
                         >
                           {isAr ? 'إرسال' : 'Send'}
@@ -318,7 +340,7 @@ export function ManageBrokers() {
               <button key={i}
                 className="w-7 h-7 rounded-lg text-xs font-medium transition-all"
                 style={{
-                  background: p === page ? '#C8102E' : 'transparent',
+                  background: p === page ? '#19058C' : 'transparent',
                   color: p === page ? '#fff' : textSecondary,
                 }}>
                 {p}

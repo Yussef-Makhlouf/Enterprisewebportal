@@ -41,11 +41,11 @@ export function OTPPage() {
     navigate('/broker');
   };
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.12)';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const textPrimary = theme === 'dark' ? '#E8F0FF' : '#19058C';
+  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#3D3560';
+  const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.12)';
 
   return (
     <div className={`min-h-screen flex ${theme === 'dark' ? 'dark' : ''}`}
@@ -57,11 +57,11 @@ export function OTPPage() {
         <div className="absolute inset-0 opacity-[0.03]"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M0 0h4v4H0V0zm8 0h4v4H8V0zm8 0h4v4h-4V0zm8 0h4v4h-4V0zm8 0h4v4h-4V0zM0 8h4v4H0V8zm32 0h4v4h-4V8zM0 16h4v4H0v-4zm32 0h4v4h-4v-4zM0 24h4v4H0v-4zm32 0h4v4h-4v-4zM0 32h4v4H0v-4zm8 0h4v4H8v-4zm8 0h4v4h-4v-4zm8 0h4v4h-4v-4zm8 0h4v4h-4v-4z'/%3E%3C/g%3E%3C/svg%3E")` }} />
         <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, #C8102E, transparent)' }} />
+          style={{ background: 'radial-gradient(circle, #8094E6, transparent)' }} />
 
         <div className="relative z-10 text-center">
           <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-8"
-            style={{ background: 'linear-gradient(135deg, #C8102E, #A00D25)', boxShadow: '0 12px 40px rgba(200,16,46,0.5)' }}>
+            style={{ background: 'linear-gradient(135deg, #19058C, #8094E6)', boxShadow: '0 12px 40px rgba(25,5,140,0.5)' }}>
             <Mail size={36} className="text-white" />
           </div>
           <h2 className="text-white font-bold text-2xl mb-4">
@@ -75,11 +75,13 @@ export function OTPPage() {
 
       {/* Right OTP Panel */}
       <div className="flex-1 flex items-center justify-center p-8"
-        style={{ background: theme === 'dark' ? '#0A1628' : '#FFFFFF' }}>
+        style={{ background: theme === 'dark' ? '#0F1825' : '#FFFFFF' }}>
         <div className="w-full max-w-sm">
           <button
-            className="flex items-center gap-2 mb-8 transition-colors hover:text-[#C8102E]"
+            className="flex items-center gap-2 mb-8 transition-colors"
             style={{ color: textSecondary, fontSize: '14px' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#D28C64'; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = textSecondary; }}
             onClick={() => navigate('/')}
           >
             <ArrowLeft size={16} className={isRTL ? 'rotate-180' : ''} />
@@ -89,8 +91,11 @@ export function OTPPage() {
           {/* Icon */}
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 rounded-full flex items-center justify-center"
-              style={{ background: 'rgba(200,16,46,0.15)', border: '2px solid rgba(200,16,46,0.3)' }}>
-              <Mail size={28} style={{ color: '#C8102E' }} />
+              style={{
+                background: theme === 'dark' ? 'rgba(128,148,230,0.12)' : 'rgba(25,5,140,0.08)',
+                border: `2px solid ${theme === 'dark' ? 'rgba(128,148,230,0.25)' : 'rgba(25,5,140,0.20)'}`,
+              }}>
+              <Mail size={28} style={{ color: theme === 'dark' ? '#8094E6' : '#19058C' }} />
             </div>
           </div>
 
@@ -102,7 +107,7 @@ export function OTPPage() {
               {isAr ? 'أدخل الرمز المكون من 6 أرقام المرسل إلى بريدك' : 'Enter the 6-digit code sent to your email'}
             </p>
             <p className="mt-2 font-mono font-medium"
-              style={{ fontSize: '14px', color: '#C8102E' }}>
+              style={{ fontSize: '14px', color: '#D28C64' }}>
               ah****@gig.com.jo
             </p>
           </div>
@@ -124,10 +129,10 @@ export function OTPPage() {
                   fontFamily: "'IBM Plex Mono', monospace",
                   fontSize: '1.5rem',
                   fontWeight: 600,
-                  background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB',
-                  borderColor: digit ? '#C8102E' : (theme === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(13,31,60,0.15)'),
+                  background: theme === 'dark' ? 'rgba(128,148,230,0.07)' : '#F5F7FB',
+                  borderColor: digit ? (theme === 'dark' ? '#8094E6' : '#19058C') : (theme === 'dark' ? 'rgba(128,148,230,0.18)' : 'rgba(13,31,60,0.15)'),
                   color: textPrimary,
-                  boxShadow: digit ? '0 0 0 3px rgba(200,16,46,0.15)' : 'none'
+                  boxShadow: digit ? (theme === 'dark' ? '0 0 0 3px rgba(128,148,230,0.20)' : '0 0 0 3px rgba(25,5,140,0.12)') : 'none',
                 }}
               />
             ))}
@@ -138,14 +143,13 @@ export function OTPPage() {
             {countdown > 0 ? (
               <p style={{ fontSize: '14px', color: textSecondary }}>
                 {isAr ? `إعادة الإرسال خلال ` : 'Resend in '}
-                <span className="font-mono font-medium" style={{ color: '#C8102E' }}>
+                <span className="font-mono font-medium" style={{ color: '#D28C64' }}>
                   {formatTime(countdown)}
                 </span>
               </p>
             ) : (
               <button
-                className="text-[#C8102E] font-medium underline"
-                style={{ fontSize: '14px' }}
+                style={{ fontSize: '14px', color: '#D28C64', fontWeight: 600, textDecoration: 'underline' }}
                 onClick={() => setCountdown(167)}
               >
                 {isAr ? 'إعادة إرسال الرمز' : 'Resend Code'}
@@ -157,8 +161,8 @@ export function OTPPage() {
           <button
             className="w-full py-3.5 rounded-xl text-white font-semibold transition-all hover:opacity-90"
             style={{
-              background: 'linear-gradient(135deg, #C8102E, #A00D25)',
-              boxShadow: '0 4px 20px rgba(200,16,46,0.35)',
+              background: 'linear-gradient(135deg, #19058C, #8094E6)',
+              boxShadow: '0 4px 20px rgba(25,5,140,0.35)',
               fontSize: '15px'
             }}
             onClick={handleVerify}
@@ -168,7 +172,10 @@ export function OTPPage() {
 
           <p className="text-center mt-4" style={{ fontSize: '12px', color: textSecondary }}>
             {isAr ? 'هل تحتاج مساعدة؟ ' : 'Need help? '}
-            <span className="text-[#C8102E] cursor-pointer hover:underline">
+            <span style={{ color: '#D28C64', cursor: 'pointer' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.textDecoration = 'underline'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.textDecoration = 'none'; }}
+            >
               {isAr ? 'تواصل مع الدعم' : 'Contact Support'}
             </span>
           </p>

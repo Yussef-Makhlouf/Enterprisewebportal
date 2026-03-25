@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GIG Brand & Design System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo: #19058C;
+    --indigo-75: rgba(25,5,140,0.75);
+    --indigo-20: rgba(25,5,140,0.12);
+    --rose-gold: #D28C64;
+    --deep-blue: #1F0F4D;
+    --pearl: #E5E5E5;
+    --ocean: #8094E6;
+    --sunrise: #FF7366;
+    --seafoam: #6BCABA;
+    --white: #FFFFFF;
+    --text-dark: #0D0824;
+    --text-mid: #3D3560;
+    --radius: 4px;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #F8F7FC;
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--deep-blue);
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; top:-120px; right:-120px;
+    width:480px; height:480px;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(210,140,100,0.25) 0%, transparent 70%);
+  }
+  .hero::after {
+    content:'';
+    position:absolute; bottom:-80px; left:30%;
+    width:300px; height:300px;
+    border-radius:50%;
+    background: radial-gradient(circle, rgba(128,148,230,0.2) 0%, transparent 70%);
+  }
+  .hero-badge {
+    display:inline-block;
+    padding:5px 14px;
+    border:1px solid rgba(210,140,100,0.5);
+    border-radius:20px;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--rose-gold);
+    margin-bottom:24px;
+  }
+  .hero h1 {
+    font-family:'Playfair Display', serif;
+    font-size: clamp(36px,5vw,64px);
+    font-weight:900;
+    color:var(--white);
+    line-height:1.1;
+    margin-bottom:16px;
+  }
+  .hero h1 span { color:var(--rose-gold); }
+  .hero p {
+    color:rgba(255,255,255,0.55);
+    font-size:15px;
+    max-width:480px;
+    line-height:1.7;
+  }
+  .hero-meta {
+    display:flex; gap:40px; margin-top:40px;
+  }
+  .hero-meta div { border-left:2px solid var(--rose-gold); padding-left:14px; }
+  .hero-meta strong { display:block; color:#fff; font-size:13px; font-weight:600; }
+  .hero-meta span { color:rgba(255,255,255,0.45); font-size:12px; }
+
+  /* ─── MAIN LAYOUT ─── */
+  .container { max-width:1160px; margin:0 auto; padding:0 40px; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section { padding:64px 0; border-bottom:1px solid rgba(25,5,140,0.08); }
+  .section:last-child { border-bottom:none; }
+
+  .section-label {
+    display:flex; align-items:center; gap:10px;
+    font-size:11px; letter-spacing:2.5px; text-transform:uppercase;
+    color:var(--rose-gold); font-weight:600; margin-bottom:8px;
+  }
+  .section-label::before {
+    content:''; width:24px; height:2px; background:var(--rose-gold);
+  }
+  .section-title {
+    font-family:'Playfair Display', serif;
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight:700;
+    color:var(--deep-blue);
+    margin-bottom:8px;
+  }
+  .section-desc {
+    font-size:14px; color:var(--text-mid); line-height:1.7;
+    max-width:580px; margin-bottom:40px;
+  }
+
+  /* ─── COLOUR SYSTEM ─── */
+  .color-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
+
+  .color-card {
+    border-radius:12px; overflow:hidden;
+    box-shadow:0 2px 16px rgba(25,5,140,0.07);
+    transition: transform .2s, box-shadow .2s;
+  }
+  .color-card:hover { transform:translateY(-4px); box-shadow:0 8px 28px rgba(25,5,140,0.14); }
+
+  .color-swatch { height:100px; position:relative; }
+  .color-info { padding:14px; background:#fff; }
+  .color-name { font-weight:600; font-size:13px; color:var(--text-dark); margin-bottom:6px; }
+  .color-vals { display:flex; flex-direction:column; gap:3px; }
+  .color-val { font-size:10.5px; color:#888; font-family:monospace; }
+
+  .swatch-tag {
+    position:absolute; top:10px; left:10px;
+    font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+    padding:3px 8px; border-radius:20px;
+    font-weight:600;
+  }
+  .tag-primary { background:rgba(255,255,255,0.25); color:#fff; }
+  .tag-functional { background:rgba(255,255,255,0.25); color:#333; }
+  .tag-secondary { background:rgba(255,255,255,0.3); color:#fff; }
+
+  /* ─── GRADIENT SECTION ─── */
+  .gradient-row { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .gradient-card {
+    border-radius:12px; height:140px; padding:24px;
+    display:flex; flex-direction:column; justify-content:flex-end;
+    box-shadow:0 4px 20px rgba(0,0,0,0.12);
+  }
+  .gradient-card .g-name { font-size:13px; font-weight:600; }
+  .gradient-card .g-desc { font-size:11px; opacity:0.7; margin-top:2px; }
+
+  /* ─── TYPOGRAPHY ─── */
+  .type-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .type-card {
+    background:#fff; border-radius:12px; padding:28px;
+    border:1px solid rgba(25,5,140,0.06);
+    box-shadow:0 2px 12px rgba(25,5,140,0.05);
+  }
+  .type-card .role {
+    font-size:10px; letter-spacing:2px; text-transform:uppercase;
+    color:var(--rose-gold); font-weight:600; margin-bottom:12px;
+  }
+  .type-card .font-name {
+    font-size:32px; font-weight:700; color:var(--deep-blue);
+    line-height:1.1; margin-bottom:8px;
+  }
+  .type-card .font-desc { font-size:13px; color:var(--text-mid); line-height:1.6; margin-bottom:20px; }
+  .weight-row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .weight-tag {
+    padding:4px 12px; border-radius:20px; font-size:11px;
+    background:var(--indigo-20); color:var(--indigo); font-weight:500;
+  }
+  .type-specimen { margin-top:16px; padding-top:16px; border-top:1px solid var(--pearl); }
+  .specimen-line { display:flex; align-items:baseline; gap:12px; margin-bottom:8px; }
+  .specimen-label { font-size:10px; color:#aaa; min-width:80px; }
+  .specimen-text { color:var(--text-dark); }
+  .spec-display { font-size:28px; font-weight:800; font-family:'Playfair Display',serif; }
+  .spec-h1      { font-size:20px; font-weight:700; }
+  .spec-body    { font-size:14px; font-weight:400; line-height:1.6; }
+  .spec-caption { font-size:11px; font-weight:400; letter-spacing:.5px; color:#888; }
+
+  /* ─── TYPESCALE TABLE ─── */
+  .scale-table { width:100%; border-collapse:collapse; }
+  .scale-table th {
+    text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+    color:#aaa; padding:0 16px 12px; font-weight:600;
+  }
+  .scale-table td { padding:12px 16px; border-top:1px solid rgba(25,5,140,0.06); }
+  .scale-table tr:hover td { background:rgba(25,5,140,0.03); }
+  .scale-name { font-weight:600; font-size:13px; color:var(--indigo); }
+  .scale-size  { font-family:monospace; font-size:12px; color:#888; }
+  .scale-weight { font-size:12px; color:var(--text-mid); }
+  .scale-preview { color:var(--text-dark); }
+
+  /* ─── LOGO SECTION ─── */
+  .logo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .logo-card {
+    border-radius:12px; padding:40px 24px 24px;
+    display:flex; flex-direction:column; align-items:center;
+    border:1px solid rgba(25,5,140,0.08);
+  }
+  .logo-mark {
+    font-family:'Playfair Display',serif;
+    font-weight:900; letter-spacing:-2px;
+    margin-bottom:20px;
+  }
+  .logo-card p { font-size:11px; color:#aaa; text-align:center; line-height:1.5; }
+
+  /* ─── SPACING SYSTEM ─── */
+  .spacing-row { display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+  .spacing-item { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .spacing-block { background:var(--indigo); border-radius:2px; width:100%; min-width:20px; }
+  .spacing-label { font-size:10px; color:#888; font-family:monospace; }
+  .spacing-name { font-size:9px; color:var(--rose-gold); font-weight:600; letter-spacing:1px; text-transform:uppercase; }
+
+  /* ─── ICON SYSTEM ─── */
+  .icon-section { background:#fff; border-radius:12px; padding:28px; border:1px solid rgba(25,5,140,0.06); }
+  .icon-row { display:flex; gap:12px; flex-wrap:wrap; margin-top:16px; }
+  .icon-chip {
+    display:flex; align-items:center; gap:8px;
+    padding:10px 16px; border-radius:8px;
+    font-size:12px; font-weight:500;
+  }
+  .icon-svg { width:20px; height:20px; flex-shrink:0; }
+
+  /* ─── USAGE RULES ─── */
+  .rules-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .rule-card {
+    border-radius:12px; padding:24px;
+    background:#fff; border:1px solid rgba(25,5,140,0.06);
+  }
+  .rule-card.do { border-left:3px solid #22C55E; }
+  .rule-card.dont { border-left:3px solid #EF4444; }
+  .rule-card .rule-badge {
+    display:inline-block; font-size:10px; font-weight:700;
+    letter-spacing:1.5px; text-transform:uppercase;
+    padding:3px 10px; border-radius:20px; margin-bottom:12px;
+  }
+  .rule-card.do .rule-badge { background:#DCFCE7; color:#16A34A; }
+  .rule-card.dont .rule-badge { background:#FEE2E2; color:#DC2626; }
+  .rule-card ul { list-style:none; }
+  .rule-card ul li { font-size:13px; color:var(--text-mid); padding:5px 0; padding-left:16px; position:relative; line-height:1.5; }
+  .rule-card ul li::before { content:'•'; position:absolute; left:0; color:inherit; }
+  .rule-card.do ul li::before { color:#22C55E; }
+  .rule-card.dont ul li::before { color:#EF4444; }
+
+  /* ─── BRAND VALUES ─── */
+  .values-row { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .value-card {
+    background: linear-gradient(135deg, var(--deep-blue) 0%, var(--indigo) 100%);
+    border-radius:12px; padding:28px; color:#fff;
+    position:relative; overflow:hidden;
+  }
+  .value-card::after {
+    content:''; position:absolute; right:-20px; bottom:-20px;
+    width:80px; height:80px; border-radius:50%;
+    background:rgba(210,140,100,0.15);
+  }
+  .value-number { font-size:11px; color:var(--rose-gold); letter-spacing:2px; text-transform:uppercase; font-weight:600; margin-bottom:10px; }
+  .value-title { font-size:20px; font-weight:700; margin-bottom:10px; }
+  .value-desc { font-size:13px; opacity:0.7; line-height:1.6; }
+
+  /* ─── BRAND VOICE ─── */
+  .voice-card {
+    background: linear-gradient(135deg, rgba(25,5,140,0.06) 0%, rgba(210,140,100,0.06) 100%);
+    border-radius:12px; padding:32px; border:1px solid rgba(25,5,140,0.08);
+  }
+  .voice-quote {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(20px,2.5vw,28px); font-weight:700;
+    color:var(--deep-blue); line-height:1.4; margin-bottom:16px;
+  }
+  .voice-quote span { color:var(--rose-gold); }
+
+  /* ─── PHOTOGRAPHY ─── */
+  .photo-principles { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .photo-card {
+    background:#fff; border-radius:12px; padding:24px;
+    border:1px solid rgba(25,5,140,0.06);
+  }
+  .photo-num { font-size:32px; font-weight:800; color:var(--indigo-20); font-family:'Playfair Display',serif; }
+  .photo-principle-title { font-size:15px; font-weight:600; color:var(--deep-blue); margin:8px 0; }
+  .photo-card p { font-size:13px; color:var(--text-mid); line-height:1.6; }
+
+  /* ─── DIVIDER ─── */
+  .divider-label {
+    display:flex; align-items:center; gap:16px;
+    padding:16px 0; color:#ccc; font-size:12px; letter-spacing:1px; text-transform:uppercase;
+  }
+  .divider-label::before, .divider-label::after {
+    content:''; flex:1; height:1px; background:rgba(25,5,140,0.1);
+  }
+
+  /* ─── DIGITAL COMPONENTS ─── */
+  .component-demo {
+    background:#fff; border-radius:12px; padding:28px;
+    border:1px solid rgba(25,5,140,0.06); margin-bottom:20px;
+  }
+  .component-demo h4 { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:#bbb; margin-bottom:20px; }
+  .btn-row { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+
+  .btn {
+    padding:12px 24px; border-radius:4px; font-size:13px;
+    font-weight:600; cursor:pointer; border:none; letter-spacing:.3px;
+    font-family:'DM Sans',sans-serif;
+    transition: all .2s;
+  }
+  .btn:hover { opacity:.88; transform:translateY(-1px); }
+  .btn-primary { background:var(--indigo); color:#fff; }
+  .btn-secondary { background:var(--rose-gold); color:#fff; }
+  .btn-outline { background:transparent; color:var(--indigo); border:1.5px solid var(--indigo); }
+  .btn-ghost { background:transparent; color:var(--text-mid); border:1.5px solid var(--pearl); }
+  .btn-sm { padding:8px 16px; font-size:12px; }
+  .btn-lg { padding:15px 32px; font-size:15px; }
+
+  .input-row { display:flex; flex-direction:column; gap:16px; max-width:400px; }
+  .input-field {
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .input-field label { font-size:12px; font-weight:600; color:var(--text-mid); }
+  .input-field input {
+    padding:11px 16px; border-radius:4px;
+    border:1.5px solid var(--pearl); font-size:14px;
+    font-family:'DM Sans',sans-serif; color:var(--text-dark);
+    outline:none; transition:.2s;
+  }
+  .input-field input:focus { border-color:var(--indigo); }
+  .input-field input.error { border-color:var(--sunrise); }
+  .input-field .field-hint { font-size:11px; color:#aaa; }
+  .input-field .field-error { font-size:11px; color:var(--sunrise); }
+
+  /* NAV bar demo */
+  .nav-demo {
+    background:var(--deep-blue); padding:16px 24px;
+    border-radius:8px; display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-logo { font-family:'Playfair Display',serif; font-weight:900; color:#fff; font-size:22px; letter-spacing:-1px; }
+  .nav-logo span { color:var(--rose-gold); }
+  .nav-links { display:flex; gap:24px; }
+  .nav-links a { font-size:13px; color:rgba(255,255,255,0.6); text-decoration:none; transition:.2s; }
+  .nav-links a:hover { color:#fff; }
+  .nav-links a.active { color:#fff; font-weight:600; }
+  .nav-cta { background:var(--rose-gold); color:#fff; padding:9px 20px; border-radius:4px; font-size:13px; font-weight:600; }
+
+  /* Card component */
+  .card-row { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .ui-card {
+    background:#fff; border-radius:8px; overflow:hidden;
+    border:1px solid rgba(25,5,140,0.08);
+    box-shadow:0 2px 12px rgba(25,5,140,0.05);
+  }
+  .ui-card-header { height:80px; padding:20px; display:flex; align-items:flex-end; }
+  .ui-card-body { padding:20px; }
+  .ui-card-tag { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#fff; background:rgba(255,255,255,0.2); padding:3px 8px; border-radius:20px; }
+  .ui-card-title { font-size:15px; font-weight:700; color:var(--deep-blue); margin-bottom:6px; }
+  .ui-card-text { font-size:12px; color:var(--text-mid); line-height:1.6; margin-bottom:14px; }
+  .ui-card-footer { display:flex; align-items:center; justify-content:space-between; }
+  .ui-card-link { font-size:12px; font-weight:600; color:var(--indigo); text-decoration:none; }
+  .ui-card-icon { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    background:var(--deep-blue); padding:40px 60px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .footer-left { }
+  .footer-brand { font-family:'Playfair Display',serif; font-weight:900; color:#fff; font-size:24px; }
+  .footer-brand span { color:var(--rose-gold); }
+  .footer-tagline { font-size:12px; color:rgba(255,255,255,0.4); margin-top:4px; }
+  .footer-right { text-align:right; font-size:11px; color:rgba(255,255,255,0.3); line-height:1.8; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:#f0f0f8; }
+  ::-webkit-scrollbar-thumb { background:var(--indigo-75); border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-badge">Brand Design System · Version 9 · June 2022</div>
+    <h1>GIG <span>Design</span><br>System</h1>
+    <p>Gulf Insurance Group — Visual identity assets, standards, colour system, typography, components, and brand guidelines.</p>
+    <div class="hero-meta">
+      <div><strong>Invested in You</strong><span>Brand Positioning</span></div>
+      <div><strong>Relationship is Wealth</strong><span>Brand Philosophy</span></div>
+      <div><strong>MENA Region</strong><span>Market Focus</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ════════════════════════════════════════
+       01 · COLOUR SYSTEM
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">01 · Foundation</div>
+    <div class="section-title">Colour System</div>
+    <p class="section-desc">The GIG palette draws from the Gulf heritage — deep indigo seas, rose-gold sunrise, and pearl shores. Colour usage is role-based: primary for identity, functional for layouts, secondary for differentiation.</p>
+
+    <div class="divider-label">Primary Colours</div>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--indigo);">
+          <span class="swatch-tag tag-primary">Primary</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Indigo</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #19058C</span>
+            <span class="color-val">RGB 25 · 05 · 140</span>
+            <span class="color-val">PANTONE 2738</span>
+            <span class="color-val">C100 M92 Y0 K1</span>
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--rose-gold);">
+          <span class="swatch-tag tag-primary">Primary</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Rose-Gold</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #D28C64</span>
+            <span class="color-val">RGB 210 · 140 · 100</span>
+            <span class="color-val">PANTONE 721</span>
+            <span class="color-val">C5 M43 Y49 K11</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-label">Functional Colours</div>
+    <div class="color-grid" style="margin-bottom:24px;">
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--pearl); border-bottom:1px solid #ddd;">
+          <span class="swatch-tag tag-functional" style="color:#555;">Functional</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Pearl</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #E5E5E5</span>
+            <span class="color-val">RGB 229 · 229 · 229</span>
+            <span class="color-val">PANTONE Cool Grey 1</span>
+            <span class="color-val">C4 M2 Y4 K8</span>
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--deep-blue);">
+          <span class="swatch-tag tag-primary">Functional</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Deep Blue</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #1F0F4D</span>
+            <span class="color-val">RGB 31 · 15 · 77</span>
+            <span class="color-val">PANTONE 274</span>
+            <span class="color-val">C100 M100 Y7 K38</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-label">Secondary Palette</div>
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--ocean);">
+          <span class="swatch-tag tag-secondary">Secondary</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Ocean</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #8094E6</span>
+            <span class="color-val">RGB 128 · 148 · 230</span>
+            <span class="color-val">PANTONE 2752</span>
+            <span class="color-val">C55 M37 Y0 K0</span>
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--sunrise);">
+          <span class="swatch-tag tag-secondary">Secondary</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Sunrise</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #FF7366</span>
+            <span class="color-val">RGB 255 · 115 · 102</span>
+            <span class="color-val">PANTONE 805</span>
+            <span class="color-val">C0 M64 Y50 K0</span>
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background:var(--seafoam);">
+          <span class="swatch-tag tag-secondary">Secondary</span>
+        </div>
+        <div class="color-info">
+          <div class="color-name">Seafoam</div>
+          <div class="color-vals">
+            <span class="color-val">HEX #6BCABA</span>
+            <span class="color-val">RGB 107 · 202 · 186</span>
+            <span class="color-val">PANTONE 570</span>
+            <span class="color-val">C56 M0 Y30 K0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gradients -->
+    <div style="margin-top:36px;">
+      <div class="divider-label">Background Gradients</div>
+      <div class="gradient-row">
+        <div class="gradient-card" style="background:linear-gradient(135deg,var(--deep-blue) 0%,var(--indigo) 100%);">
+          <div class="g-name" style="color:#fff;">Deep Indigo</div>
+          <div class="g-desc" style="color:rgba(255,255,255,0.6);">Deep Blue → Indigo · Dark backgrounds</div>
+        </div>
+        <div class="gradient-card" style="background:linear-gradient(135deg,var(--pearl) 0%,#ffffff 100%); border:1px solid #ddd;">
+          <div class="g-name" style="color:var(--deep-blue);">Pearl White</div>
+          <div class="g-desc" style="color:var(--text-mid);">Pearl → White · Light backgrounds</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tints row -->
+    <div style="margin-top:36px;">
+      <div class="divider-label">Indigo Tint Scale</div>
+      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:var(--indigo);"></div><div style="font-size:10px;color:#888;margin-top:4px;">100%</div></div>
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:rgba(25,5,140,0.75);"></div><div style="font-size:10px;color:#888;margin-top:4px;">75%</div></div>
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:rgba(25,5,140,0.60);"></div><div style="font-size:10px;color:#888;margin-top:4px;">60%</div></div>
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:rgba(25,5,140,0.40);"></div><div style="font-size:10px;color:#888;margin-top:4px;">40%</div></div>
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:rgba(25,5,140,0.20);"></div><div style="font-size:10px;color:#888;margin-top:4px;">20%</div></div>
+        <div style="margin-left:24px;text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:var(--rose-gold);"></div><div style="font-size:10px;color:#888;margin-top:4px;">RG 100%</div></div>
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:rgba(210,140,100,0.60);"></div><div style="font-size:10px;color:#888;margin-top:4px;">RG 60%</div></div>
+        <div style="text-align:center;"><div style="width:56px;height:56px;border-radius:6px;background:rgba(210,140,100,0.20);"></div><div style="font-size:10px;color:#888;margin-top:4px;">RG 20%</div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       02 · TYPOGRAPHY
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">02 · Foundation</div>
+    <div class="section-title">Typography System</div>
+    <p class="section-desc">GIG uses two typeface pairings — Primary for expressive brand moments and Secondary for functional readability. Both Latin and Arabic typefaces share similar typographic DNA for cross-language consistency.</p>
+
+    <div class="type-grid" style="margin-bottom:24px;">
+      <!-- Reforma -->
+      <div class="type-card">
+        <div class="role">Primary · Latin</div>
+        <div class="font-name" style="font-family:'Playfair Display',serif;">Reforma</div>
+        <div class="font-desc">Traditional humanist typeface with a modern twist. Fresh, practical, organic and welcoming. Great for bold expressive headlines.</div>
+        <div class="weight-row">
+          <span class="weight-tag">Blanca (Light)</span>
+          <span class="weight-tag">Blanca Italic</span>
+          <span class="weight-tag">Gris (Regular)</span>
+          <span class="weight-tag">Gris Italic</span>
+          <span class="weight-tag">Negra (Bold)</span>
+          <span class="weight-tag">Negra Italic</span>
+        </div>
+        <div class="type-specimen">
+          <div class="specimen-line">
+            <span class="specimen-label">Display</span>
+            <span class="specimen-text spec-display">Invested in You</span>
+          </div>
+          <div class="specimen-line">
+            <span class="specimen-label">Headline</span>
+            <span class="specimen-text spec-h1">Gulf Insurance Group</span>
+          </div>
+          <div class="specimen-line">
+            <span class="specimen-label">Body</span>
+            <span class="specimen-text spec-body">Relationship is wealth.</span>
+          </div>
+          <div class="specimen-line">
+            <span class="specimen-label">Caption</span>
+            <span class="specimen-text spec-caption">INSURANCE MADE FOR YOU</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Georama -->
+      <div class="type-card">
+        <div class="role">Secondary · Latin</div>
+        <div class="font-name" style="font-weight:400;">Georama</div>
+        <div class="font-desc">Sans-serif optimized for readability across screens and devices. Good for functional and supporting text. Readable in all environments.</div>
+        <div class="weight-row">
+          <span class="weight-tag">Regular</span>
+          <span class="weight-tag">Regular Italic</span>
+          <span class="weight-tag">Medium</span>
+          <span class="weight-tag">Medium Italic</span>
+          <span class="weight-tag">Bold</span>
+          <span class="weight-tag">Bold Italic</span>
+        </div>
+        <div class="type-specimen">
+          <div class="specimen-line">
+            <span class="specimen-label">Navigation</span>
+            <span class="specimen-text" style="font-size:14px;font-weight:600;">Home · About · Products</span>
+          </div>
+          <div class="specimen-line">
+            <span class="specimen-label">Body</span>
+            <span class="specimen-text spec-body">We're here to make insurance more human.</span>
+          </div>
+          <div class="specimen-line">
+            <span class="specimen-label">Caption</span>
+            <span class="specimen-text spec-caption">gulfinsgroup.com</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kufam -->
+      <div class="type-card">
+        <div class="role">Primary · Arabic</div>
+        <div class="font-name" style="font-family:'Playfair Display',serif; direction:rtl;">كفام</div>
+        <div class="font-desc">Contemporary Arabic typeface for display copy, signage and wayfinding. Inspired by Arabic historical sources with modern clarity.</div>
+        <div class="weight-row">
+          <span class="weight-tag">Regular</span>
+          <span class="weight-tag">Medium</span>
+          <span class="weight-tag">Semi-Bold</span>
+          <span class="weight-tag">Bold</span>
+          <span class="weight-tag">Extra Bold</span>
+          <span class="weight-tag">Black</span>
+        </div>
+        <div class="type-specimen">
+          <div class="specimen-line">
+            <span class="specimen-label">Display</span>
+            <span class="specimen-text" style="font-size:22px;direction:rtl;font-weight:700;">انتاقلاعب انئارث</span>
+          </div>
+          <div class="specimen-line">
+            <span class="specimen-label">Body</span>
+            <span class="specimen-text" style="font-size:15px;direction:rtl;">متنا انرامثتسا</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Almarai -->
+      <div class="type-card">
+        <div class="role">Secondary · Arabic</div>
+        <div class="font-name" style="direction:rtl; font-weight:400;">المراعي</div>
+        <div class="font-desc">Modern Arabic typeface created for optimal readability online and offline. Geometric look with calligraphic structure and clear letterforms.</div>
+        <div class="weight-row">
+          <span class="weight-tag">Light</span>
+          <span class="weight-tag">Regular</span>
+          <span class="weight-tag">Bold</span>
+          <span class="weight-tag">Extra-Bold</span>
+        </div>
+        <div class="type-specimen">
+          <div class="specimen-line">
+            <span class="specimen-label">Body</span>
+            <span class="specimen-text" style="font-size:14px;direction:rtl;line-height:1.7;">نيمأتلا لعجن نا انتمهم ةيناسنا رثكا</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Type Scale -->
+    <div style="background:#fff;border-radius:12px;border:1px solid rgba(25,5,140,0.06);overflow:hidden;">
+      <div style="padding:20px 24px;border-bottom:1px solid rgba(25,5,140,0.06);">
+        <h3 style="font-size:13px;font-weight:600;color:var(--deep-blue);">Typographic Scale</h3>
+        <p style="font-size:12px;color:#aaa;margin-top:2px;">Based on proportional ratios from the brand identity guide</p>
+      </div>
+      <table class="scale-table">
+        <tr><th>Role</th><th>Size</th><th>Weight</th><th>Font</th><th>Preview</th></tr>
+        <tr>
+          <td><span class="scale-name">Display</span></td>
+          <td><span class="scale-size">64px / 4rem</span></td>
+          <td><span class="scale-weight">Bold / Black</span></td>
+          <td><span class="scale-weight">Reforma Negra</span></td>
+          <td><span class="scale-preview" style="font-size:24px;font-family:'Playfair Display',serif;font-weight:900;">Invested</span></td>
+        </tr>
+        <tr>
+          <td><span class="scale-name">H1</span></td>
+          <td><span class="scale-size">40px / 2.5rem</span></td>
+          <td><span class="scale-weight">Bold</span></td>
+          <td><span class="scale-weight">Reforma Gris</span></td>
+          <td><span class="scale-preview" style="font-size:20px;font-family:'Playfair Display',serif;font-weight:700;">Headline Copy</span></td>
+        </tr>
+        <tr>
+          <td><span class="scale-name">H2</span></td>
+          <td><span class="scale-size">28px / 1.75rem</span></td>
+          <td><span class="scale-weight">Semi-Bold</span></td>
+          <td><span class="scale-weight">Reforma / Georama</span></td>
+          <td><span class="scale-preview" style="font-size:17px;font-weight:600;">Sub-Heading Text</span></td>
+        </tr>
+        <tr>
+          <td><span class="scale-name">H3</span></td>
+          <td><span class="scale-size">20px / 1.25rem</span></td>
+          <td><span class="scale-weight">Medium 600</span></td>
+          <td><span class="scale-weight">Georama</span></td>
+          <td><span class="scale-preview" style="font-size:14px;font-weight:600;">Section Title</span></td>
+        </tr>
+        <tr>
+          <td><span class="scale-name">Body</span></td>
+          <td><span class="scale-size">16px / 1rem</span></td>
+          <td><span class="scale-weight">Regular 400</span></td>
+          <td><span class="scale-weight">Georama · 130% leading</span></td>
+          <td><span class="scale-preview" style="font-size:13px;line-height:1.65;">Body copy text flows here naturally.</span></td>
+        </tr>
+        <tr>
+          <td><span class="scale-name">Caption</span></td>
+          <td><span class="scale-size">12px / 0.75rem</span></td>
+          <td><span class="scale-weight">Regular / Medium</span></td>
+          <td><span class="scale-weight">Georama Uppercase</span></td>
+          <td><span class="scale-preview" style="font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#888;">SMALL FUNCTIONAL CAPTION</span></td>
+        </tr>
+        <tr>
+          <td><span class="scale-name">System Default</span></td>
+          <td><span class="scale-size">14–16px</span></td>
+          <td><span class="scale-weight">Regular</span></td>
+          <td><span class="scale-weight">Verdana (Latin) · Tahoma (Arabic)</span></td>
+          <td><span class="scale-preview" style="font-size:13px;font-family:Verdana;">Email / Office Docs</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       03 · LOGO & BRAND MARK
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">03 · Identity</div>
+    <div class="section-title">Logo & Brand Mark</div>
+    <p class="section-desc">The GIG brand mark consists of three components: the Brand Symbol (seashell motif), the Wordmark Initialism, and the Company Name. Clear space equals half the width of the GIG "G".</p>
+
+    <div class="logo-grid" style="margin-bottom:24px;">
+      <div class="logo-card" style="background:var(--deep-blue);">
+        <div class="logo-mark" style="font-size:52px;color:#fff;letter-spacing:-2px;">GIG</div>
+        <p style="color:rgba(255,255,255,0.5);">Full Corporate Signature<br>Primary dark background</p>
+      </div>
+      <div class="logo-card" style="background:#fff;">
+        <div class="logo-mark" style="font-size:52px;color:var(--indigo);letter-spacing:-2px;">GIG</div>
+        <p style="color:#aaa;">Full Corporate Signature<br>On white / light background</p>
+      </div>
+      <div class="logo-card" style="background:var(--rose-gold);">
+        <div class="logo-mark" style="font-size:52px;color:#fff;letter-spacing:-2px;">GIG</div>
+        <p style="color:rgba(255,255,255,0.6);">Rose-Gold special<br>application only (certificates)</p>
+      </div>
+    </div>
+
+    <!-- Sizes -->
+    <div style="background:#fff;border-radius:12px;padding:28px;border:1px solid rgba(25,5,140,0.06);margin-bottom:20px;">
+      <h4 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-bottom:20px;">Minimum Sizes</h4>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--deep-blue);margin-bottom:8px;">Full Corporate Signature</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">
+            Ideal Print: <strong>50–70mm</strong><br>
+            Ideal Screen: <strong>400–600px</strong><br>
+            Min Print: <strong>30mm @ 300dpi</strong><br>
+            Min Screen: <strong>180px @ 72dpi</strong>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:600;color:var(--deep-blue);margin-bottom:8px;">Essential Brand Mark</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">
+            Ideal Print: <strong>50–70mm</strong><br>
+            Ideal Screen: <strong>400–600px</strong><br>
+            Min Print: <strong>20mm @ 300dpi</strong><br>
+            Min Screen: <strong>120px @ 72dpi</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Do / Don't -->
+    <div class="rules-grid">
+      <div class="rule-card do">
+        <div class="rule-badge">✓ Do</div>
+        <ul>
+          <li>Use full colour logo on white, Pearl, or Indigo</li>
+          <li>Use reverse logo (white) on dark backgrounds</li>
+          <li>Maintain clear space = ½ width of GIG "G"</li>
+          <li>Use single-colour Indigo logo on light backgrounds</li>
+          <li>Write brand name in Title Case: Gulf Insurance Group</li>
+          <li>Write initialism in uppercase: GIG</li>
+        </ul>
+      </div>
+      <div class="rule-card dont">
+        <div class="rule-badge">✗ Don't</div>
+        <ul>
+          <li>Don't outline, rotate, or add effects to logo</li>
+          <li>Don't stretch or squash the logo</li>
+          <li>Don't place full-colour logo on dark photos</li>
+          <li>Don't use any logo on busy backgrounds</li>
+          <li>Don't use reverse logo on Pearl backgrounds</li>
+          <li>Don't create new logo compositions</li>
+          <li>Don't use logo in secondary colours</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       04 · SPACING SYSTEM
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">04 · Foundation</div>
+    <div class="section-title">Spacing System</div>
+    <p class="section-desc">Spacing scale based on a 4px base unit. Consistent spacing creates rhythm and visual hierarchy across all digital applications.</p>
+
+    <div class="spacing-row">
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:4px;"></div>
+        <div class="spacing-label">4px</div>
+        <div class="spacing-name">xs</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:8px;"></div>
+        <div class="spacing-label">8px</div>
+        <div class="spacing-name">sm</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:12px;"></div>
+        <div class="spacing-label">12px</div>
+        <div class="spacing-name">s</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:16px;"></div>
+        <div class="spacing-label">16px</div>
+        <div class="spacing-name">md</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:24px;"></div>
+        <div class="spacing-label">24px</div>
+        <div class="spacing-name">lg</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:32px;"></div>
+        <div class="spacing-label">32px</div>
+        <div class="spacing-name">xl</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:48px;"></div>
+        <div class="spacing-label">48px</div>
+        <div class="spacing-name">2xl</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:64px;"></div>
+        <div class="spacing-label">64px</div>
+        <div class="spacing-name">3xl</div>
+      </div>
+      <div class="spacing-item">
+        <div class="spacing-block" style="height:80px;"></div>
+        <div class="spacing-label">80px</div>
+        <div class="spacing-name">4xl</div>
+      </div>
+    </div>
+
+    <!-- Border Radius -->
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:8px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:60px;height:60px;background:var(--indigo);border-radius:0;"></div>
+        <span style="font-size:10px;color:#888;font-family:monospace;">0px · None</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:60px;height:60px;background:var(--indigo);border-radius:4px;"></div>
+        <span style="font-size:10px;color:#888;font-family:monospace;">4px · sm</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:60px;height:60px;background:var(--indigo);border-radius:8px;"></div>
+        <span style="font-size:10px;color:#888;font-family:monospace;">8px · md</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:60px;height:60px;background:var(--indigo);border-radius:12px;"></div>
+        <span style="font-size:10px;color:#888;font-family:monospace;">12px · lg</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div style="width:60px;height:60px;background:var(--indigo);border-radius:50%;"></div>
+        <span style="font-size:10px;color:#888;font-family:monospace;">50% · Full</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       05 · ICON SYSTEM
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">05 · Identity</div>
+    <div class="section-title">Icon System</div>
+    <p class="section-desc">Icons are created from simple geometric shapes following a linear outline style. Three usage modes: white on dark, Indigo on light, and with circular holding shape for emphasis.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <div class="icon-section">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-bottom:16px;">Dark Background (White)</div>
+        <div style="background:var(--indigo);border-radius:8px;padding:20px;">
+          <div style="display:flex;flex-wrap:wrap;gap:16px;">
+            <!-- icons as simple SVG paths -->
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="icon-section">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-bottom:16px;">Light Background (Indigo)</div>
+        <div style="background:var(--pearl);border-radius:8px;padding:20px;">
+          <div style="display:flex;flex-wrap:wrap;gap:16px;">
+            <svg width="24" height="24" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+            <svg width="24" height="24" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <svg width="24" height="24" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <svg width="24" height="24" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            <svg width="24" height="24" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+            <svg width="24" height="24" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="icon-section">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-bottom:16px;">Circular Holding Shape</div>
+        <div style="background:#fff;border-radius:8px;padding:20px;">
+          <div style="display:flex;flex-wrap:wrap;gap:12px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--indigo);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+            </div>
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--indigo);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--rose-gold);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/></svg>
+            </div>
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--seafoam);display:flex;align-items:center;justify-content:center;">
+              <svg width="18" height="18" fill="none" stroke="white" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Icon categories -->
+    <div style="background:#fff;border-radius:12px;padding:24px;margin-top:20px;border:1px solid rgba(25,5,140,0.06);">
+      <h4 style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-bottom:16px;">Icon Categories</h4>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <span style="padding:6px 14px;background:var(--indigo-20);color:var(--indigo);border-radius:20px;font-size:12px;font-weight:500;">Social (Twitter, Facebook, YouTube)</span>
+        <span style="padding:6px 14px;background:var(--indigo-20);color:var(--indigo);border-radius:20px;font-size:12px;font-weight:500;">Wayfinding (Ladies, Mens, Stairs)</span>
+        <span style="padding:6px 14px;background:var(--indigo-20);color:var(--indigo);border-radius:20px;font-size:12px;font-weight:500;">Insurance (Property, Travel, Motor, Marine)</span>
+        <span style="padding:6px 14px;background:var(--indigo-20);color:var(--indigo);border-radius:20px;font-size:12px;font-weight:500;">Products (Life, Medical, Awards, Rating)</span>
+        <span style="padding:6px 14px;background:var(--indigo-20);color:var(--indigo);border-radius:20px;font-size:12px;font-weight:500;">UI (Location, Settings, Time, Email, Search)</span>
+        <span style="padding:6px 14px;background:var(--indigo-20);color:var(--indigo);border-radius:20px;font-size:12px;font-weight:500;">Status (Alert, Info, Percentage, Check)</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       06 · UI COMPONENTS
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">06 · Components</div>
+    <div class="section-title">UI Components</div>
+    <p class="section-desc">Core digital components built on the GIG colour system and typography. Secondary colours highlight interactive elements — buttons, navigation, and form states.</p>
+
+    <!-- Navigation -->
+    <div class="component-demo">
+      <h4>Navigation Bar</h4>
+      <div class="nav-demo">
+        <div class="nav-logo">G<span>I</span>G</div>
+        <div class="nav-links">
+          <a href="#" class="active">Home</a>
+          <a href="#">About</a>
+          <a href="#">Products</a>
+          <a href="#">Investors</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="nav-cta">Get a Quote</div>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="component-demo">
+      <h4>Buttons</h4>
+      <div class="btn-row" style="margin-bottom:16px;">
+        <button class="btn btn-primary">Primary Action</button>
+        <button class="btn btn-secondary">Rose-Gold</button>
+        <button class="btn btn-outline">Outline</button>
+        <button class="btn btn-ghost">Ghost</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary">Default</button>
+        <button class="btn btn-primary btn-lg">Large</button>
+        <button class="btn btn-primary" style="opacity:.4;cursor:not-allowed;">Disabled</button>
+      </div>
+    </div>
+
+    <!-- Form Inputs -->
+    <div class="component-demo">
+      <h4>Form Inputs</h4>
+      <div class="input-row">
+        <div class="input-field">
+          <label>Full Name</label>
+          <input type="text" placeholder="Enter your full name">
+          <span class="field-hint">As it appears on your ID</span>
+        </div>
+        <div class="input-field">
+          <label>Email Address</label>
+          <input type="email" placeholder="example@email.com" value="wrong-email">
+          <span class="field-error">Please enter a valid email address</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards -->
+    <div class="component-demo">
+      <h4>Content Cards</h4>
+      <div class="card-row">
+        <div class="ui-card">
+          <div class="ui-card-header" style="background:linear-gradient(135deg,var(--deep-blue),var(--indigo));">
+            <span class="ui-card-tag">Motor</span>
+          </div>
+          <div class="ui-card-body">
+            <div class="ui-card-title">Motor Insurance</div>
+            <div class="ui-card-text">Comprehensive protection for your vehicle across the MENA region.</div>
+            <div class="ui-card-footer">
+              <a class="ui-card-link" href="#">Learn More →</a>
+              <div class="ui-card-icon" style="background:var(--indigo-20);">
+                <svg width="16" height="16" fill="none" stroke="var(--indigo)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-card">
+          <div class="ui-card-header" style="background:linear-gradient(135deg,var(--rose-gold),#e8a07e);">
+            <span class="ui-card-tag">Medical</span>
+          </div>
+          <div class="ui-card-body">
+            <div class="ui-card-title">Medical Insurance</div>
+            <div class="ui-card-text">Rewarding health coverage for individuals and families.</div>
+            <div class="ui-card-footer">
+              <a class="ui-card-link" href="#">Learn More →</a>
+              <div class="ui-card-icon" style="background:rgba(210,140,100,0.12);">
+                <svg width="16" height="16" fill="none" stroke="var(--rose-gold)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui-card">
+          <div class="ui-card-header" style="background:linear-gradient(135deg,var(--seafoam),#84d4c8);">
+            <span class="ui-card-tag">Travel</span>
+          </div>
+          <div class="ui-card-body">
+            <div class="ui-card-title">Travel Insurance</div>
+            <div class="ui-card-text">Worry-free journeys with lasting coverage worldwide.</div>
+            <div class="ui-card-footer">
+              <a class="ui-card-link" href="#">Learn More →</a>
+              <div class="ui-card-icon" style="background:rgba(107,202,186,0.15);">
+                <svg width="16" height="16" fill="none" stroke="var(--seafoam)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert States -->
+    <div class="component-demo">
+      <h4>Alert & Status States</h4>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:6px;background:#EEF2FF;border-left:3px solid var(--indigo);">
+          <span style="font-size:13px;font-weight:600;color:var(--indigo);">Info:</span>
+          <span style="font-size:13px;color:var(--text-mid);">Your policy renewal is due in 30 days.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:6px;background:#FFF7ED;border-left:3px solid var(--rose-gold);">
+          <span style="font-size:13px;font-weight:600;color:var(--rose-gold);">Warning:</span>
+          <span style="font-size:13px;color:var(--text-mid);">Please complete your profile to activate coverage.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:6px;background:#DCFCE7;border-left:3px solid #22C55E;">
+          <span style="font-size:13px;font-weight:600;color:#16A34A;">Success:</span>
+          <span style="font-size:13px;color:var(--text-mid);">Your claim has been submitted successfully.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:6px;background:#FEE2E2;border-left:3px solid var(--sunrise);">
+          <span style="font-size:13px;font-weight:600;color:#DC2626;">Error:</span>
+          <span style="font-size:13px;color:var(--text-mid);">Unable to process your request. Please try again.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       07 · BRAND VALUES
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">07 · Brand Strategy</div>
+    <div class="section-title">Brand Values & Voice</div>
+    <p class="section-desc">Three core brand values define how GIG behaves with its clients and stakeholders. These values manifest through employee behaviours and drive every customer interaction.</p>
+
+    <div class="values-row" style="margin-bottom:36px;">
+      <div class="value-card">
+        <div class="value-number">Value 01</div>
+        <div class="value-title">Respect</div>
+        <div class="value-desc">The client is our most valuable asset. We respect the relationships and act out of client centricity in every interaction.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-number">Value 02</div>
+        <div class="value-title">Lasting</div>
+        <div class="value-desc">We have a long-term perspective on the value of our clients. Lifetime relationship value far exceeds the cost of any single transaction.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-number">Value 03</div>
+        <div class="value-title">Rewarding</div>
+        <div class="value-desc">We invest in value-adding services to improve client loyalty and grow market share. We make the relationship rewarding for everyone.</div>
+      </div>
+    </div>
+
+    <!-- Brand Voice -->
+    <div class="voice-card">
+      <div class="voice-quote">"We're here to make insurance <span>more human</span>."</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:24px;">
+        <div>
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-gold);font-weight:600;margin-bottom:6px;">Tone</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">Human · Warm · Relatable · Genuine</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-gold);font-weight:600;margin-bottom:6px;">Positioning</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">Invested in You. انتا انرامثتسا</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-gold);font-weight:600;margin-bottom:6px;">Audience</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">MENA region customers and stakeholders</div>
+        </div>
+        <div>
+          <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rose-gold);font-weight:600;margin-bottom:6px;">Message</div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.6;">Insurance that's made for You.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       08 · PHOTOGRAPHY
+  ════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">08 · Visual Language</div>
+    <div class="section-title">Photography Principles</div>
+    <p class="section-desc">GIG photography captures authentic human moments. Two modes: Masterbrand (emotive, elegant) and Subsidiary / Retail (everyday, approachable).</p>
+
+    <div class="photo-principles">
+      <div class="photo-card">
+        <div class="photo-num">01</div>
+        <div class="photo-principle-title">Capture Real Life</div>
+        <p>Use photography that feels natural rather than artificial. Capture signs of humanity — whether using people, places, or objects.</p>
+      </div>
+      <div class="photo-card">
+        <div class="photo-num">02</div>
+        <div class="photo-principle-title">Avoid Clutter</div>
+        <p>Avoid clutter through intelligent compositions. Aim to use images with one clear focal point. Single subject creates impact.</p>
+      </div>
+      <div class="photo-card">
+        <div class="photo-num">03</div>
+        <div class="photo-principle-title">Control Tone</div>
+        <p>Control tones to create understated elegance. Use a shallow depth of field. Avoid too many contrasting colours in a single image.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-left">
+    <div class="footer-brand">G<span>I</span>G</div>
+    <div class="footer-tagline">Gulf Insurance Group · Brand & Identity Design System</div>
+  </div>
+  <div class="footer-right">
+    Version 9 · June 2022<br>
+    MENA Region · gulfinsgroup.com<br>
+    © GIG. All rights reserved.
+  </div>
+</div>
+
+</body>
+</html>

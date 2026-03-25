@@ -20,7 +20,7 @@ export function SetPasswordPage() {
   ];
 
   const strength = criteria.filter(c => c.met).length;
-  const strengthColor = strength < 2 ? '#FF4060' : strength < 4 ? '#F0B030' : '#00C896';
+  const strengthColor = strength < 2 ? '#D28C64' : strength < 4 ? '#8094E6' : '#6BCABA';
   const strengthLabel = strength < 2
     ? (isAr ? 'ضعيفة' : 'Weak')
     : strength < 4
@@ -35,10 +35,11 @@ export function SetPasswordPage() {
     }
   };
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const textPrimary = theme === 'dark' ? '#E8F0FF' : '#0D1F3C';
+  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#6B7A9B';
+  const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.12)';
 
   return (
     <div className={`min-h-screen flex items-center justify-center p-6 ${theme === 'dark' ? 'dark' : ''}`}
@@ -50,8 +51,8 @@ export function SetPasswordPage() {
           {/* Shield Icon */}
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
-              style={{ background: 'rgba(200,16,46,0.12)', border: '1px solid rgba(200,16,46,0.25)' }}>
-              <Shield size={28} style={{ color: '#C8102E' }} />
+              style={{ background: 'rgba(25,5,140,0.10)', border: '1px solid rgba(25,5,140,0.22)' }}>
+              <Shield size={28} style={{ color: '#19058C' }} />
             </div>
           </div>
 
@@ -143,7 +144,7 @@ export function SetPasswordPage() {
                 className="w-full px-4 py-3 rounded-xl border-2 outline-none transition-all"
                 style={{
                   background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB',
-                  borderColor: confirm ? (confirm === pass ? '#00C896' : '#FF4060') : (theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(13,31,60,0.12)'),
+                  borderColor: confirm ? (confirm === pass ? '#6BCABA' : '#D28C64') : (theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(13,31,60,0.12)'),
                   color: textPrimary,
                   fontSize: '14px'
                 }}
@@ -155,7 +156,7 @@ export function SetPasswordPage() {
               </button>
             </div>
             {confirm && confirm !== pass && (
-              <p className="mt-1.5" style={{ fontSize: '12px', color: '#FF4060' }}>
+              <p className="mt-1.5" style={{ fontSize: '12px', color: '#D28C64' }}>
                 {isAr ? 'كلمات المرور غير متطابقة' : 'Passwords do not match'}
               </p>
             )}
@@ -164,8 +165,10 @@ export function SetPasswordPage() {
           <button
             className={`w-full py-3.5 rounded-xl text-white font-semibold transition-all ${strength === 4 && pass === confirm ? 'hover:opacity-90' : 'opacity-50 cursor-not-allowed'}`}
             style={{
-              background: 'linear-gradient(135deg, #C8102E, #A00D25)',
-              boxShadow: strength === 4 && pass === confirm ? '0 4px 20px rgba(200,16,46,0.35)' : 'none',
+              background: strength === 4 && pass === confirm
+                ? 'linear-gradient(135deg, #D28C64 0%, #E8B98A 50%, #D28C64 100%)'
+                : 'rgba(25,5,140,0.25)',
+              boxShadow: strength === 4 && pass === confirm ? '0 4px 20px rgba(210,140,100,0.35)' : 'none',
               fontSize: '15px'
             }}
             onClick={handleSubmit}

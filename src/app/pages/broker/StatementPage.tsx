@@ -1,5 +1,6 @@
 import { useApp } from '../../context/AppContext';
 import { Download, TrendingUp, Wallet, ArrowDownCircle } from 'lucide-react';
+import { useState } from 'react';
 
 const TRANSACTIONS = [
   { date: '14/03/2025', desc: 'Travel Policy Commission - POL-2025-45182', descAr: 'عمولة وثيقة سفر - POL-2025-45182', debit: null, credit: '14.80', balance: '1,234.50', type: 'credit' },
@@ -15,17 +16,33 @@ export function StatementPage() {
   const { theme, language, isRTL } = useApp();
   const isAr = language === 'ar';
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.08)';
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
   const kpis = [
     { label: isAr ? 'الرصيد الحالي' : 'Current Balance', value: 'JOD 1,234.50', color: '#00C896', icon: Wallet, bg: 'rgba(0,200,150,0.1)' },
-    { label: isAr ? 'إجمالي العمولات' : 'Total Commissions', value: 'JOD 174.00', color: '#C8962A', icon: TrendingUp, bg: 'rgba(200,150,42,0.1)' },
-    { label: isAr ? 'المسحوبات' : 'Withdrawals', value: 'JOD 500.00', color: '#FF4060', icon: ArrowDownCircle, bg: 'rgba(255,64,96,0.1)' },
+    { label: isAr ? 'إجمالي العمولات' : 'Total Commissions', value: 'JOD 174.00', color: '#D28C64', icon: TrendingUp, bg: 'rgba(210,140,100,0.10)' },
+    { label: isAr ? 'المسحوبات' : 'Withdrawals', value: 'JOD 500.00', color: '#8094E6', icon: ArrowDownCircle, bg: 'rgba(128,148,230,0.10)' },
   ];
+
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+
+  const allSelected  = TRANSACTIONS.length > 0 && TRANSACTIONS.every((_, i) => selectedIds.includes(i));
+  const someSelected = TRANSACTIONS.some((_, i) => selectedIds.includes(i)) && !allSelected;
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(TRANSACTIONS.map((_, i) => i));
+    }
+  };
+  const toggleSelect = (i: number) => {
+    setSelectedIds(prev => prev.includes(i) ? prev.filter(x => x !== i) : [...prev, i]);
+  };
 
   return (
     <div className="p-5 min-h-full" style={{ background: bg }}>
@@ -40,7 +57,7 @@ export function StatementPage() {
           <input type="date" className="px-3 py-2 rounded-lg border text-sm outline-none"
             style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} defaultValue="2025-03-31" />
           <button className="px-4 py-2 rounded-lg text-white text-sm font-medium flex items-center gap-2 hover:opacity-90"
-            style={{ background: '#C8102E' }}>
+            style={{ background: `linear-gradient(135deg, #D28C64 0%, #E8B98A 50%, #D28C64 100%)`, boxShadow: '0 2px 10px rgba(210,140,100,0.25)' }}>
             <Download size={15} />{isAr ? 'تصدير PDF' : 'Export PDF'}
           </button>
         </div>
@@ -69,15 +86,24 @@ export function StatementPage() {
           <thead>
             <tr style={{ borderBottom: `1px solid ${borderColor}` }}>
               {[
+                '',
                 isAr ? 'التاريخ' : 'Date',
                 isAr ? 'الوصف' : 'Description',
                 isAr ? 'خصم (دينار)' : 'Debit (JOD)',
                 isAr ? 'إضافة (دينار)' : 'Credit (JOD)',
                 isAr ? 'الرصيد (دينار)' : 'Balance (JOD)',
-              ].map(h => (
-                <th key={h} className="px-5 py-3"
+              ].map((h, i) => (
+                <th key={i} className="px-5 py-3"
                   style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: isRTL ? 'right' : 'left' }}>
-                  {h}
+                  {i === 0 ? (
+                    <input
+                      type="checkbox"
+                      checked={allSelected}
+                      ref={el => { if (el) el.indeterminate = someSelected; }}
+                      onChange={toggleSelectAll}
+                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                    />
+                  ) : h}
                 </th>
               ))}
             </tr>
@@ -88,8 +114,14 @@ export function StatementPage() {
                 className="border-b transition-all"
                 style={{
                   borderColor,
-                  borderLeft: tx.type === 'credit' ? '3px solid rgba(0,200,150,0.5)' : '3px solid rgba(255,64,96,0.5)',
+                  borderLeft: tx.type === 'credit' ? '3px solid rgba(107,202,186,0.55)' : '3px solid rgba(128,148,230,0.55)',
+                  background: selectedIds.includes(i) ? (theme === 'dark' ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent',
                 }}>
+                <td className="px-5 py-3">
+                  <input type="checkbox" checked={selectedIds.includes(i)}
+                    onChange={() => toggleSelect(i)}
+                    className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
+                </td>
                 <td className="px-5 py-3">
                   <span className="font-mono" style={{ fontSize: '13px', color: textSecondary }}>{tx.date}</span>
                 </td>
@@ -98,7 +130,7 @@ export function StatementPage() {
                 </td>
                 <td className="px-5 py-3">
                   {tx.debit && (
-                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#FF4060' }}>
+                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#8094E6' }}>
                       -{tx.debit}
                     </span>
                   )}
@@ -121,7 +153,7 @@ export function StatementPage() {
                 <span style={{ fontSize: '13px', fontWeight: 700, color: textPrimary }}>{isAr ? 'الإجمالي' : 'Totals'}</span>
               </td>
               <td className="px-5 py-3">
-                <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#FF4060' }}>700.00</span>
+                <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#8094E6' }}>700.00</span>
               </td>
               <td className="px-5 py-3">
                 <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#00C896' }}>1,934.50</span>

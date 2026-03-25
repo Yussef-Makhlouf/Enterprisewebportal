@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { X, ChevronDown, ChevronRight, Check, Plus, Minus } from 'lucide-react';
+import { X, ChevronDown, ChevronRight, Check } from 'lucide-react';
+import { B } from '../../utils/darkPalette';
 
 const PERMISSION_GROUPS = [
   {
@@ -26,7 +27,7 @@ const PERMISSION_GROUPS = [
 ];
 
 const ICONS = ['🛡️', '👑', '🏢', '✈️', '🚗', '🏥', '🏠', '👷', '📊', '⚙️', '🔑', '🌐'];
-const COLORS = ['#C8102E', '#0DB4CC', '#C8962A', '#00C896', '#7B61FF', '#F0B030'];
+const COLORS = ['#19058C', '#8094E6', '#D28C64', '#6BCABA', '#A78BF0', '#1F0F4D'];
 
 interface Props { role?: any; onClose: () => void; onSave: () => void; }
 
@@ -42,11 +43,11 @@ export function CreateRoleDrawer({ role, onClose, onSave }: Props) {
   const [assignedUsers, setAssignedUsers] = useState<string[]>(['AR']);
   const [userInput, setUserInput] = useState('');
 
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.1)';
-  const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
+  const cardBg        = theme === 'dark' ? 'linear-gradient(165deg, #0F1825 0%, #131D2E 100%)' : '#FFFFFF';
+  const textPrimary   = theme === 'dark' ? '#E8F0FF'                   : '#19058C';
+  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)'   : '#3D3560';
+  const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)'   : 'rgba(13,31,60,0.10)';
+  const inputBg       = theme === 'dark' ? 'rgba(128,148,230,0.05)'   : '#F5F7FB';
 
   const togglePerm = (p: string) => setPermissions(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]);
   const toggleGroup = (g: string) => setOpenGroups(prev => prev.includes(g) ? prev.filter(x => x !== g) : [...prev, g]);
@@ -204,7 +205,7 @@ export function CreateRoleDrawer({ role, onClose, onSave }: Props) {
                 <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-full border"
                   style={{ borderColor, background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB' }}>
                   <div className="w-6 h-6 rounded-full flex items-center justify-center text-white"
-                    style={{ background: '#C8102E', fontSize: '9px', fontWeight: 700 }}>{u}</div>
+                    style={{ background: `linear-gradient(135deg, ${B.indigo}, ${B.ocean})`, fontSize: '9px', fontWeight: 700 }}>{u}</div>
                   <span style={{ fontSize: '12px', color: textPrimary }}>{u}</span>
                   <button onClick={() => setAssignedUsers(prev => prev.filter((_, idx) => idx !== i))}
                     style={{ color: textSecondary }}>

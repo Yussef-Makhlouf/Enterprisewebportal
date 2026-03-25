@@ -32,7 +32,7 @@ const NOTIFICATIONS: Notification[] = [
     title: 'Policy Approval Required', titleAr: 'الموافقة على الوثيقة مطلوبة',
     desc: 'Motor policy CASE-2025-4421 requires GIG review. Expected 24h.',
     descAr: 'وثيقة المركبة CASE-2025-4421 تتطلب مراجعة GIG. متوقع خلال 24 ساعة.',
-    time: '4 hours ago', type: 'approval', color: '#C8102E', bg: 'rgba(200,16,46,0.12)', unread: true
+    time: '4 hours ago', type: 'approval', color: '#D28C64', bg: 'rgba(210,140,100,0.12)', unread: true
   },
   {
     id: 3, Icon: CheckCircle,
@@ -53,7 +53,7 @@ const NOTIFICATIONS: Notification[] = [
     title: 'Account Access Restricted', titleAr: 'تقييد الوصول للحساب',
     desc: 'Sub-broker Bilal Noor has been deactivated due to license expiry.',
     descAr: 'تم تعطيل الوسيط الفرعي بلال نور بسبب انتهاء الرخصة.',
-    time: '3 days ago', type: 'blocked', color: '#FF4060', bg: 'rgba(255,64,96,0.12)', unread: false
+    time: '3 days ago', type: 'blocked', color: '#8094E6', bg: 'rgba(128,148,230,0.12)', unread: false
   },
 ];
 
@@ -72,9 +72,9 @@ export function NotificationsPage() {
   const [notifications, setNotifications] = useState(NOTIFICATIONS);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.08)';
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
@@ -111,8 +111,8 @@ export function NotificationsPage() {
           <button key={tab.key}
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-medium border transition-all"
             style={{
-              background: activeTab === tab.key ? '#C8102E' : 'transparent',
-              borderColor: activeTab === tab.key ? '#C8102E' : borderColor,
+              background: activeTab === tab.key ? '#8094E6' : 'transparent',
+              borderColor: activeTab === tab.key ? '#8094E6' : borderColor,
               color: activeTab === tab.key ? '#fff' : textSecondary,
             }}
             onClick={() => setActiveTab(tab.key)}>
@@ -144,8 +144,12 @@ export function NotificationsPage() {
             >
               {/* Unread Dot */}
               {n.unread && (
-                <div className="absolute top-4 w-2 h-2 rounded-full bg-[#C8102E]"
-                  style={{ left: isRTL ? 'auto' : '10px', right: isRTL ? '10px' : 'auto' }} />
+                <div className="absolute top-4 w-2 h-2 rounded-full"
+                  style={{
+                    background: '#8094E6',
+                    left: isRTL ? 'auto' : '10px',
+                    right: isRTL ? '10px' : 'auto',
+                  }} />
               )}
 
               {/* Icon */}
@@ -174,7 +178,7 @@ export function NotificationsPage() {
                     {n.unread && (
                       <button
                         className="flex items-center gap-1 text-xs font-medium hover:underline"
-                        style={{ color: '#C8102E' }}
+                        style={{ color: '#8094E6' }}
                         onClick={() => markRead(n.id)}
                       >
                         <Check size={12} />

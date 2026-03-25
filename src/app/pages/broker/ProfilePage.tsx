@@ -13,9 +13,9 @@ export function ProfilePage() {
   const [smsNotif, setSmsNotif] = useState(true);
   const [pushNotif, setPushNotif] = useState(false);
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.1)';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.10)';
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
   const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
@@ -38,7 +38,7 @@ export function ProfilePage() {
       <span style={{ fontSize: '14px', color: textPrimary }}>{label}</span>
       <button
         className="w-12 h-6 rounded-full transition-all relative"
-        style={{ background: value ? '#C8102E' : (theme === 'dark' ? '#2A3650' : '#C0CBDE') }}
+        style={{ background: value ? '#8094E6' : (theme === 'dark' ? 'rgba(128,148,230,0.20)' : '#C0CBDE') }}
         onClick={() => onChange(!value)}
       >
         <span className="absolute top-1 transition-all rounded-full w-4 h-4 bg-white"
@@ -61,11 +61,11 @@ export function ProfilePage() {
           <div className="rounded-xl p-5 text-center" style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
             <div className="relative w-20 h-20 mx-auto mb-4">
               <div className="w-20 h-20 rounded-full flex items-center justify-center text-white mx-auto"
-                style={{ background: 'linear-gradient(135deg, #C8102E, #0D1F3C)', fontSize: '1.5rem', fontWeight: 700 }}>
+                style={{ background: 'linear-gradient(135deg, #19058C, #8094E6)', fontSize: '1.5rem', fontWeight: 700 }}>
                 {currentUser.avatar}
               </div>
               <button className="absolute bottom-0 right-0 w-7 h-7 rounded-full flex items-center justify-center text-white"
-                style={{ background: '#C8102E', boxShadow: '0 2px 8px rgba(200,16,46,0.4)' }}>
+                style={{ background: '#D28C64', boxShadow: '0 2px 8px rgba(210,140,100,0.40)' }}>
                 <Camera size={14} />
               </button>
             </div>
@@ -74,7 +74,7 @@ export function ProfilePage() {
             </h3>
             <div className="mt-1 mb-3">
               <span className="px-3 py-1 rounded-full text-white font-medium"
-                style={{ fontSize: '12px', background: '#C8102E' }}>
+                style={{ fontSize: '12px', background: `linear-gradient(135deg, #19058C, #8094E6)` }}>
                 {isAr ? 'وسيط' : 'Broker'}
               </span>
             </div>
@@ -208,7 +208,7 @@ export function ProfilePage() {
         style={{ background: theme === 'dark' ? '#070E1C' : '#F0F4FA', borderColor }}>
         <button
           className="px-8 py-2.5 rounded-xl text-white font-semibold text-sm hover:opacity-90 flex items-center gap-2"
-          style={{ background: 'linear-gradient(135deg, #C8102E, #A00D25)', boxShadow: '0 4px 15px rgba(200,16,46,0.3)' }}
+          style={{ background: 'linear-gradient(135deg, #19058C, #8094E6)', boxShadow: '0 4px 15px rgba(200,16,46,0.3)' }}
           onClick={() => addToast({ type: 'success', title: isAr ? 'تم الحفظ' : 'Profile Updated' })}
         >
           {isAr ? 'حفظ التغييرات' : 'Save Changes'}

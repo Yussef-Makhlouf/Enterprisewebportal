@@ -28,11 +28,11 @@ export function LicenseRenewalPage() {
   const [dragging, setDragging] = useState(false);
   const [uploaded, setUploaded] = useState(false);
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.1)';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const textPrimary = theme === 'dark' ? '#E8F0FF' : '#0D1F3C';
+  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#6B7A9B';
+  const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.12)';
 
   const steps = [
     { n: 1, label: isAr ? 'رفع المستندات' : 'Upload Documents' },
@@ -64,8 +64,8 @@ export function LicenseRenewalPage() {
             <div key={s.n} className="flex items-center">
               <div className="flex flex-col items-center">
                 <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold transition-all ${
-                  s.n < step ? 'bg-[#00C896] text-white' :
-                  s.n === step ? 'bg-[#C8102E] text-white' :
+                  s.n < step ? 'bg-[#6BCABA] text-white' :
+                  s.n === step ? 'bg-[#19058C] text-white' :
                   'border-2 text-[#4A5878]'
                 }`}
                   style={{
@@ -74,7 +74,7 @@ export function LicenseRenewalPage() {
                   }}>
                   {s.n < step ? <Check size={16} /> : s.n}
                 </div>
-                <span className="mt-1 text-center" style={{ fontSize: '11px', color: s.n === step ? '#C8102E' : textSecondary, width: '100px' }}>
+                <span className="mt-1 text-center" style={{ fontSize: '11px', color: s.n === step ? '#19058C' : textSecondary, width: '100px' }}>
                   {s.label}
                 </span>
               </div>
@@ -96,7 +96,7 @@ export function LicenseRenewalPage() {
               <div className="rounded-xl p-4"
                 style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.03)' : '#F5F7FB', border: `1px solid ${borderColor}` }}>
                 <div className="flex items-center gap-2 mb-3">
-                  <FileText size={16} style={{ color: '#C8102E' }} />
+                  <FileText size={16} style={{ color: '#D28C64' }} />
                   <span className="font-semibold" style={{ fontSize: '13px', color: textPrimary }}>
                     {isAr ? 'معلومات الرخصة الحالية' : 'Current License Info'}
                   </span>
@@ -104,12 +104,12 @@ export function LicenseRenewalPage() {
                 <div className="grid grid-cols-3 gap-4">
                   {[
                     { label: isAr ? 'رقم الرخصة' : 'License No.', value: 'LIC-2024-004821', mono: true },
-                    { label: isAr ? 'تاريخ الانتهاء' : 'Expired', value: '31/12/2024', mono: true, red: true },
+                    { label: isAr ? 'تاريخ الانتهاء' : 'Expired', value: '31/12/2024', mono: true, warn: true },
                     { label: isAr ? 'خطوط الأعمال' : 'LOBs', value: '2 active', mono: false },
                   ].map(item => (
                     <div key={item.label}>
                       <p style={{ fontSize: '11px', color: textSecondary }}>{item.label}</p>
-                      <p className={item.mono ? 'font-mono' : ''} style={{ fontSize: '13px', fontWeight: 600, color: item.red ? '#FF4060' : textPrimary }}>
+                      <p className={item.mono ? 'font-mono' : ''} style={{ fontSize: '13px', fontWeight: 600, color: (item as any).warn ? '#D28C64' : textPrimary }}>
                         {item.value}
                       </p>
                     </div>
@@ -147,16 +147,16 @@ export function LicenseRenewalPage() {
                       key={lob.key}
                       className="flex items-center gap-2.5 p-3 rounded-xl border-2 transition-all text-left"
                       style={{
-                        borderColor: selectedLOBs.includes(lob.key) ? '#C8102E' : borderColor,
-                        background: selectedLOBs.includes(lob.key) ? 'rgba(200,16,46,0.08)' : 'transparent',
+                        borderColor: selectedLOBs.includes(lob.key) ? '#19058C' : borderColor,
+                        background: selectedLOBs.includes(lob.key) ? 'rgba(25,5,140,0.08)' : 'transparent',
                       }}
                       onClick={() => toggleLOB(lob.key)}
                     >
-                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${selectedLOBs.includes(lob.key) ? 'bg-[#C8102E] border-[#C8102E]' : ''}`}
-                        style={{ borderColor: selectedLOBs.includes(lob.key) ? '#C8102E' : (theme === 'dark' ? '#4A5878' : '#C0CBDE') }}>
+                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${selectedLOBs.includes(lob.key) ? 'bg-[#19058C] border-[#19058C]' : ''}`}
+                        style={{ borderColor: selectedLOBs.includes(lob.key) ? '#19058C' : (theme === 'dark' ? '#4A5878' : '#C0CBDE') }}>
                         {selectedLOBs.includes(lob.key) && <Check size={10} className="text-white" />}
                       </div>
-                      <lob.Icon size={12} style={{ color: selectedLOBs.includes(lob.key) ? '#C8102E' : textPrimary }} />
+                      <lob.Icon size={12} style={{ color: selectedLOBs.includes(lob.key) ? '#19058C' : textPrimary }} />
                       <span style={{ fontSize: '12px', color: textPrimary, fontWeight: selectedLOBs.includes(lob.key) ? 600 : 400 }}>
                         {isAr ? lob.labelAr : lob.label}
                       </span>
@@ -173,8 +173,8 @@ export function LicenseRenewalPage() {
                 <div
                   className="rounded-xl border-2 border-dashed p-8 text-center transition-all cursor-pointer"
                   style={{
-                    borderColor: dragging ? '#C8102E' : (uploaded ? '#00C896' : borderColor),
-                    background: dragging ? 'rgba(200,16,46,0.05)' : (uploaded ? 'rgba(0,200,150,0.05)' : (theme === 'dark' ? 'rgba(255,255,255,0.02)' : '#FAFBFD')),
+                    borderColor: dragging ? '#D28C64' : (uploaded ? '#6BCABA' : borderColor),
+                    background: dragging ? 'rgba(210,140,100,0.05)' : (uploaded ? 'rgba(107,202,186,0.05)' : (theme === 'dark' ? 'rgba(255,255,255,0.02)' : '#FAFBFD')),
                   }}
                   onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
                   onDragLeave={() => setDragging(false)}
@@ -255,7 +255,7 @@ export function LicenseRenewalPage() {
             )}
             <button
               className="px-6 py-2.5 rounded-lg text-white font-medium text-sm flex items-center gap-2 hover:opacity-90 transition-all"
-              style={{ background: 'linear-gradient(135deg, #C8102E, #A00D25)', boxShadow: '0 2px 12px rgba(200,16,46,0.3)' }}
+              style={{ background: 'linear-gradient(135deg, #19058C, #8094E6)', boxShadow: '0 2px 12px rgba(25,5,140,0.30)' }}
               onClick={() => step < 3 ? setStep(s => s + 1) : navigate('/')}
             >
               {step === 3 ? (isAr ? 'إغلاق' : 'Close') : (isAr ? 'التالي' : 'Next Step')}

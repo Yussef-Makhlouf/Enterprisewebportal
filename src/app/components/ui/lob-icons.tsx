@@ -16,12 +16,12 @@ export const LOB_ICON_MAP: Record<string, LucideIcon> = {
 };
 
 export const LOB_COLOR_MAP: Record<string, string> = {
-  travel: '#C8102E', Travel: '#C8102E',
-  motor: '#C8962A', Motor: '#C8962A',
-  medical: '#00C896', Medical: '#00C896',
-  home: '#0DB4CC', Home: '#0DB4CC',
-  domestic: '#7B61FF', Domestic: '#7B61FF',
-  assistance: '#F0B030', Assistance: '#F0B030',
+  travel: '#19058C', Travel: '#19058C',
+  motor: '#8094E6',  Motor: '#8094E6',
+  medical: '#6BCABA', Medical: '#6BCABA',
+  home: '#D28C64', Home: '#D28C64',
+  domestic: '#D28C64', Domestic: '#D28C64',
+  assistance: '#8094E6', Assistance: '#8094E6',
 };
 
 export const LOB_BG_MAP: Record<string, string> = {
@@ -42,6 +42,6 @@ interface LOBIconProps {
 
 export function LOBIcon({ lob, size = 16, color, className }: LOBIconProps) {
   const IconComponent = LOB_ICON_MAP[lob] || Plane;
-  const iconColor = color || LOB_COLOR_MAP[lob] || '#C8102E';
+  const iconColor = color || LOB_COLOR_MAP[lob] || '#19058C';
   return <IconComponent size={size} className={className} style={{ color: iconColor }} />;
 }

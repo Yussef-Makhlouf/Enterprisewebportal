@@ -53,7 +53,7 @@ const AUDIT_ITEMS: AuditItem[] = [
     action: 'Account Blocked', actionAr: 'حظر حساب',
     desc: 'Broker account for Rania Khalil has been blocked', descAr: 'تم حظر حساب وسيط رانيا خليل',
     user: 'Ahmed Al-Rashidi', userAr: 'أحمد الراشدي',
-    time: 'Yesterday, 14:05', color: '#FF4060', type: 'block'
+    time: 'Yesterday, 14:05', color: '#D28C64', type: 'block'
   },
   {
     id: 6, Icon: KeyRound,
@@ -74,7 +74,7 @@ const AUDIT_ITEMS: AuditItem[] = [
     action: 'Policy Issued', actionAr: 'إصدار وثيقة',
     desc: 'Travel policy POL-2025-45182 issued for Ahmad', descAr: 'تم إصدار وثيقة سفر POL-2025-45182 لأحمد',
     user: 'Khalid Al-Mansouri', userAr: 'خالد المنصوري',
-    time: '2 days ago', color: '#C8102E', type: 'approval'
+    time: '2 days ago', color: '#8094E6', type: 'approval'
   },
 ];
 
@@ -84,12 +84,13 @@ export function AuditTrail() {
   const [actionFilter, setActionFilter] = useState('All');
   const [search, setSearch] = useState('');
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const sidebarBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
+  const isDark = theme === 'dark';
+  const bg          = isDark ? '#070D18' : '#F8F7FC';
+  const cardBg      = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const textPrimary = isDark ? '#E8F0FF' : '#19058C';
+  const textSecondary = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
+  const borderColor   = isDark ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.10)';
+  const rowBg         = isDark ? 'rgba(128,148,230,0.05)' : '#F5F7FB';
 
   const filtered = AUDIT_ITEMS.filter(a => {
     const matchSearch = !search || a.action.toLowerCase().includes(search.toLowerCase()) || a.user.toLowerCase().includes(search.toLowerCase());
@@ -119,7 +120,7 @@ export function AuditTrail() {
 
       <div className="flex gap-4">
         {/* Filter Sidebar */}
-        <div className="shrink-0 rounded-xl p-4 space-y-5" style={{ width: '220px', background: sidebarBg, border: `1px solid ${borderColor}` }}>
+        <div className="shrink-0 rounded-xl p-4 space-y-5" style={{ width: '220px', background: cardBg, border: `1px solid ${borderColor}` }}>
           <h3 style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>
             {isAr ? 'تصفية النتائج' : 'Filter Results'}
           </h3>
@@ -142,9 +143,9 @@ export function AuditTrail() {
                   key={opt.key}
                   className="w-full text-left px-3 py-2 rounded-lg text-sm transition-all"
                   style={{
-                    background: actionFilter === opt.key ? 'rgba(200,16,46,0.1)' : 'transparent',
-                    color: actionFilter === opt.key ? '#C8102E' : textSecondary,
-                    fontWeight: actionFilter === opt.key ? 500 : 400,
+                    background: actionFilter === opt.key ? 'rgba(25,5,140,0.10)' : 'transparent',
+                    color: actionFilter === opt.key ? '#19058C' : textSecondary,
+                    fontWeight: actionFilter === opt.key ? 600 : 400,
                     textAlign: isRTL ? 'right' : 'left',
                   }}
                   onClick={() => setActionFilter(opt.key)}
@@ -183,7 +184,7 @@ export function AuditTrail() {
 
           <button
             className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90"
-            style={{ background: '#C8102E', boxShadow: '0 2px 8px rgba(200,16,46,0.3)' }}
+            style={{ background: '#19058C', boxShadow: '0 2px 8px rgba(25,5,140,0.30)' }}
           >
             {isAr ? 'تطبيق الفلتر' : 'Apply Filter'}
           </button>

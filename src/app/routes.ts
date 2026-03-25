@@ -15,6 +15,10 @@ import { BrokerDashboard } from './pages/broker/BrokerDashboard';
 import { LOBIssuanceHub } from './pages/broker/LOBIssuanceHub';
 import { TravelIssuance } from './pages/broker/TravelIssuance';
 import { MotorIssuance } from './pages/broker/MotorIssuance';
+import { HomeIssuance } from './pages/broker/HomeIssuance';
+import { DomesticWorkerIssuance } from './pages/broker/DomesticWorkerIssuance';
+import { MedicalIssuance } from './pages/broker/MedicalIssuance';
+import { HomeAssistanceIssuance } from './pages/broker/HomeAssistanceIssuance';
 import { MyPolicies } from './pages/broker/MyPolicies';
 import { SubBrokers } from './pages/broker/SubBrokers';
 import { StatementPage } from './pages/broker/StatementPage';
@@ -55,6 +59,10 @@ export const router = createBrowserRouter([
           { path: 'broker/issuance', Component: LOBIssuanceHub },
           { path: 'broker/issuance/travel', Component: TravelIssuance },
           { path: 'broker/issuance/motor', Component: MotorIssuance },
+          { path: 'broker/issuance/home', Component: HomeIssuance },
+          { path: 'broker/issuance/domestic-worker', Component: DomesticWorkerIssuance },
+          { path: 'broker/issuance/medical', Component: MedicalIssuance },
+          { path: 'broker/issuance/home-assistance', Component: HomeAssistanceIssuance },
           { path: 'broker/policies', Component: MyPolicies },
           { path: 'broker/sub-brokers', Component: SubBrokers },
           { path: 'broker/statement', Component: StatementPage },

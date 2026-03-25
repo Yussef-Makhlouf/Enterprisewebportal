@@ -1,16 +1,16 @@
 import { useState } from 'react';
 import { useApp } from '../../context/AppContext';
-import { X, AlertCircle, Upload, Check, Plane, Car, Stethoscope, Home, HardHat, Wrench, type LucideIcon } from 'lucide-react';
+import { X, AlertCircle, Upload, Check, Plane, Car, Stethoscope, Home, HardHat, type LucideIcon } from 'lucide-react';
+import { B, drawerBg, cardBdr, innerBg, textHero, textMuted } from '../../utils/darkPalette';
 
 interface LOBEntry { key: string; Icon: LucideIcon; label: string; labelAr: string; color: string; }
 
 const LOBS: LOBEntry[] = [
-  { key: 'travel', Icon: Plane, label: 'Travel', labelAr: 'سفر', color: '#C8102E' },
-  { key: 'motor', Icon: Car, label: 'Motor', labelAr: 'مركبات', color: '#C8962A' },
-  { key: 'medical', Icon: Stethoscope, label: 'Medical', labelAr: 'طبي', color: '#00C896' },
-  { key: 'home', Icon: Home, label: 'Home', labelAr: 'منزل', color: '#0DB4CC' },
-  { key: 'domestic', Icon: HardHat, label: 'Domestic', labelAr: 'عمالة', color: '#7B61FF' },
-  { key: 'assistance', Icon: Wrench, label: 'Assistance', labelAr: 'مساعدة', color: '#F0B030' },
+  { key: 'travel',   Icon: Plane,       label: 'Travel',   labelAr: 'سفر',    color: '#19058C' },
+  { key: 'motor',    Icon: Car,         label: 'Motor',    labelAr: 'مركبات', color: '#8094E6' },
+  { key: 'medical',  Icon: Stethoscope, label: 'Medical',  labelAr: 'طبي',    color: '#6BCABA' },
+  { key: 'home',     Icon: Home,        label: 'Home',     labelAr: 'منزل',   color: '#D28C64' },
+  { key: 'domestic', Icon: HardHat,     label: 'Domestic', labelAr: 'عمالة',  color: '#A78BF0' },
 ];
 
 const CBJ_TYPES = ['Class A', 'Class B', 'Class C', 'Life', 'Medical', 'General'];
@@ -19,15 +19,16 @@ interface Props { broker: any; onClose: () => void; }
 
 export function EditBrokerDrawer({ broker, onClose }: Props) {
   const { theme, language, isRTL, addToast } = useApp();
-  const isAr = language === 'ar';
+  const isAr  = language === 'ar';
+  const isDark = theme === 'dark';
   const [activeLOBs, setActiveLOBs] = useState(['travel', 'motor']);
-  const [cbjTypes, setCbjTypes] = useState(['Class A', 'Class B']);
+  const [cbjTypes, setCbjTypes]     = useState(['Class A', 'Class B']);
 
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(13,31,60,0.1)';
-  const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
+  const bg            = drawerBg(isDark);
+  const textPrimary   = textHero(isDark);
+  const textSecondary = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
+  const borderColor   = cardBdr(isDark);
+  const inputBg       = isDark ? 'rgba(128,148,230,0.05)' : '#F5F7FB';
 
   const toggleLOB = (k: string) => setActiveLOBs(prev => prev.includes(k) ? prev.filter(l => l !== k) : [...prev, k]);
   const toggleCBJ = (k: string) => setCbjTypes(prev => prev.includes(k) ? prev.filter(l => l !== k) : [...prev, k]);
@@ -49,7 +50,7 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
       <div className="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" onClick={onClose} />
       <div
         className={`fixed top-0 ${isRTL ? 'left-0' : 'right-0'} h-full z-50 flex flex-col shadow-2xl overflow-hidden`}
-        style={{ width: '460px', background: cardBg, borderLeft: isRTL ? 'none' : `1px solid ${borderColor}` }}
+        style={{ width: '460px', background: bg, borderLeft: isRTL ? 'none' : `1px solid ${borderColor}` }}
       >
         <div className="flex items-center justify-between px-5 py-4 border-b shrink-0" style={{ borderColor }}>
           <h2 style={{ fontSize: '15px', fontWeight: 600, color: textPrimary }}>
@@ -90,7 +91,7 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
               </div>
               <div>
                 <Label>{isAr ? 'رفع وثيقة الرخصة' : 'Upload License Document'}</Label>
-                <div className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer hover:border-[#C8102E]/50 transition-all"
+                <div className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer hover:border-[#D28C64]/50 transition-all"
                   style={{ borderColor, background: theme === 'dark' ? 'rgba(255,255,255,0.02)' : '#FAFBFD' }}>
                   <div className="flex items-center justify-center gap-2">
                     <Upload size={16} style={{ color: '#6B7A9B' }} />
@@ -99,8 +100,8 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-[#00C896]" />
-                    <span style={{ fontSize: '11px', color: '#00C896' }}>license_current.pdf</span>
+                    <div className="w-2 h-2 rounded-full" style={{ background: '#6BCABA' }} />
+                    <span style={{ fontSize: '11px', color: '#6BCABA' }}>license_current.pdf</span>
                   </div>
                 </div>
               </div>
@@ -117,23 +118,30 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
               {isAr ? 'أنواع رخصة CBJ' : 'CBJ License Types'}
             </h3>
             <div className="grid grid-cols-3 gap-2">
-              {CBJ_TYPES.map(type => (
-                <button
-                  key={type}
-                  className="p-2.5 rounded-lg border-2 text-center transition-all flex items-center gap-2"
-                  style={{
-                    borderColor: cbjTypes.includes(type) ? '#C8102E' : borderColor,
-                    background: cbjTypes.includes(type) ? 'rgba(200,16,46,0.08)' : 'transparent',
-                  }}
-                  onClick={() => toggleCBJ(type)}
-                >
-                  <div className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 ${cbjTypes.includes(type) ? 'bg-[#C8102E] border-[#C8102E]' : ''}`}
-                    style={{ borderColor: cbjTypes.includes(type) ? '#C8102E' : (theme === 'dark' ? '#4A5878' : '#C0CBDE') }}>
-                    {cbjTypes.includes(type) && <Check size={10} className="text-white" />}
-                  </div>
-                  <span style={{ fontSize: '12px', color: textPrimary }}>{type}</span>
-                </button>
-              ))}
+              {CBJ_TYPES.map(type => {
+                const sel = cbjTypes.includes(type);
+                const accent = isDark ? B.ocean : B.indigo;
+                return (
+                  <button
+                    key={type}
+                    className="p-2.5 rounded-lg border-2 text-center transition-all flex items-center gap-2"
+                    style={{
+                      borderColor: sel ? accent : borderColor,
+                      background: sel ? `${accent}12` : 'transparent',
+                    }}
+                    onClick={() => toggleCBJ(type)}
+                  >
+                    <div className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0"
+                      style={{
+                        background: sel ? accent : 'transparent',
+                        borderColor: sel ? accent : (isDark ? 'rgba(128,148,230,0.30)' : '#C0CBDE'),
+                      }}>
+                      {sel && <Check size={10} className="text-white" />}
+                    </div>
+                    <span style={{ fontSize: '12px', color: textPrimary }}>{type}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -176,13 +184,13 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
 
         {/* Footer */}
         <div className="px-5 py-4 border-t flex gap-3 shrink-0" style={{ borderColor }}>
-          <button className="flex-1 py-2.5 rounded-xl border font-medium text-sm"
+          <button className="flex-1 py-2.5 rounded-xl border font-medium text-sm transition-all hover:opacity-80"
             style={{ borderColor, color: textSecondary }} onClick={onClose}>
             {isAr ? 'إلغاء' : 'Cancel'}
           </button>
           <button
-            className="flex-1 py-2.5 rounded-xl text-white font-medium text-sm hover:opacity-90 transition-all"
-            style={{ background: '#C8102E', boxShadow: '0 2px 10px rgba(200,16,46,0.3)' }}
+            className="flex-1 py-2.5 rounded-xl text-white font-medium text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2"
+            style={{ background: `linear-gradient(135deg, ${B.roseGold} 0%, #E8B98A 50%, ${B.roseGold} 100%)`, boxShadow: '0 2px 12px rgba(210,140,100,0.30)' }}
             onClick={() => { onClose(); addToast({ type: 'success', title: isAr ? 'تم الحفظ' : 'Changes Saved' }); }}
           >
             {isAr ? 'حفظ التغييرات' : 'Save Changes'}

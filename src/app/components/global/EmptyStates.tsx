@@ -2,12 +2,12 @@ import { useApp } from '../../context/AppContext';
 import { Users, FileText, Bell, Search, Shield, Calendar } from 'lucide-react';
 
 const STATES = [
-  { key: 'no-brokers', emoji: '👥', icon: Users, title: 'No Brokers Yet', titleAr: 'لا يوجد وسطاء بعد', desc: 'Start by sending your first invitation to a broker or agent.', descAr: 'ابدأ بإرسال أول دعوة لوسيط أو وكيل.', cta: 'Send Invitation', ctaAr: 'إرسال دعوة', color: '#C8102E' },
-  { key: 'no-policies', emoji: '📋', icon: FileText, title: 'No Policies Yet', titleAr: 'لا توجد وثائق بعد', desc: 'Issue your first insurance policy to get started.', descAr: 'أصدر وثيقة تأمينية لأول مرة للبدء.', cta: 'Issue Policy', ctaAr: 'إصدار وثيقة', color: '#C8102E' },
-  { key: 'no-notifications', emoji: '🔔', icon: Bell, title: "You're All Caught Up", titleAr: 'أنت على اطلاع تام', desc: 'No new notifications at this time. Check back later.', descAr: 'لا توجد إشعارات جديدة في الوقت الحالي.', cta: 'Go to Dashboard', ctaAr: 'الذهاب للوحة التحكم', color: '#0DB4CC' },
-  { key: 'no-results', emoji: '🔍', icon: Search, title: 'No Search Results', titleAr: 'لا توجد نتائج بحث', desc: 'Try different keywords or adjust your filters.', descAr: 'جرّب كلمات مختلفة أو عدّل المرشحات.', cta: 'Clear Search', ctaAr: 'مسح البحث', color: '#6B7A9B' },
-  { key: 'license-required', emoji: '🔒', icon: Shield, title: 'License Required', titleAr: 'الرخصة مطلوبة', desc: 'Contact GIG to activate lines of business for your account.', descAr: 'تواصل مع GIG لتفعيل خطوط الأعمال لحسابك.', cta: 'Contact GIG', ctaAr: 'تواصل مع GIG', color: '#F0B030' },
-  { key: 'no-data', emoji: '📊', icon: Calendar, title: 'No Data for Period', titleAr: 'لا توجد بيانات للفترة', desc: 'No records found for the selected date range. Try a different period.', descAr: 'لم يتم العثور على سجلات للنطاق الزمني المحدد.', cta: 'Change Date Range', ctaAr: 'تغيير النطاق الزمني', color: '#6B7A9B' },
+  { key: 'no-brokers',       emoji: '👥', icon: Users,     title: 'No Brokers Yet',        titleAr: 'لا يوجد وسطاء بعد',   desc: 'Start by sending your first invitation to a broker or agent.', descAr: 'ابدأ بإرسال أول دعوة لوسيط أو وكيل.', cta: 'Send Invitation', ctaAr: 'إرسال دعوة',    color: '#19058C' },
+  { key: 'no-policies',      emoji: '📋', icon: FileText,  title: 'No Policies Yet',        titleAr: 'لا توجد وثائق بعد',   desc: 'Issue your first insurance policy to get started.',             descAr: 'أصدر وثيقة تأمينية لأول مرة للبدء.', cta: 'Issue Policy',    ctaAr: 'إصدار وثيقة',  color: '#19058C' },
+  { key: 'no-notifications', emoji: '🔔', icon: Bell,      title: "You're All Caught Up",   titleAr: 'أنت على اطلاع تام',  desc: 'No new notifications at this time. Check back later.',          descAr: 'لا توجد إشعارات جديدة في الوقت الحالي.', cta: 'Go to Dashboard', ctaAr: 'الذهاب للوحة التحكم', color: '#8094E6' },
+  { key: 'no-results',       emoji: '🔍', icon: Search,    title: 'No Search Results',      titleAr: 'لا توجد نتائج بحث',   desc: 'Try different keywords or adjust your filters.',                descAr: 'جرّب كلمات مختلفة أو عدّل المرشحات.', cta: 'Clear Search',    ctaAr: 'مسح البحث',    color: '#6B7A9B' },
+  { key: 'license-required', emoji: '🔒', icon: Shield,    title: 'License Required',       titleAr: 'الرخصة مطلوبة',      desc: 'Contact GIG to activate lines of business for your account.',     descAr: 'تواصل مع GIG لتفعيل خطوط الأعمال لحسابك.', cta: 'Contact GIG',     ctaAr: 'تواصل مع GIG',    color: '#F0B030' },
+  { key: 'no-data',          emoji: '📊', icon: Calendar,  title: 'No Data for Period',     titleAr: 'لا توجد بيانات للفترة', desc: 'No records found for the selected date range. Try a different period.', descAr: 'لم يتم العثور على سجلات للنطاق الزمني المحدد.', cta: 'Change Date Range', ctaAr: 'تغيير النطاق الزمني', color: '#6B7A9B' },
 ];
 
 interface Props { variant: string; onAction?: () => void; }
@@ -17,11 +17,11 @@ export function EmptyState({ variant, onAction }: Props) {
   const isAr = language === 'ar';
   const state = STATES.find(s => s.key === variant) || STATES[3];
 
-  const bg = theme === 'dark' ? '#070E1C' : '#F0F4FA';
-  const cardBg = theme === 'dark' ? '#0F1A2E' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)';
-  const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
-  const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
+  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
+  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(25,5,140,0.08)';
+  const textPrimary = theme === 'dark' ? '#E8F0FF'               : '#19058C';
+  const textSecondary = theme === 'dark' ? 'rgba(255,255,255,0.60)' : '#3D3560';
 
   return (
     <div className="flex items-center justify-center p-12 text-center">
