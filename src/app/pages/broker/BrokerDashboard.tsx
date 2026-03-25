@@ -122,7 +122,7 @@ export function BrokerDashboard() {
       </div>
 
       {/* ── Hero Header ───────────────────────────────── */}
-      <div className="flex items-center justify-between mb-6 pb-5"
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-5"
         style={{ borderBottom: `1px solid ${bdr}` }}>
         <div>
           <h1 className="flex items-center gap-3"
@@ -165,7 +165,7 @@ export function BrokerDashboard() {
       </div>
 
       {/* ── KPI Cards ─────────────────────────────────── */}
-      <div className="grid grid-cols-4 gap-5 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
         {kpis.map((kpi) => (
           <div key={kpi.label} className="p-5 relative overflow-hidden" style={cardStyle(kpi.stripe)}>
             {isDark && (
@@ -209,7 +209,7 @@ export function BrokerDashboard() {
 
       {/* ── Dark mode commission strip ───────────────── */}
       {isDark && (
-        <div className="flex gap-2 mb-6">
+        <div className="flex flex-col sm:flex-row gap-2 mb-6">
           {commissionData.map((item, i) => (
             <div key={`strip-${i}`} className="flex-1 flex items-center justify-between px-4 py-3 rounded-xl"
               style={{ background: `${item.color}10`, border: `1px solid ${item.color}25` }}>
@@ -224,9 +224,9 @@ export function BrokerDashboard() {
       )}
 
       {/* ── Charts Row ────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-5 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
         {/* Line chart */}
-        <div className="col-span-2 p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
+        <div className="col-span-1 lg:col-span-2 p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">
             <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
               {isAr ? 'وثائقي حسب الشهر' : 'My Policies by Month'}
@@ -296,7 +296,7 @@ export function BrokerDashboard() {
       </div>
 
       {/* ── Bottom Row ─────────────────────────────────── */}
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Recent Policies */}
         <div className="p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">

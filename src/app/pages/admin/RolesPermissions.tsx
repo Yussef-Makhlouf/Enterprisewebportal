@@ -103,7 +103,7 @@ export function RolesPermissions() {
     <div className="p-6 min-h-full" style={{ background: pageBg, direction: isRTL ? 'rtl' : 'ltr' }}>
 
       {/* ── Page Header ──────────────────────────────── */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-2.5 mb-1">
             {/* tiny decorative bar */}
@@ -148,7 +148,7 @@ export function RolesPermissions() {
       </div>
 
       {/* ── Stats strip ─────────────────────────────── */}
-      <div className="flex gap-3 mb-7">
+      <div className="flex flex-col sm:flex-row gap-3 mb-7">
         {[
           { label: isAr ? 'إجمالي الأدوار' : 'Total Roles',    value: roles.length,                                  color: '#8094E6' },
           { label: isAr ? 'أدوار نشطة'    : 'Active Roles',    value: roles.filter(r => r.active).length,            color: '#6BCABA' },
@@ -170,7 +170,7 @@ export function RolesPermissions() {
       </div>
 
       {/* ── Roles Grid ──────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {roles.map((role) => {
           const accent = isDark ? role.accentDark : role.accentLight;
           const tagStyle = TAG_COLORS[role.tag] || TAG_COLORS.Broker;

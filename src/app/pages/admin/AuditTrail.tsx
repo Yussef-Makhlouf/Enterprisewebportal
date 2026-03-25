@@ -100,7 +100,7 @@ export function AuditTrail() {
 
   return (
     <div className="p-5 min-h-full" style={{ background: bg }}>
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-5">
         <div>
           <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>
             {isAr ? 'سجل المراجعة' : 'Audit Trail'}
@@ -118,9 +118,9 @@ export function AuditTrail() {
         </button>
       </div>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         {/* Filter Sidebar */}
-        <div className="shrink-0 rounded-xl p-4 space-y-5" style={{ width: '220px', background: cardBg, border: `1px solid ${borderColor}` }}>
+        <div className="shrink-0 rounded-xl p-4 space-y-5 w-full md:w-[220px]" style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
           <h3 style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>
             {isAr ? 'تصفية النتائج' : 'Filter Results'}
           </h3>

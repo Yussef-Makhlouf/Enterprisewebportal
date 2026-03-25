@@ -258,7 +258,8 @@ export function MedicalIssuance() {
 
       {/* Progress Steps */}
       <div className="mb-8">
-        <div className="flex items-center justify-between max-w-3xl mx-auto">
+        <div className="overflow-x-auto">
+          <div className="flex items-center justify-between max-w-3xl mx-auto min-w-[480px]">
           {steps.map((s, idx) => {
             const isActive = step === s.num;
             const isComplete = step > s.num;
@@ -302,6 +303,7 @@ export function MedicalIssuance() {
             );
           })}
         </div>
+        </div>
       </div>
 
       {/* Form Content */}
@@ -313,7 +315,7 @@ export function MedicalIssuance() {
             <div className="space-y-6">
               <div>
                 <label style={labelStyle}>{isAr ? 'نوع الخطة' : 'Plan Type'} *</label>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   {plans.map(plan => (
                     <div
                       key={plan.value}
@@ -343,7 +345,7 @@ export function MedicalIssuance() {
 
               <div>
                 <label style={labelStyle}>{isAr ? 'مستوى التغطية' : 'Coverage Level'} *</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {coverageLevels.map(level => (
                     <div
                       key={level.value}
@@ -378,7 +380,7 @@ export function MedicalIssuance() {
 
               <div>
                 <label style={labelStyle}>{isAr ? 'شبكة المستشفيات' : 'Hospital Network'}</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { value: 'nationwide', labelEn: 'Nationwide Network', labelAr: 'شبكة وطنية', desc: '50+ hospitals across Jordan', descAr: '50+ مستشفى في الأردن' },
                     { value: 'premium', labelEn: 'Premium Network', labelAr: 'شبكة متميزة', desc: 'Premium hospitals + international', descAr: 'مستشفيات متميزة + دولية' },
@@ -428,7 +430,7 @@ export function MedicalIssuance() {
                 )}
               </div>
 
-              <div className="grid grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'رقم الهوية الوطنية' : 'National ID'} *</label>
                   <input
@@ -493,7 +495,7 @@ export function MedicalIssuance() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'رقم الهاتف' : 'Phone Number'} *</label>
                   <input
@@ -623,7 +625,7 @@ export function MedicalIssuance() {
                       </button>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label style={{ ...labelStyle, fontSize: '11px' }}>{isAr ? 'الاسم' : 'Name'}</label>
                         <input
@@ -741,7 +743,7 @@ export function MedicalIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'تفاصيل الخطة' : 'Plan Details'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'نوع الخطة' : 'Plan Type'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.planType}</div>
@@ -757,7 +759,7 @@ export function MedicalIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'المؤمن الرئيسي' : 'Primary Insured'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'الاسم' : 'Name'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.primaryName}</div>

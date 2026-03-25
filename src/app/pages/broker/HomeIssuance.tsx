@@ -230,7 +230,8 @@ export function HomeIssuance() {
 
       {/* Progress Steps */}
       <div className="mb-8">
-        <div className="flex items-center justify-between max-w-3xl mx-auto">
+        <div className="overflow-x-auto">
+          <div className="flex items-center justify-between max-w-3xl mx-auto min-w-[480px]">
           {steps.map((s, idx) => {
             const isActive = step === s.num;
             const isComplete = step > s.num;
@@ -274,6 +275,7 @@ export function HomeIssuance() {
             );
           })}
         </div>
+        </div>
       </div>
 
       {/* Form Content */}
@@ -283,7 +285,7 @@ export function HomeIssuance() {
           {/* Step 1: Property Details */}
           {step === 1 && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'نوع العقار' : 'Property Type'} *</label>
                   <select
@@ -333,7 +335,7 @@ export function HomeIssuance() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'عمر البناء (سنوات)' : 'Building Age (years)'}</label>
                   <input
@@ -429,7 +431,7 @@ export function HomeIssuance() {
             <div className="space-y-6">
               <div>
                 <label style={labelStyle}>{isAr ? 'نوع التغطية' : 'Coverage Type'} *</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { value: 'basic', labelEn: 'Basic Coverage', labelAr: 'تغطية أساسية', desc: 'Fire & Theft only', descAr: 'الحريق والسرقة فقط' },
                     { value: 'comprehensive', labelEn: 'Comprehensive', labelAr: 'شاملة', desc: 'All risks covered', descAr: 'جميع المخاطر مغطاة' },
@@ -533,7 +535,7 @@ export function HomeIssuance() {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'رقم الهوية الوطنية' : 'National ID'} *</label>
                   <input
@@ -683,7 +685,7 @@ export function HomeIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'تفاصيل العقار' : 'Property Details'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'النوع' : 'Type'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.propertyType}</div>
@@ -703,7 +705,7 @@ export function HomeIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'المالك' : 'Owner'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'الاسم' : 'Name'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.ownerName}</div>

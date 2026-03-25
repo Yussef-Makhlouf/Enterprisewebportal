@@ -77,15 +77,15 @@ function Chip({ status, isAr }: { status: string; isAr: boolean }) {
 }
 
 /* ─── Validation ─────────────────────────────────────────── */
-function validate(f: FormData) {
+function validate(f: FormData, isAr: boolean) {
   const e: Record<string, string> = {};
-  if (!f.firstNameAr.trim()) e.firstNameAr = isAr => isAr ? 'مطلوب' : 'Required';
-  if (!f.lastNameAr.trim())  e.lastNameAr  = isAr => isAr ? 'مطلوب' : 'Required';
-  if (!f.firstNameEn.trim()) e.firstNameEn = isAr => isAr ? 'مطلوب' : 'Required';
-  if (!f.lastNameEn.trim())  e.lastNameEn  = isAr => isAr ? 'مطلوب' : 'Required';
-  if (!f.email.trim() || !/\S+@\S+\.\S+/.test(f.email)) e.email = isAr => isAr ? 'بريد غير صحيح' : 'Valid email required';
-  if (!f.mobile.trim()) e.mobile = isAr => isAr ? 'مطلوب' : 'Required';
-  if (f.nationalId.replace(/\D/g, '').length < 9) e.nationalId = isAr => isAr ? '٩ أرقام على الأقل' : 'Min 9 digits';
+  if (!f.firstNameAr.trim()) e.firstNameAr = isAr ? 'مطلوب' : 'Required';
+  if (!f.lastNameAr.trim())  e.lastNameAr  = isAr ? 'مطلوب' : 'Required';
+  if (!f.firstNameEn.trim()) e.firstNameEn = isAr ? 'مطلوب' : 'Required';
+  if (!f.lastNameEn.trim())  e.lastNameEn  = isAr ? 'مطلوب' : 'Required';
+  if (!f.email.trim() || !/\S+@\S+\.\S+/.test(f.email)) e.email = isAr ? 'بريد غير صحيح' : 'Valid email required';
+  if (!f.mobile.trim()) e.mobile = isAr ? 'مطلوب' : 'Required';
+  if (f.nationalId.replace(/\D/g, '').length < 9) e.nationalId = isAr ? '٩ أرقام على الأقل' : 'Min 9 digits';
   return e;
 }
 
@@ -191,7 +191,7 @@ export function SubBrokers() {
 
   /* ── helpers ── */
   const runValidate = (f: FormData) => {
-    const raw = validate(f);
+    const raw = validate(f, isAr);
     const boolMap: Record<string, boolean> = {};
     Object.keys(raw).forEach(k => { boolMap[k] = true; });
     return boolMap;
@@ -367,7 +367,7 @@ export function SubBrokers() {
 
       {/* Contact */}
       <FormSection label={isAr ? 'بيانات الاتصال' : 'Contact Details'} />
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <Field label={isAr ? 'البريد الإلكتروني *' : 'Email Address *'}
           value={f.email} onChange={v => setF(p => ({ ...p, email: v }))}
           placeholder="name@email.com" type="email" errKey="email" />
@@ -387,7 +387,7 @@ export function SubBrokers() {
 
       {/* Identity */}
       <FormSection label={isAr ? 'الهوية الوطنية' : 'National Identity'} />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <Field label={isAr ? 'رقم الهوية الوطنية *' : 'National ID Number *'}
           value={f.nationalId} onChange={v => setF(p => ({ ...p, nationalId: v }))}
           placeholder="9921000955" mono errKey="nationalId" />
@@ -404,7 +404,7 @@ export function SubBrokers() {
       style={{ background: bg, direction: isRTL ? 'rtl' : 'ltr', fontFamily: ff }}
     >
       {/* ── Page Header ─────────────────────────────────── */}
-      <div className="flex items-center justify-between mb-6 pb-5"
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-5"
         style={{ borderBottom: `1px solid ${bdr}` }}>
         <div>
           <h1 style={{ fontFamily: ffH, fontSize: '1.5rem', fontWeight: 700, color: tH }}>
@@ -438,7 +438,7 @@ export function SubBrokers() {
       </div>
 
       {/* ── KPI Cards ───────────────────────────────────── */}
-      <div className="grid grid-cols-4 gap-5 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
         {kpis.map(kpi => (
           <div
             key={kpi.label}
@@ -488,7 +488,7 @@ export function SubBrokers() {
         style={{ background: cBg, border: `1px solid ${bdr}`, boxShadow: cSdw }}
       >
         {/* Toolbar */}
-        <div className="flex items-center gap-4 px-4 py-3 border-b" style={{ borderColor: bdr }}>
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 px-4 py-3 border-b" style={{ borderColor: bdr }}>
           <div className="relative flex-1 max-w-xs">
             <Search
               size={14}
@@ -876,7 +876,7 @@ export function SubBrokers() {
               {/* Account settings */}
               <div className="mt-2">
                 <FormSection label={isAr ? 'إعدادات الحساب' : 'Account Settings'} />
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <SelectField
                     label={isAr ? 'حالة الوسيط الفرعي' : 'Sub-Broker Status'}
                     value={editSubStatus}
@@ -904,7 +904,7 @@ export function SubBrokers() {
               <div className="mt-4">
                 <FormSection label={isAr ? 'معلومات السجل' : 'Record Info'} />
                 <div
-                  className="grid grid-cols-3 gap-4 rounded-xl p-4"
+                  className="grid grid-cols-1 md:grid-cols-3 gap-4 rounded-xl p-4"
                   style={{ background: iBg, border: `1px solid ${iBdr}` }}
                 >
                   {[

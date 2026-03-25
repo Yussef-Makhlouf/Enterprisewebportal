@@ -7,8 +7,10 @@ import {
   Globe, Sun, Moon, Search, Building2,
   ClipboardList, CreditCard, UserCheck, Layers,
   Check, AlertTriangle, CheckCircle, XCircle, ArrowRight, Settings2,
+  Menu, X,
   type LucideIcon
 } from 'lucide-react';
+
 import { useState, useEffect, useRef } from 'react';
 // Add these interfaces near the top of Shell.tsx
 interface NavItem {
@@ -125,6 +127,7 @@ export function Shell() {
   const navigate  = useNavigate();
   const [navOpen, setNavOpen] = useState(true);
   const [notifOpen, setNotifOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -142,6 +145,11 @@ export function Shell() {
     { id: 2, Icon: FileText, title: 'Policy Approval Required', titleAr: 'الموافقة على الوثيقة مطلوبة', time: '4h', type: 'approval', color: '#D28C64', bg: 'rgba(210,140,100,0.12)', unread: true },
     { id: 3, Icon: CheckCircle, title: 'Travel Policy Issued', titleAr: 'تم إصدار وثيقة السفر', time: '1d', type: 'success', color: '#00C896', bg: 'rgba(0,200,150,0.12)', unread: false },
   ];
+
+  useEffect(() => {
+    // Basic route change logic: close mobile menu when navigating.
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   if (!isAuthenticated) return <Navigate to="/" replace />;
 
@@ -182,15 +190,29 @@ export function Shell() {
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
 
-      {/* ── Icon Rail ─────────────────────────────── */}
-      <div
-        className="flex flex-col items-center py-3 gap-0.5 shrink-0 z-40 relative"
-        style={{
-          width: '64px',
-          background: railBg,
-          borderInlineEnd: isDark ? '1px solid rgba(128,148,230,0.08)' : '1px solid rgba(255,255,255,0.05)',
-        }}
+      {/* ── Mobile Overlay ──────────────────────────────── */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-black/60 md:hidden backdrop-blur-sm transition-opacity"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* ── Sidebar Wrapper ─────────────────────────────── */}
+      <div 
+        className={`fixed inset-y-0 start-0 z-50 flex h-full shadow-2xl md:shadow-none transition-transform duration-300 md:relative md:translate-x-0 ${
+          mobileMenuOpen ? 'translate-x-0' : (isRTL ? 'translate-x-full' : '-translate-x-full')
+        }`}
       >
+        {/* ── Icon Rail ─────────────────────────────── */}
+        <div
+          className="flex flex-col items-center py-3 gap-0.5 shrink-0 relative z-40"
+          style={{
+            width: '64px',
+            background: railBg,
+            borderInlineEnd: isDark ? '1px solid rgba(128,148,230,0.08)' : '1px solid rgba(255,255,255,0.05)',
+          }}
+        >
         {/* Logo mark */}
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer mb-1 shrink-0 overflow-hidden"
@@ -403,24 +425,35 @@ export function Shell() {
                   {currentUser.email}
                 </div>
               </div>
-              <Settings size={13} style={{ color: isDark ? 'rgba(160,185,245,0.35)' : 'rgba(255,255,255,0.38)', flexShrink: 0 }} />
+                <Settings size={13} style={{ color: isDark ? 'rgba(160,185,245,0.35)' : 'rgba(255,255,255,0.38)', flexShrink: 0 }} />
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* ── Main Content ──────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         {/* Topbar */}
         <div
-          className="shrink-0 flex items-center gap-4 px-5"
+          className="shrink-0 flex items-center justify-between gap-2 px-3 md:px-5 md:gap-4"
           style={{ height: '58px', background: topbarBg, borderBottom: `1px solid ${topbarBdr}` }}
         >
-          {/* Breadcrumb */}
+          {/* Breadcrumb / Left Side */}
           <div className="flex items-center gap-2 flex-1 min-w-0">
+            {/* Mobile Nav Toggle */}
             <button
-              className="transition-colors"
+              className="md:hidden flex shrink-0 items-center justify-center w-9 h-9 rounded-full transition-all"
+              style={{ color: fgPrimary, border: `1px solid ${topbarBdr}` }}
+              onClick={() => setMobileMenuOpen(true)}
+            >
+              <Menu size={16} />
+            </button>
+            
+            {/* Desktop Nav Toggle */}
+            <button
+              className="hidden md:flex transition-colors shrink-0"
               style={{ color: fgMuted }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = GIG.roseGold; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = fgMuted; }}
@@ -428,21 +461,21 @@ export function Shell() {
             >
               <Layers size={17} />
             </button>
-            <ChevronRight size={13} className={isRTL ? 'rotate-180' : ''} style={{ color: fgMuted }} />
-            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: fgMuted, fontFamily: ff }}>
+            <ChevronRight size={13} className={`hidden sm:block shrink-0 ${isRTL ? 'rotate-180' : ''}`} style={{ color: fgMuted }} />
+            <span className="hidden sm:inline" style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', color: fgMuted, fontFamily: ff, flexShrink: 0 }}>
               {userRole === 'admin'
                 ? (isAr ? 'بوابة الإدارة' : 'Admin Portal')
                 : (isAr ? 'بوابة الوسيط' : 'Broker Portal')}
             </span>
-            <ChevronRight size={13} className={isRTL ? 'rotate-180' : ''} style={{ color: fgMuted }} />
-            <span style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.03em', color: fgPrimary, fontFamily: ffH }}>
+            <ChevronRight size={13} className={`hidden sm:block shrink-0 ${isRTL ? 'rotate-180' : ''}`} style={{ color: fgMuted }} />
+            <span className="truncate" style={{ fontSize: '13px', fontWeight: 700, letterSpacing: '0.03em', color: fgPrimary, fontFamily: ffH }}>
               {getBreadcrumb()}
             </span>
           </div>
 
           {/* Search trigger */}
           <button
-            className="flex items-center gap-3 px-4 py-2 rounded-full transition-all"
+            className="hidden sm:flex items-center gap-3 px-4 py-2 rounded-full transition-all shrink-0"
             style={{
               fontSize: '12px', minWidth: '216px',
               background: isDark ? 'rgba(128,148,230,0.07)' : '#F8F7FC',
@@ -467,6 +500,13 @@ export function Shell() {
                 }}>{k}</kbd>
               ))}
             </div>
+          </button>
+          <button
+            className="sm:hidden flex items-center justify-center w-9 h-9 rounded-full transition-all shrink-0"
+            style={{ color: fgMuted, border: `1px solid ${topbarBdr}` }}
+            onClick={openCommandPalette}
+          >
+            <Search size={14} />
           </button>
 
           {/* Controls */}
@@ -584,7 +624,7 @@ export function Shell() {
 
         {/* Status bar */}
         <div
-          className="shrink-0 flex items-center justify-between px-5"
+          className="shrink-0 hidden md:flex items-center justify-between px-5"
           style={{ height: '26px', background: topbarBg, borderTop: `1px solid ${topbarBdr}`, fontSize: '11px' }}
         >
           <div className="flex items-center gap-3" style={{ color: fgMuted, fontFamily: ff }}>

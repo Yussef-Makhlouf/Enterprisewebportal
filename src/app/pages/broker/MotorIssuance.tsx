@@ -77,14 +77,14 @@ export function MotorIssuance() {
         ))}
       </div>
 
-      <div className="flex gap-5">
+      <div className="flex flex-col lg:flex-row gap-5">
         <div className="flex-1 rounded-xl p-5" style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
 
           {/* STEP 1: Vehicle */}
           {step === 1 && (
             <div className="space-y-5">
               <h3 style={{ fontSize: '14px', fontWeight: 600, color: textPrimary }}>{isAr ? 'معلومات المركبة' : 'Vehicle Information'}</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {[
                   { label: isAr ? 'الجهة الأمامية للرخصة' : 'Front of Vehicle License' },
                   { label: isAr ? 'الجهة الخلفية للرخصة' : 'Back of Vehicle License' },
@@ -108,7 +108,7 @@ export function MotorIssuance() {
                 </div>
               )}
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Input label={isAr ? 'رقم اللوحة' : 'Plate Number'} readOnly defaultValue="12-JO-4521" />
                 <Input label={isAr ? 'رقم الشاصي' : 'Chassis Number'} readOnly defaultValue="1HGCM82633A123456" />
                 <Input label={isAr ? 'الصانع' : 'Car Make'} defaultValue="Toyota" />
@@ -170,7 +170,7 @@ export function MotorIssuance() {
           {step === 2 && (
             <div className="space-y-4">
               <h3 style={{ fontSize: '14px', fontWeight: 600, color: textPrimary }}>{isAr ? 'بيانات العميل' : 'Customer Details'}</h3>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {[
                   { label: isAr ? 'الجهة الأمامية لرخصة القيادة' : 'Front of Driving License' },
                   { label: isAr ? 'الجهة الخلفية لرخصة القيادة' : 'Back of Driving License' },
@@ -182,7 +182,7 @@ export function MotorIssuance() {
                   </div>
                 ))}
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Input label={isAr ? 'الهوية الوطنية / الإقامة' : 'National/Residence ID'} defaultValue="9876543210" />
                 <Input label={isAr ? 'الاسم الكامل (عربي)' : 'Full Name (Arabic)'} defaultValue="أحمد محمد الأحمد" />
                 <Input label={isAr ? 'الاسم الكامل (إنجليزي)' : 'Full Name (English)'} defaultValue="Ahmad Mohammad Al-Ahmad" />
@@ -444,7 +444,7 @@ export function MotorIssuance() {
 
         {/* Running Total Sidebar */}
         {(step === 4 || step === 5) && (
-          <div className="w-60 shrink-0">
+          <div className="w-full lg:w-60 shrink-0">
             <div className="rounded-xl p-4 sticky top-0" style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
               <h4 className="mb-4" style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>
                 {isAr ? 'الإجمالي الجاري' : 'Running Total'}

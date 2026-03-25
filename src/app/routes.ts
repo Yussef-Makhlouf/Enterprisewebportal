@@ -54,6 +54,7 @@ export const router = createBrowserRouter([
           { path: 'admin/brokers', Component: ManageBrokers },
           { path: 'admin/roles', Component: RolesPermissions },
           { path: 'admin/audit', Component: AuditTrail },
+          
           // Broker Portal
           { path: 'broker', Component: BrokerDashboard },
           { path: 'broker/issuance', Component: LOBIssuanceHub },

@@ -61,7 +61,8 @@ export function TravelIssuance() {
   return (
     <div className="p-6 min-h-full" style={{ background: bg, fontFamily: ff }}>
       {/* Step Indicator */}
-      <div className="flex items-center justify-center gap-0 mb-6">
+      <div className="overflow-x-auto mb-6">
+        <div className="flex items-center justify-center gap-0 min-w-[320px]">
         {STEPS.map((s, i) => (
           <div key={s.n} className="flex items-center">
             <div className="flex flex-col items-center">
@@ -83,17 +84,19 @@ export function TravelIssuance() {
             )}
           </div>
         ))}
+        </div>
       </div>
 
+
       {step < 4 && (
-        <div className="flex gap-5">
+        <div className="flex flex-col lg:flex-row gap-5">
           {/* Main Form */}
           <div className="flex-1 rounded-xl p-5 space-y-4" style={{ background: cardBg, border: `1px solid ${bdr}`, boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.30)' : '0 2px 16px rgba(25,5,140,0.06)' }}>
 
             {step === 1 && (
               <>
                 <h3 style={{ fontSize: '14px', fontWeight: 600, color: textPrimary }}>{isAr ? 'تفاصيل السفر' : 'Travel Details'}</h3>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Sel label={isAr ? 'نوع الوثيقة' : 'Policy Type'} options={['Individual','Family']} value={policyType} onChange={v => setPolicyType(v as any)} />
                   <Sel label={isAr ? 'تغطية السفر' : 'Coverage'}    options={COVERAGES} value={coverage} onChange={setCoverage} />
                   <Input label={isAr ? 'وجهة السفر' : 'Destination'} defaultValue={destination} onChange={e => setDestination((e.target as any).value)} />
@@ -117,7 +120,7 @@ export function TravelIssuance() {
                     <span style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>{isAr ? 'المسافر #1' : 'Traveler #1'}</span>
                     <span className="px-2 py-0.5 rounded-full" style={{ fontSize: '11px', background: `${B.roseGold}18`, color: B.roseGold }}>{isAr ? 'المقدّم' : 'Self'}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <Input label={isAr ? 'الجنسية' : 'Nationality'} defaultValue="Jordanian" />
                     <Input label={isAr ? 'رقم الهوية' : 'National ID'} defaultValue="9876543210" />
                     <Input label={isAr ? 'رقم الجواز' : 'Passport No.'} defaultValue="A123456789" />
@@ -202,7 +205,7 @@ export function TravelIssuance() {
           </div>
 
           {/* Summary Sidebar */}
-          <div className="w-60 shrink-0">
+          <div className="w-full lg:w-60 shrink-0">
             <div className="rounded-xl p-4 sticky top-5" style={{ background: cardBg, border: `1px solid ${bdr}`, boxShadow: isDark ? '0 4px 16px rgba(0,0,0,0.25)' : '0 2px 16px rgba(25,5,140,0.06)' }}>
               <h4 className="mb-4" style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>{isAr ? 'ملخص' : 'Summary'}</h4>
               <div className="space-y-3">

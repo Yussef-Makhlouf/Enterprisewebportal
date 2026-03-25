@@ -243,7 +243,8 @@ export function DomesticWorkerIssuance() {
 
       {/* Progress Steps */}
       <div className="mb-8">
-        <div className="flex items-center justify-between max-w-3xl mx-auto">
+        <div className="overflow-x-auto">
+          <div className="flex items-center justify-between max-w-3xl mx-auto min-w-[480px]">
           {steps.map((s, idx) => {
             const isActive = step === s.num;
             const isComplete = step > s.num;
@@ -287,6 +288,7 @@ export function DomesticWorkerIssuance() {
             );
           })}
         </div>
+        </div>
       </div>
 
       {/* Form Content */}
@@ -296,7 +298,7 @@ export function DomesticWorkerIssuance() {
           {/* Step 1: Worker Details */}
           {step === 1 && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'اسم العامل (English)' : 'Worker Name (English)'} *</label>
                   <input
@@ -329,7 +331,7 @@ export function DomesticWorkerIssuance() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'الجنسية' : 'Nationality'} *</label>
                   <select
@@ -377,7 +379,7 @@ export function DomesticWorkerIssuance() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'تاريخ الميلاد' : 'Date of Birth'} *</label>
                   <input
@@ -518,7 +520,7 @@ export function DomesticWorkerIssuance() {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'رقم الهوية الوطنية' : 'National ID'} *</label>
                   <input
@@ -606,7 +608,7 @@ export function DomesticWorkerIssuance() {
 
               <div>
                 <label style={labelStyle}>{isAr ? 'مستندات إضافية' : 'Additional Documents'}</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div
                     className="p-4 rounded-xl border-2 border-dashed"
                     style={{ borderColor: bdr, background: iBg }}
@@ -686,7 +688,7 @@ export function DomesticWorkerIssuance() {
           {/* Step 3: Coverage */}
           {step === 3 && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'تاريخ البدء' : 'Coverage Start Date'} *</label>
                   <input
@@ -723,7 +725,7 @@ export function DomesticWorkerIssuance() {
 
               <div>
                 <label style={labelStyle}>{isAr ? 'نوع التغطية' : 'Coverage Type'}</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
                     { value: 'standard', labelEn: 'Standard Coverage', labelAr: 'تغطية قياسية', desc: 'Medical up to 5,000 JOD', descAr: 'طبي حتى 5,000 دينار' },
                     { value: 'premium', labelEn: 'Premium Coverage', labelAr: 'تغطية متميزة', desc: 'Medical up to 10,000 JOD', descAr: 'طبي حتى 10,000 دينار' },
@@ -817,7 +819,7 @@ export function DomesticWorkerIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'بيانات العامل' : 'Worker Details'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'الاسم' : 'Name'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.workerName}</div>
@@ -841,7 +843,7 @@ export function DomesticWorkerIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'صاحب العمل' : 'Employer'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'الاسم' : 'Name'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.employerName}</div>

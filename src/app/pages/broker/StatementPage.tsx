@@ -64,7 +64,7 @@ export function StatementPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-3 gap-4 mb-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
         {kpis.map(kpi => (
           <div key={kpi.label} className="rounded-xl p-5 flex items-center gap-4"
             style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
@@ -82,88 +82,90 @@ export function StatementPage() {
 
       {/* Transaction Table */}
       <div className="rounded-xl overflow-hidden" style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
-        <table className="w-full">
-          <thead>
-            <tr style={{ borderBottom: `1px solid ${borderColor}` }}>
-              {[
-                '',
-                isAr ? 'التاريخ' : 'Date',
-                isAr ? 'الوصف' : 'Description',
-                isAr ? 'خصم (دينار)' : 'Debit (JOD)',
-                isAr ? 'إضافة (دينار)' : 'Credit (JOD)',
-                isAr ? 'الرصيد (دينار)' : 'Balance (JOD)',
-              ].map((h, i) => (
-                <th key={i} className="px-5 py-3"
-                  style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: isRTL ? 'right' : 'left' }}>
-                  {i === 0 ? (
-                    <input
-                      type="checkbox"
-                      checked={allSelected}
-                      ref={el => { if (el) el.indeterminate = someSelected; }}
-                      onChange={toggleSelectAll}
-                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
-                    />
-                  ) : h}
-                </th>
+        <div className="overflow-x-auto">
+          <table className="w-full" style={{ minWidth: '800px' }}>
+            <thead>
+              <tr style={{ borderBottom: `1px solid ${borderColor}` }}>
+                {[
+                  '',
+                  isAr ? 'التاريخ' : 'Date',
+                  isAr ? 'الوصف' : 'Description',
+                  isAr ? 'خصم (دينار)' : 'Debit (JOD)',
+                  isAr ? 'إضافة (دينار)' : 'Credit (JOD)',
+                  isAr ? 'الرصيد (دينار)' : 'Balance (JOD)',
+                ].map((h, i) => (
+                  <th key={i} className="px-5 py-3"
+                    style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: isRTL ? 'right' : 'left' }}>
+                    {i === 0 ? (
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        ref={el => { if (el) el.indeterminate = someSelected; }}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                      />
+                    ) : h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {TRANSACTIONS.map((tx, i) => (
+                <tr key={i}
+                  className="border-b transition-all"
+                  style={{
+                    borderColor,
+                    borderLeft: tx.type === 'credit' ? '3px solid rgba(107,202,186,0.55)' : '3px solid rgba(128,148,230,0.55)',
+                    background: selectedIds.includes(i) ? (theme === 'dark' ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent',
+                  }}>
+                  <td className="px-5 py-3">
+                    <input type="checkbox" checked={selectedIds.includes(i)}
+                      onChange={() => toggleSelect(i)}
+                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
+                  </td>
+                  <td className="px-5 py-3">
+                    <span className="font-mono" style={{ fontSize: '13px', color: textSecondary }}>{tx.date}</span>
+                  </td>
+                  <td className="px-5 py-3">
+                    <span style={{ fontSize: '13px', color: textPrimary }}>{isAr ? tx.descAr : tx.desc}</span>
+                  </td>
+                  <td className="px-5 py-3">
+                    {tx.debit && (
+                      <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#8094E6' }}>
+                        -{tx.debit}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-5 py-3">
+                    {tx.credit && (
+                      <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#00C896' }}>
+                        +{tx.credit}
+                      </span>
+                    )}
+                  </td>
+                  <td className="px-5 py-3">
+                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: textPrimary }}>{tx.balance}</span>
+                  </td>
+                </tr>
               ))}
-            </tr>
-          </thead>
-          <tbody>
-            {TRANSACTIONS.map((tx, i) => (
-              <tr key={i}
-                className="border-b transition-all"
-                style={{
-                  borderColor,
-                  borderLeft: tx.type === 'credit' ? '3px solid rgba(107,202,186,0.55)' : '3px solid rgba(128,148,230,0.55)',
-                  background: selectedIds.includes(i) ? (theme === 'dark' ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent',
-                }}>
-                <td className="px-5 py-3">
-                  <input type="checkbox" checked={selectedIds.includes(i)}
-                    onChange={() => toggleSelect(i)}
-                    className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
+              {/* Totals Row */}
+              <tr style={{ borderTop: `2px solid ${borderColor}`, background: theme === 'dark' ? 'rgba(255,255,255,0.03)' : '#F5F7FB' }}>
+                <td className="px-5 py-3" colSpan={2}>
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: textPrimary }}>{isAr ? 'الإجمالي' : 'Totals'}</span>
                 </td>
                 <td className="px-5 py-3">
-                  <span className="font-mono" style={{ fontSize: '13px', color: textSecondary }}>{tx.date}</span>
+                  <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#8094E6' }}>700.00</span>
                 </td>
                 <td className="px-5 py-3">
-                  <span style={{ fontSize: '13px', color: textPrimary }}>{isAr ? tx.descAr : tx.desc}</span>
+                  <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#00C896' }}>1,934.50</span>
                 </td>
                 <td className="px-5 py-3">
-                  {tx.debit && (
-                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#8094E6' }}>
-                      -{tx.debit}
-                    </span>
-                  )}
-                </td>
-                <td className="px-5 py-3">
-                  {tx.credit && (
-                    <span className="font-mono font-medium" style={{ fontSize: '13px', color: '#00C896' }}>
-                      +{tx.credit}
-                    </span>
-                  )}
-                </td>
-                <td className="px-5 py-3">
-                  <span className="font-mono font-medium" style={{ fontSize: '13px', color: textPrimary }}>{tx.balance}</span>
+                  <span className="font-mono font-bold" style={{ fontSize: '14px', color: textPrimary }}>1,234.50</span>
                 </td>
               </tr>
-            ))}
-            {/* Totals Row */}
-            <tr style={{ borderTop: `2px solid ${borderColor}`, background: theme === 'dark' ? 'rgba(255,255,255,0.03)' : '#F5F7FB' }}>
-              <td className="px-5 py-3" colSpan={2}>
-                <span style={{ fontSize: '13px', fontWeight: 700, color: textPrimary }}>{isAr ? 'الإجمالي' : 'Totals'}</span>
-              </td>
-              <td className="px-5 py-3">
-                <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#8094E6' }}>700.00</span>
-              </td>
-              <td className="px-5 py-3">
-                <span className="font-mono font-bold" style={{ fontSize: '13px', color: '#00C896' }}>1,934.50</span>
-              </td>
-              <td className="px-5 py-3">
-                <span className="font-mono font-bold" style={{ fontSize: '14px', color: textPrimary }}>1,234.50</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

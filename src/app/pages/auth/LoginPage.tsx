@@ -144,7 +144,7 @@ export function LoginPage() {
       </div>
 
       {/* ── Form Panel (40%) ──────────────────────── */}
-      <div className="flex-1 flex flex-col" style={{ background: panelBg, minWidth: '380px' }}>
+      <div className="flex-1 flex flex-col w-full lg:w-[40%]" style={{ background: panelBg }}>
         {/* Controls */}
         <div className="flex items-center justify-end gap-2 p-5">
           <button

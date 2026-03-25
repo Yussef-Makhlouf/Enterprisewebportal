@@ -147,7 +147,7 @@ export function MyPolicies() {
             : '0 2px 20px rgba(25,5,140,0.07)',
         }}>
         {/* Toolbar */}
-        <div className="flex items-center gap-4 px-4 py-3 border-b" style={{ borderColor: bdr }}>
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-4 px-4 py-3 border-b" style={{ borderColor: bdr }}>
           <div className="relative flex-1 max-w-xs">
             <Search size={14} className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2`} style={{ color: textSec }} />
             <input
@@ -175,125 +175,127 @@ export function MyPolicies() {
         </div>
 
         {/* Table */}
-        <table className="w-full">
-          <thead>
-            <tr style={{ borderBottom: `1px solid ${bdr}` }}>
-              {[
-                { label: '',                                               align: 'left'   },
-                { label: isAr ? 'رقم الوثيقة'   : 'Policy No.',     align: 'left'   },
-                { label: isAr ? 'النوع'          : 'Type',           align: 'left'   },
-                { label: isAr ? 'المؤمَّن عليه'  : 'Insured Name',   align: 'left'   },
-                { label: isAr ? 'القسط (دينار)'  : 'Premium (JOD)',  align: 'right'  },
-                { label: isAr ? 'تاريخ الإصدار'  : 'Issue Date',     align: 'center' },
-                { label: isAr ? 'تاريخ الانتهاء' : 'Expiry Date',    align: 'center' },
-                { label: isAr ? 'الحالة'         : 'Status',         align: 'center' },
-                { label: isAr ? 'إجراءات'        : 'Actions',        align: 'center' },
-              ].map((col, i) => (
-                <th key={i} className="px-4 py-3"
-                  style={{ fontSize: '10px', fontWeight: 700, color: textSec, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: col.align as any }}>
-                  {i === 0 ? (
-                    <input
-                      type="checkbox"
-                      checked={allSelected}
-                      ref={el => { if (el) el.indeterminate = someSelected; }}
-                      onChange={toggleSelectAll}
-                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
-                    />
-                  ) : col.label}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((p) => {
-              const st         = STATUS_STYLES[p.status] || STATUS_STYLES.Active;
-              const PolicyIcon = LOB_ICONS[p.typeKey] || Plane;
-              const lobColor   = LOB_COLORS[p.typeKey] || B.ocean;
-              return (
-                <tr key={p.id}
-                  className="border-b last:border-0 transition-colors cursor-pointer"
-                  style={{ borderColor: bdr, background: selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = rowHover)}
-                  onMouseLeave={e => (e.currentTarget.style.background = selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent')}
-                  onClick={() => setSelectedPolicy(p)}
-                >
-                  {/* Checkbox */}
-                  <td className="px-4 py-3" onClick={e => { e.stopPropagation(); toggleSelect(p.id); }}>
-                    <input type="checkbox" checked={selectedIds.includes(p.id)}
-                      onChange={() => toggleSelect(p.id)}
-                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
-                  </td>
-                  {/* Policy No. */}
-                  <td className="px-4 py-3">
-                    <span style={{ fontFamily: ffM, fontSize: '11px', color: isDark ? B.ocean : B.indigo, fontWeight: 700 }}>{p.no}</span>
-                  </td>
-                  {/* Type */}
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center"
-                        style={{ background: `${lobColor}18`, border: `1px solid ${lobColor}30` }}>
-                        <PolicyIcon size={13} style={{ color: lobColor }} />
+        <div className="overflow-x-auto">
+          <table className="w-full" style={{ minWidth: '950px' }}>
+            <thead>
+              <tr style={{ borderBottom: `1px solid ${bdr}` }}>
+                {[
+                  { label: '',                                               align: 'left'   },
+                  { label: isAr ? 'رقم الوثيقة'   : 'Policy No.',     align: 'left'   },
+                  { label: isAr ? 'النوع'          : 'Type',           align: 'left'   },
+                  { label: isAr ? 'المؤمَّن عليه'  : 'Insured Name',   align: 'left'   },
+                  { label: isAr ? 'القسط (دينار)'  : 'Premium (JOD)',  align: 'right'  },
+                  { label: isAr ? 'تاريخ الإصدار'  : 'Issue Date',     align: 'center' },
+                  { label: isAr ? 'تاريخ الانتهاء' : 'Expiry Date',    align: 'center' },
+                  { label: isAr ? 'الحالة'         : 'Status',         align: 'center' },
+                  { label: isAr ? 'إجراءات'        : 'Actions',        align: 'center' },
+                ].map((col, i) => (
+                  <th key={i} className="px-4 py-3"
+                    style={{ fontSize: '10px', fontWeight: 700, color: textSec, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: col.align as any }}>
+                    {i === 0 ? (
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        ref={el => { if (el) el.indeterminate = someSelected; }}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                      />
+                    ) : col.label}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((p) => {
+                const st         = STATUS_STYLES[p.status] || STATUS_STYLES.Active;
+                const PolicyIcon = LOB_ICONS[p.typeKey] || Plane;
+                const lobColor   = LOB_COLORS[p.typeKey] || B.ocean;
+                return (
+                  <tr key={p.id}
+                    className="border-b last:border-0 transition-colors cursor-pointer"
+                    style={{ borderColor: bdr, background: selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = rowHover)}
+                    onMouseLeave={e => (e.currentTarget.style.background = selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent')}
+                    onClick={() => setSelectedPolicy(p)}
+                  >
+                    {/* Checkbox */}
+                    <td className="px-4 py-3" onClick={e => { e.stopPropagation(); toggleSelect(p.id); }}>
+                      <input type="checkbox" checked={selectedIds.includes(p.id)}
+                        onChange={() => toggleSelect(p.id)}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
+                    </td>
+                    {/* Policy No. */}
+                    <td className="px-4 py-3">
+                      <span style={{ fontFamily: ffM, fontSize: '11px', color: isDark ? B.ocean : B.indigo, fontWeight: 700 }}>{p.no}</span>
+                    </td>
+                    {/* Type */}
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center"
+                          style={{ background: `${lobColor}18`, border: `1px solid ${lobColor}30` }}>
+                          <PolicyIcon size={13} style={{ color: lobColor }} />
+                        </div>
+                        <span style={{ fontSize: '12px', color: textPrimary, fontFamily: ff }}>
+                          {isAr ? p.typeLabelAr : p.typeKey}
+                        </span>
                       </div>
-                      <span style={{ fontSize: '12px', color: textPrimary, fontFamily: ff }}>
-                        {isAr ? p.typeLabelAr : p.typeKey}
+                    </td>
+                    {/* Name */}
+                    <td className="px-4 py-3">
+                      <span style={{ fontSize: '13px', color: textPrimary, fontFamily: ff, fontWeight: 500 }}>
+                        {isAr ? p.nameAr : p.name}
                       </span>
-                    </div>
-                  </td>
-                  {/* Name */}
-                  <td className="px-4 py-3">
-                    <span style={{ fontSize: '13px', color: textPrimary, fontFamily: ff, fontWeight: 500 }}>
-                      {isAr ? p.nameAr : p.name}
-                    </span>
-                  </td>
-                  {/* Premium */}
-                  <td className="px-4 py-3 text-right">
-                    <span style={{ fontFamily: ffM, fontSize: '12px', fontWeight: 600, color: textPrimary }}>
-                      JOD {p.premium}
-                    </span>
-                  </td>
-                  {/* Issue Date */}
-                  <td className="px-4 py-3 text-center">
-                    <span style={{ fontFamily: ffM, fontSize: '11px', color: textSec }}>{p.issueDate}</span>
-                  </td>
-                  {/* Expiry Date */}
-                  <td className="px-4 py-3 text-center">
-                    <span style={{ fontFamily: ffM, fontSize: '11px', color: p.status === 'Expired' ? B.roseGold : textSec }}>
-                      {p.expiryDate}
-                    </span>
-                  </td>
-                  {/* Status badge */}
-                  <td className="px-4 py-3 text-center">
-                    <span className="px-2.5 py-0.5 rounded-full"
-                      style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: st.color, background: st.bg, fontFamily: ff }}>
-                      {isAr
-                        ? ({ Active: 'نشطة', Expired: 'منتهية', Cancelled: 'ملغية', Pending: 'معلقة' } as any)[p.status] || p.status
-                        : p.status}
-                    </span>
-                  </td>
-                  {/* Actions */}
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-center gap-1.5">
-                      {[
-                        { Icon: Eye,     title: 'View',  fn: (e: any) => { e.stopPropagation(); setSelectedPolicy(p); } },
-                        { Icon: Printer, title: 'Print', fn: (e: any) => e.stopPropagation() },
-                        { Icon: Mail,    title: 'Email', fn: (e: any) => e.stopPropagation() },
-                      ].map(btn => (
-                        <button key={btn.title}
-                          className="p-1.5 rounded-lg transition-all"
-                          style={{ color: textSec }}
-                          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.12)' : 'rgba(25,5,140,0.07)'; (e.currentTarget as HTMLElement).style.color = isDark ? B.ocean : B.indigo; }}
-                          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = textSec; }}
-                          onClick={btn.fn}>
-                          <btn.Icon size={14} />
-                        </button>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    </td>
+                    {/* Premium */}
+                    <td className="px-4 py-3 text-right">
+                      <span style={{ fontFamily: ffM, fontSize: '12px', fontWeight: 600, color: textPrimary }}>
+                        JOD {p.premium}
+                      </span>
+                    </td>
+                    {/* Issue Date */}
+                    <td className="px-4 py-3 text-center">
+                      <span style={{ fontFamily: ffM, fontSize: '11px', color: textSec }}>{p.issueDate}</span>
+                    </td>
+                    {/* Expiry Date */}
+                    <td className="px-4 py-3 text-center">
+                      <span style={{ fontFamily: ffM, fontSize: '11px', color: p.status === 'Expired' ? B.roseGold : textSec }}>
+                        {p.expiryDate}
+                      </span>
+                    </td>
+                    {/* Status badge */}
+                    <td className="px-4 py-3 text-center">
+                      <span className="px-2.5 py-0.5 rounded-full"
+                        style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: st.color, background: st.bg, fontFamily: ff }}>
+                        {isAr
+                          ? ({ Active: 'نشطة', Expired: 'منتهية', Cancelled: 'ملغية', Pending: 'معلقة' } as any)[p.status] || p.status
+                          : p.status}
+                      </span>
+                    </td>
+                    {/* Actions */}
+                    <td className="px-4 py-3">
+                      <div className="flex items-center justify-center gap-1.5">
+                        {[
+                          { Icon: Eye,     title: 'View',  fn: (e: any) => { e.stopPropagation(); setSelectedPolicy(p); } },
+                          { Icon: Printer, title: 'Print', fn: (e: any) => e.stopPropagation() },
+                          { Icon: Mail,    title: 'Email', fn: (e: any) => e.stopPropagation() },
+                        ].map(btn => (
+                          <button key={btn.title}
+                            className="p-1.5 rounded-lg transition-all"
+                            style={{ color: textSec }}
+                            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.12)' : 'rgba(25,5,140,0.07)'; (e.currentTarget as HTMLElement).style.color = isDark ? B.ocean : B.indigo; }}
+                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = textSec; }}
+                            onClick={btn.fn}>
+                            <btn.Icon size={14} />
+                          </button>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
 
         {/* Pagination */}
         <div className="flex items-center justify-between px-4 py-3 border-t" style={{ borderColor: bdr }}>

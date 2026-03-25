@@ -87,7 +87,7 @@ export function ManageBrokers() {
   return (
     <div className="p-5 min-h-full" style={{ background: bg }}>
       {/* Page Header */}
-      <div className="flex items-center justify-between mb-5">
+      <div className="flex flex-col sm:flex-row lg:items-center justify-between gap-4 mb-5">
         <div>
           <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>
             {isAr ? 'إدارة الوسطاء والوكلاء' : 'Manage Brokers & Agents'}
@@ -116,9 +116,9 @@ export function ManageBrokers() {
       </div>
 
       {/* Stats Strip */}
-      <div className="flex gap-4 mb-5">
+      <div className="flex flex-col sm:flex-row gap-4 mb-5">
         {stats.map(s => (
-          <div key={s.label} className="px-5 py-3 rounded-xl flex items-center gap-3"
+          <div key={s.label} className="flex-1 px-5 py-3 rounded-xl flex items-center gap-3"
             style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
             <span className="font-mono font-bold text-xl" style={{ color: s.color }}>{s.value}</span>
             <span style={{ fontSize: '13px', color: textSecondary }}>{s.label}</span>
@@ -153,8 +153,8 @@ export function ManageBrokers() {
       {/* Table Card */}
       <div className="rounded-xl overflow-hidden" style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
         {/* Table Toolbar */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor }}>
-          <div className="relative flex-1 max-w-xs">
+        <div className="flex flex-col md:flex-row md:items-center gap-3 px-4 py-3 border-b" style={{ borderColor }}>
+          <div className="relative flex-1 max-w-full md:max-w-xs">
             <Search size={14} className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2`} style={{ color: textSecondary }} />
             <input
               className="w-full rounded-lg border py-2 text-sm outline-none"

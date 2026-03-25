@@ -83,7 +83,7 @@ export function CorporateRegistration() {
               <p style={{ fontSize: '13px', fontWeight: 500, color: textPrimary, marginBottom: '12px' }}>
                 {isAr ? 'نوع العميل: مؤسسي' : 'Customer Type: Corporate'}
               </p>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input label={isAr ? 'الرقم الوطني للشركة (9 أرقام)' : 'Company National ID (9 digits)'}
                   placeholder="000000000" style={{ fontFamily: "'IBM Plex Mono', monospace" }} />
                 <Input label={isAr ? 'السجل التجاري' : 'Commercial ID'} placeholder="CR-XXXXX" />
@@ -134,7 +134,7 @@ export function CorporateRegistration() {
             )}
 
             {validated && (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input label={isAr ? 'اسم الشركة (EN)' : 'Company Name (EN)'} defaultValue="Al-Rashidi Trading Co." />
                 <Input label={isAr ? 'اسم الشركة (AR)' : 'Company Name (AR)'} defaultValue="شركة الراشدي للتجارة" style={{ fontFamily: "'Tajawal', sans-serif", direction: 'rtl' }} />
                 <Input label={isAr ? 'الجنسية' : 'Nationality'} defaultValue="Jordanian" />

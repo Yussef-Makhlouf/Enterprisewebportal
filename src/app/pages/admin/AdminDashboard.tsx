@@ -138,7 +138,7 @@ export function AdminDashboard() {
       </div>
 
       {/* ── Page Header ──────────────────────────────── */}
-      <div className="flex items-center justify-between mb-6 pb-5"
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-5"
         style={{ borderBottom: `1px solid ${bdr}` }}>
         <div>
           <h1 style={{
@@ -173,7 +173,7 @@ export function AdminDashboard() {
       </div>
 
       {/* ── KPI Cards ─────────────────────────────────── */}
-      <div className="grid grid-cols-4 gap-5 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
         {kpis.map((kpi) => (
           <div key={kpi.label} className="p-5 relative overflow-hidden" style={cardStyle(kpi.stripe)}>
             {isDark && (
@@ -213,7 +213,7 @@ export function AdminDashboard() {
 
       {/* ── Activity Strip (dark only) ───────────────── */}
       {isDark && (
-        <div className="flex items-center gap-6 mb-6 px-5 py-3 rounded-xl"
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-6 mb-6 px-5 py-3 rounded-xl"
           style={{ background: 'rgba(128,148,230,0.06)', border: '1px solid rgba(128,148,230,0.12)' }}>
           <div className="flex items-center gap-2">
             <Activity size={14} style={{ color: B.ocean }} />
@@ -236,9 +236,9 @@ export function AdminDashboard() {
       )}
 
       {/* ── Charts Row ─────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-5 mb-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
         {/* Bar chart */}
-        <div className="col-span-2 p-6 rounded-xl"
+        <div className="col-span-1 lg:col-span-2 p-6 rounded-xl"
           style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">
             <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
@@ -302,7 +302,7 @@ export function AdminDashboard() {
       </div>
 
       {/* ── Bottom Row ─────────────────────────────────── */}
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Recent Brokers */}
         <div className="p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">

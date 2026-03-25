@@ -54,7 +54,7 @@ export function ProfilePage() {
         <p style={{ fontSize: '13px', color: textSecondary }}>{isAr ? 'إدارة بياناتك الشخصية وإعدادات الأمان' : 'Manage your personal information and security settings'}</p>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {/* Left Column */}
         <div className="space-y-4">
           {/* Avatar Card */}
@@ -141,7 +141,7 @@ export function ProfilePage() {
             <h4 style={{ fontSize: '14px', fontWeight: 600, color: textPrimary, marginBottom: '16px' }}>
               {isAr ? 'المعلومات الشخصية' : 'Personal Information'}
             </h4>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input label={isAr ? 'الاسم الكامل' : 'Full Name'} defaultValue={isAr ? currentUser.nameAr : currentUser.name} />
               <Input label={isAr ? 'البريد الإلكتروني' : 'Email'} defaultValue={currentUser.email} locked />
               <Input label={isAr ? 'رقم الهاتف' : 'Mobile Number'} defaultValue="+962 79 555 4321" />
@@ -154,7 +154,7 @@ export function ProfilePage() {
             <h4 style={{ fontSize: '14px', fontWeight: 600, color: textPrimary, marginBottom: '16px' }}>
               {isAr ? 'الأمان' : 'Security'}
             </h4>
-            <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {[
                 { label: isAr ? 'كلمة المرور الحالية' : 'Current Password' },
                 { label: isAr ? 'كلمة المرور الجديدة' : 'New Password' },

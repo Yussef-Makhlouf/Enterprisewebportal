@@ -314,7 +314,8 @@ export function HomeAssistanceIssuance() {
 
       {/* Progress Steps */}
       <div className="mb-8">
-        <div className="flex items-center justify-between max-w-3xl mx-auto">
+        <div className="overflow-x-auto">
+          <div className="flex items-center justify-between max-w-3xl mx-auto min-w-[480px]">
           {steps.map((s, idx) => {
             const isActive = step === s.num;
             const isComplete = step > s.num;
@@ -358,6 +359,7 @@ export function HomeAssistanceIssuance() {
             );
           })}
         </div>
+        </div>
       </div>
 
       {/* Form Content */}
@@ -367,7 +369,7 @@ export function HomeAssistanceIssuance() {
           {/* Step 1: Property & Coverage */}
           {step === 1 && (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'نوع العقار' : 'Property Type'} *</label>
                   <select
@@ -461,7 +463,7 @@ export function HomeAssistanceIssuance() {
 
               <div>
                 <label style={labelStyle}>{isAr ? 'خطة التغطية' : 'Coverage Plan'}</label>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   {coveragePlans.map(plan => (
                     <div
                       key={plan.value}
@@ -505,7 +507,7 @@ export function HomeAssistanceIssuance() {
                     {errors.services}
                   </div>
                 )}
-                <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                   {services.map(service => {
                     const ServiceIcon = service.Icon;
                     const isSelected = formData[service.key as keyof FormData] as boolean;
@@ -599,7 +601,7 @@ export function HomeAssistanceIssuance() {
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'رقم الهوية الوطنية' : 'National ID'} *</label>
                   <input
@@ -645,7 +647,7 @@ export function HomeAssistanceIssuance() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label style={labelStyle}>{isAr ? 'رقم هاتف بديل' : 'Alternate Phone'}</label>
                   <input
@@ -698,7 +700,7 @@ export function HomeAssistanceIssuance() {
 
               <div>
                 <label style={labelStyle}>{isAr ? 'المستندات (اختيارية)' : 'Documents (Optional)'}</label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div
                     className="p-4 rounded-xl border-2 border-dashed cursor-pointer"
                     style={{ borderColor: bdr, background: iBg }}
@@ -779,7 +781,7 @@ export function HomeAssistanceIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'تفاصيل العقار' : 'Property Details'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'النوع' : 'Type'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.propertyType}</div>
@@ -822,7 +824,7 @@ export function HomeAssistanceIssuance() {
                   <div style={{ fontSize: '11px', fontWeight: 700, color: tMute, fontFamily: ff, textTransform: 'uppercase', marginBottom: '12px' }}>
                     {isAr ? 'المالك' : 'Owner'}
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <div style={{ fontSize: '11px', color: tMute, fontFamily: ff }}>{isAr ? 'الاسم' : 'Name'}</div>
                       <div style={{ fontSize: '13px', fontWeight: 600, color: tPrimary, fontFamily: ff }}>{formData.ownerName}</div>
