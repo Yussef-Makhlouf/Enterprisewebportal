@@ -210,8 +210,8 @@ export function BrokerDashboard() {
       {/* ── Dark mode commission strip ───────────────── */}
       {isDark && (
         <div className="flex gap-2 mb-6">
-          {commissionData.map(item => (
-            <div key={item.name} className="flex-1 flex items-center justify-between px-4 py-3 rounded-xl"
+          {commissionData.map((item, i) => (
+            <div key={`strip-${i}`} className="flex-1 flex items-center justify-between px-4 py-3 rounded-xl"
               style={{ background: `${item.color}10`, border: `1px solid ${item.color}25` }}>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} />
@@ -273,15 +273,15 @@ export function BrokerDashboard() {
             <ResponsiveContainer width="100%" height={140}>
               <PieChart>
                 <Pie data={commissionData} cx="50%" cy="50%" innerRadius={44} outerRadius={62} dataKey="value" strokeWidth={0}>
-                  {commissionData.map((e) => <Cell key={`cell-${e.name}`} fill={e.color} />)}
+                  {commissionData.map((e, i) => <Cell key={`pie-cell-${i}`} fill={e.color} />)}
                 </Pie>
                 <Tooltip contentStyle={tt} />
               </PieChart>
             </ResponsiveContainer>
             {!isDark && (
               <div className="space-y-1.5 mt-3">
-                {commissionData.map(l => (
-                  <div key={l.name} className="flex items-center justify-between">
+                {commissionData.map((l, i) => (
+                  <div key={`legend-${i}`} className="flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
                       <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: l.color }} />
                       <span style={{ fontSize: '11px', color: tMute, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: ff }}>{l.name}</span>

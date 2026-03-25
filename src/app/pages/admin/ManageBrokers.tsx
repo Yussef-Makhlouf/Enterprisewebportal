@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Search, Filter, Download, Plus, Eye, Edit2, MoreHorizontal, ChevronLeft, ChevronRight, UserCheck } from 'lucide-react';
 import { BrokerDetailDrawer } from '../../components/admin/BrokerDetailDrawer';
 import { SendInvitationModal } from '../../components/admin/SendInvitationModal';
 import { EditBrokerDrawer } from '../../components/admin/EditBrokerDrawer';
 import { ConfirmationModal } from '../../components/global/ConfirmationModal';
-import { ChangeBrokerRoleModal } from '../../components/admin/ChangeBrokerRoleModal';
 
 const BROKERS = [
   { id: 1, name: 'Khalid Al-Mansouri', nameAr: 'خالد المنصوري', email: 'k.mansouri@email.com', type: 'Broker', typeAr: 'وسيط', status: 'Active', lobs: ['Travel', 'Motor', 'Medical'], expiry: '31/12/2025', commission: '8.0', invitation: 'Sent', avatar: 'KM', daysToExpiry: 290 },
@@ -43,7 +42,6 @@ export function ManageBrokers() {
   const [editBroker, setEditBroker] = useState<any>(null);
   const [inviteBroker, setInviteBroker] = useState<any>(null);
   const [confirmModal, setConfirmModal] = useState<any>(null);
-  const [changeRoleBroker, setChangeRoleBroker] = useState<any>(null);
   const [page, setPage] = useState(1);
   const perPage = 8;
 
@@ -72,6 +70,18 @@ export function ManageBrokers() {
 
   const toggleSelect = (id: number) => {
     setSelected(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
+
+  const allVisibleIds = filteredBrokers.map(b => b.id);
+  const allSelected = allVisibleIds.length > 0 && allVisibleIds.every(id => selected.includes(id));
+  const someSelected = allVisibleIds.some(id => selected.includes(id)) && !allSelected;
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelected(prev => prev.filter(id => !allVisibleIds.includes(id)));
+    } else {
+      setSelected(prev => [...new Set([...prev, ...allVisibleIds])]);
+    }
   };
 
   return (
@@ -194,7 +204,15 @@ export function ManageBrokers() {
                 ].map(col => (
                   <th key={col.key} className={`px-4 py-3 text-left`}
                     style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase', letterSpacing: '0.06em', textAlign: isRTL ? 'right' : 'left' }}>
-                    {col.label}
+                    {col.key === 'check' ? (
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        ref={el => { if (el) el.indeterminate = someSelected; }}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                      />
+                    ) : col.label}
                   </th>
                 ))}
               </tr>
@@ -295,7 +313,7 @@ export function ManageBrokers() {
                         </button>
                         <button className="p-1.5 rounded-lg hover:bg-white/8 transition-all"
                           style={{ color: textSecondary }}
-                          onClick={() => setChangeRoleBroker(broker)}
+                          onClick={() => setConfirmModal({ broker, action: broker.status === 'Blocked' ? 'unblock' : 'block' })}
                           title={isAr ? 'المزيد' : 'More'}>
                           <MoreHorizontal size={15} />
                         </button>
@@ -344,13 +362,6 @@ export function ManageBrokers() {
           setInviteBroker(null);
           addToast({ type: 'success', title: isAr ? 'تم الإرسال' : 'Invitation Sent' });
         }} />
-      )}
-      {changeRoleBroker && (
-        <ChangeBrokerRoleModal
-          broker={changeRoleBroker}
-          onClose={() => setChangeRoleBroker(null)}
-          onSave={() => setChangeRoleBroker(null)}
-        />
       )}
       {confirmModal && (
         <ConfirmationModal

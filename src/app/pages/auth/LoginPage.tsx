@@ -1,3 +1,4 @@
+import gigLogo from 'figma:asset/11b114c88a40163eff79fddefd1cfffde1fcfd17.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useApp } from '../../context/AppContext';
@@ -64,9 +65,9 @@ export function LoginPage() {
         <div className="relative z-10">
           {/* Logo */}
           <div className="flex items-center gap-4 mb-10">
-            <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0"
-              style={{ background: `linear-gradient(135deg, ${B.deepBlue}, ${B.indigo})`, border: '1px solid rgba(255,255,255,0.15)', boxShadow: `0 8px 32px rgba(25,5,140,0.5)` }}>
-              <span style={{ color: '#FFFFFF', fontFamily: ffH, fontWeight: 900, fontSize: '18px', letterSpacing: '-0.5px' }}>GIG</span>
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden"
+              style={{ background: '#FFFFFF', border: '1px solid rgba(255,255,255,0.15)', boxShadow: `0 8px 32px rgba(25,5,140,0.5)`, padding: '6px' }}>
+              <img src={gigLogo} alt="GIG Jordan" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
             </div>
             <div>
               <div style={{ color: '#FFFFFF', fontFamily: ffH, fontWeight: 700, fontSize: '16px', lineHeight: 1.2 }}>

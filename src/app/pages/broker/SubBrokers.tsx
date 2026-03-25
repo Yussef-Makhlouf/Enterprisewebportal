@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import {
   Plus, Download, Search, Edit2, Trash2, X,
@@ -130,6 +130,7 @@ export function SubBrokers() {
   const [editInvStatus,  setEditInvStatus]  = useState<SubBroker['invitationStatus']>('Pending');
 
   const [errs, setErrs] = useState<Record<string, boolean>>({});
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   /* ── derived ── */
   const filtered = brokers.filter(b => {
@@ -145,6 +146,21 @@ export function SubBrokers() {
   });
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER));
   const rows = filtered.slice((page - 1) * PER, page * PER);
+
+  const allVisibleIds = rows.map(b => b.id);
+  const allSelected   = allVisibleIds.length > 0 && allVisibleIds.every(id => selectedIds.includes(id));
+  const someSelected  = allVisibleIds.some(id => selectedIds.includes(id)) && !allSelected;
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds(prev => prev.filter(id => !allVisibleIds.includes(id)));
+    } else {
+      setSelectedIds(prev => [...new Set([...prev, ...allVisibleIds])]);
+    }
+  };
+  const toggleSelect = (id: number) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
 
   const kpis = [
     {
@@ -516,6 +532,7 @@ export function SubBrokers() {
             <thead>
               <tr style={{ borderBottom: `1px solid ${bdr}` }}>
                 {[
+                  { label: '',                                                                  align: 'left'   },
                   { label: isAr ? 'الوسيط الفرعي'   : 'Sub-Broker',        align: 'left'   },
                   { label: isAr ? 'الهوية الوطنية'   : 'National ID',       align: 'left'   },
                   { label: isAr ? 'بيانات الاتصال'   : 'Contact',           align: 'left'   },
@@ -526,9 +543,9 @@ export function SubBrokers() {
                   { label: isAr ? 'تاريخ الإنشاء'     : 'Created',           align: 'center' },
                   { label: isAr ? 'آخر تعديل'          : 'Modified',          align: 'center' },
                   { label: isAr ? 'إجراءات'            : 'Actions',           align: 'center' },
-                ].map(col => (
+                ].map((col, i) => (
                   <th
-                    key={col.label}
+                    key={i}
                     className="px-4 py-3"
                     style={{
                       fontSize: '10px', fontWeight: 700, color: tM,
@@ -537,7 +554,15 @@ export function SubBrokers() {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {col.label}
+                    {i === 0 ? (
+                      <input
+                        type="checkbox"
+                        checked={allSelected}
+                        ref={el => { if (el) el.indeterminate = someSelected; }}
+                        onChange={toggleSelectAll}
+                        className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                      />
+                    ) : col.label}
                   </th>
                 ))}
               </tr>
@@ -558,6 +583,15 @@ export function SubBrokers() {
                   onMouseEnter={e => (e.currentTarget.style.background = rowHover)}
                   onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                 >
+                  {/* Checkbox */}
+                  <td className="px-4 py-3">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.includes(b.id)}
+                      onChange={() => toggleSelect(b.id)}
+                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                    />
+                  </td>
                   {/* Sub-Broker identity */}
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { CreateRoleDrawer } from '../../components/admin/CreateRoleDrawer';
-import { AddGIGUserModal } from '../../components/admin/AddGIGUserModal';
-import { ViewRoleDrawer } from '../../components/admin/ViewRoleDrawer';
 import {
   IconSuperAdmin, IconAdminUser, IconTravelBroker,
   IconMotorBroker, IconMedicalBroker, IconMultiLine,
@@ -85,8 +83,6 @@ export function RolesPermissions() {
   const isAr = language === 'ar';
   const [createDrawerOpen, setCreateDrawerOpen] = useState(false);
   const [editRole, setEditRole] = useState<any>(null);
-  const [viewRole, setViewRole] = useState<any>(null);
-  const [addUserOpen, setAddUserOpen] = useState(false);
   const [roles, setRoles] = useState(ROLES);
 
   const isDark = theme === 'dark';
@@ -132,7 +128,6 @@ export function RolesPermissions() {
               color: isDark ? 'rgba(180,205,255,0.70)' : '#5A6A8A',
               background: isDark ? 'rgba(255,255,255,0.03)' : '#FFFFFF',
             }}
-            onClick={() => setAddUserOpen(true)}
           >
             <IconUserPlus color={isDark ? '#8094E6' : '#19058C'} size={15} />
             {isAr ? 'إضافة مستخدم GIG' : 'Add GIG User'}
@@ -380,7 +375,7 @@ export function RolesPermissions() {
                       el.style.background = 'transparent';
                       el.style.color = isDark ? 'rgba(180,205,255,0.35)' : '#B0BECC';
                     }}
-                    onClick={() => setViewRole(role)}
+                    onClick={() => setEditRole(role)}
                   >
                     <IconMore color="currentColor" size={15} />
                   </button>
@@ -401,19 +396,6 @@ export function RolesPermissions() {
             setEditRole(null);
             addToast({ type: 'success', title: isAr ? 'تم الحفظ' : 'Role Saved' });
           }}
-        />
-      )}
-      {viewRole && (
-        <ViewRoleDrawer
-          role={viewRole}
-          onClose={() => setViewRole(null)}
-          onEdit={() => { setEditRole(viewRole); setViewRole(null); }}
-        />
-      )}
-      {addUserOpen && (
-        <AddGIGUserModal
-          onClose={() => setAddUserOpen(false)}
-          onSave={() => setAddUserOpen(false)}
         />
       )}
     </div>

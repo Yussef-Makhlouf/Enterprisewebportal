@@ -53,6 +53,7 @@ export function MyPolicies() {
   const [activeTab,      setActiveTab]      = useState('All');
   const [search,         setSearch]         = useState('');
   const [selectedPolicy, setSelectedPolicy] = useState<any>(null);
+  const [selectedIds,    setSelectedIds]    = useState<number[]>([]);
 
   /* palette */
   const bg          = isDark ? '#0C1221' : '#F8F7FC';
@@ -70,6 +71,21 @@ export function MyPolicies() {
     const matchSearch = !search || p.no.toLowerCase().includes(search.toLowerCase()) || p.name.toLowerCase().includes(search.toLowerCase());
     return matchTab && matchSearch;
   });
+
+  const allVisibleIds = filtered.map(p => p.id);
+  const allSelected   = allVisibleIds.length > 0 && allVisibleIds.every(id => selectedIds.includes(id));
+  const someSelected  = allVisibleIds.some(id => selectedIds.includes(id)) && !allSelected;
+
+  const toggleSelectAll = () => {
+    if (allSelected) {
+      setSelectedIds(prev => prev.filter(id => !allVisibleIds.includes(id)));
+    } else {
+      setSelectedIds(prev => [...new Set([...prev, ...allVisibleIds])]);
+    }
+  };
+  const toggleSelect = (id: number) => {
+    setSelectedIds(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+  };
 
   return (
     <div className="p-5 min-h-full gig-texture-bg" style={{ background: bg, direction: isRTL ? 'rtl' : 'ltr', fontFamily: ff }}>
@@ -163,6 +179,7 @@ export function MyPolicies() {
           <thead>
             <tr style={{ borderBottom: `1px solid ${bdr}` }}>
               {[
+                { label: '',                                               align: 'left'   },
                 { label: isAr ? 'رقم الوثيقة'   : 'Policy No.',     align: 'left'   },
                 { label: isAr ? 'النوع'          : 'Type',           align: 'left'   },
                 { label: isAr ? 'المؤمَّن عليه'  : 'Insured Name',   align: 'left'   },
@@ -171,10 +188,18 @@ export function MyPolicies() {
                 { label: isAr ? 'تاريخ الانتهاء' : 'Expiry Date',    align: 'center' },
                 { label: isAr ? 'الحالة'         : 'Status',         align: 'center' },
                 { label: isAr ? 'إجراءات'        : 'Actions',        align: 'center' },
-              ].map(col => (
-                <th key={col.label} className="px-4 py-3"
+              ].map((col, i) => (
+                <th key={i} className="px-4 py-3"
                   style={{ fontSize: '10px', fontWeight: 700, color: textSec, textTransform: 'uppercase', letterSpacing: '0.08em', textAlign: col.align as any }}>
-                  {col.label}
+                  {i === 0 ? (
+                    <input
+                      type="checkbox"
+                      checked={allSelected}
+                      ref={el => { if (el) el.indeterminate = someSelected; }}
+                      onChange={toggleSelectAll}
+                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]"
+                    />
+                  ) : col.label}
                 </th>
               ))}
             </tr>
@@ -187,11 +212,17 @@ export function MyPolicies() {
               return (
                 <tr key={p.id}
                   className="border-b last:border-0 transition-colors cursor-pointer"
-                  style={{ borderColor: bdr }}
+                  style={{ borderColor: bdr, background: selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent' }}
                   onMouseEnter={e => (e.currentTarget.style.background = rowHover)}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  onMouseLeave={e => (e.currentTarget.style.background = selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent')}
                   onClick={() => setSelectedPolicy(p)}
                 >
+                  {/* Checkbox */}
+                  <td className="px-4 py-3" onClick={e => { e.stopPropagation(); toggleSelect(p.id); }}>
+                    <input type="checkbox" checked={selectedIds.includes(p.id)}
+                      onChange={() => toggleSelect(p.id)}
+                      className="w-4 h-4 rounded cursor-pointer accent-[#19058C]" />
+                  </td>
                   {/* Policy No. */}
                   <td className="px-4 py-3">
                     <span style={{ fontFamily: ffM, fontSize: '11px', color: isDark ? B.ocean : B.indigo, fontWeight: 700 }}>{p.no}</span>

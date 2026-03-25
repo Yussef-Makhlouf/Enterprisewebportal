@@ -11,7 +11,6 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { ManageBrokers } from './pages/admin/ManageBrokers';
 import { RolesPermissions } from './pages/admin/RolesPermissions';
 import { AuditTrail } from './pages/admin/AuditTrail';
-import { ApprovalEngine } from './pages/admin/ApprovalEngine';
 import { BrokerDashboard } from './pages/broker/BrokerDashboard';
 import { LOBIssuanceHub } from './pages/broker/LOBIssuanceHub';
 import { TravelIssuance } from './pages/broker/TravelIssuance';
@@ -26,7 +25,6 @@ import { StatementPage } from './pages/broker/StatementPage';
 import { NotificationsPage } from './pages/broker/NotificationsPage';
 import { ProfilePage } from './pages/broker/ProfilePage';
 import { CorporateRegistration } from './pages/broker/CorporateRegistration';
-import { ReportsPage } from './pages/broker/ReportsPage';
 import { DesignSystem } from './pages/DesignSystem';
 import { ComponentsPage } from './pages/ComponentsPage';
 
@@ -56,7 +54,6 @@ export const router = createBrowserRouter([
           { path: 'admin/brokers', Component: ManageBrokers },
           { path: 'admin/roles', Component: RolesPermissions },
           { path: 'admin/audit', Component: AuditTrail },
-          { path: 'admin/approval', Component: ApprovalEngine },
           // Broker Portal
           { path: 'broker', Component: BrokerDashboard },
           { path: 'broker/issuance', Component: LOBIssuanceHub },
@@ -72,7 +69,6 @@ export const router = createBrowserRouter([
           { path: 'broker/notifications', Component: NotificationsPage },
           { path: 'broker/profile', Component: ProfilePage },
           { path: 'broker/corporate', Component: CorporateRegistration },
-          { path: 'broker/reports', Component: ReportsPage },
           // Showcase pages
           { path: 'design-system', Component: DesignSystem },
           { path: 'components', Component: ComponentsPage },
