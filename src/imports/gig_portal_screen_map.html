@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="GIG Insurance Portal - Interactive journey maps for Broker, Admin, Travel and Motor insurance flows">
+  <title>GIG Insurance Portal - Journey Maps</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+
+<style>
+:root {
+  --ind: #19058C;
+  --ind-light: #EEF0FB;
+  --rg: #C0773A;
+  --rg-light: #FBF3EC;
+  --sea: #2AADA0;
+  --sea-light: #E8F7F5;
+  --sun: #E05A45;
+  --sun-light: #FDEEEB;
+  --oce: #5469D4;
+  --oce-light: #EEF0FB;
+  --deep: #1F0F4D;
+
+  --bg: #F7F8FA;
+  --bg-card: #FFFFFF;
+  --bg-hover: #F3F4F8;
+  --border: #E3E6EF;
+  --border-strong: #CBD0DF;
+  --text-primary: #1A1D2E;
+  --text-secondary: #6B7280;
+  --text-tertiary: #9CA3AF;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-card: 0 2px 8px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
+  --shadow-hover: 0 6px 20px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.06);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── WRAP ── */
+.app-shell {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 28px 48px;
+}
+
+/* ── TOP BAR ── */
+.top-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  align-items: center;
+}
+.top-bar-label {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-right: 6px;
+  font-weight: 500;
+}
+.pill {
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1.5px solid;
+  cursor: pointer;
+  transition: all .18s ease;
+  letter-spacing: .01em;
+}
+.pill:hover { transform: translateY(-1px); }
+.pill.active { color: #fff; }
+.pill-all { border-color: var(--border-strong); color: var(--text-secondary); }
+.pill-all.active { background: #444; border-color: #444; box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.pill-admin { border-color: var(--ind); color: var(--ind); }
+.pill-admin.active { background: var(--ind); box-shadow: 0 2px 8px rgba(25,5,140,.25); }
+.pill-broker { border-color: var(--rg); color: var(--rg); }
+.pill-broker.active { background: var(--rg); box-shadow: 0 2px 8px rgba(192,119,58,.25); }
+.pill-flow { border-color: var(--sea); color: var(--sea); }
+.pill-flow.active { background: var(--sea); box-shadow: 0 2px 8px rgba(42,173,160,.25); }
+.pill-comp { border-color: var(--oce); color: var(--oce); }
+.pill-comp.active { background: var(--oce); box-shadow: 0 2px 8px rgba(84,105,212,.25); }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: box-shadow .2s, transform .2s;
+}
+.stat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.stat-num {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1;
+}
+.stat-lbl {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 500;
+}
+.stat-bar {
+  height: 3px;
+  border-radius: 2px;
+  margin-top: 10px;
+  opacity: .35;
+}
+
+/* ── SECTION ── */
+.section { margin-bottom: 32px; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.section-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+.section-count {
+  font-size: 11px;
+  color: var(--text-secondary);
+  background: var(--bg);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  font-weight: 500;
+}
+
+/* ── GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+/* ── SCREEN CARD ── */
+.screen-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 14px 12px 18px;
+  cursor: pointer;
+  transition: box-shadow .2s, transform .2s, border-color .2s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  box-shadow: var(--shadow-card);
+}
+.screen-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-strong);
+}
+/* left accent bar */
+.screen-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: 10px 0 0 10px;
+}
+.screen-card.admin::before  { background: var(--ind); }
+.screen-card.broker::before { background: var(--rg); }
+.screen-card.flow::before   { background: var(--sea); }
+.screen-card.comp::before   { background: var(--oce); }
+
+/* type tint on hover */
+.screen-card.admin:hover  { border-color: rgba(25,5,140,.3); }
+.screen-card.broker:hover { border-color: rgba(192,119,58,.3); }
+.screen-card.flow:hover   { border-color: rgba(42,173,160,.3); }
+.screen-card.comp:hover   { border-color: rgba(84,105,212,.3); }
+
+.card-id {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  font-family: 'IBM Plex Mono', monospace;
+}
+.screen-card.admin  .card-id { color: var(--ind); }
+.screen-card.broker .card-id { color: var(--rg); }
+.screen-card.flow   .card-id { color: var(--sea); }
+.screen-card.comp   .card-id { color: var(--oce); }
+
+.card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+}
+.card-desc {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  flex: 1;
+}
+.req-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.req-badge {
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid;
+  letter-spacing: .02em;
+}
+.badge-doc  { border-color: rgba(25,5,140,.3);   color: var(--ind); background: var(--ind-light); }
+.badge-ds   { border-color: rgba(192,119,58,.35); color: var(--rg);  background: var(--rg-light); }
+.badge-rule { border-color: rgba(42,173,160,.35); color: var(--sea); background: var(--sea-light); }
+.badge-new  { border-color: rgba(224,90,69,.35);  color: var(--sun); background: var(--sun-light); }
+
+/* ── DETAIL PANEL ── */
+.detail-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  margin-top: 28px;
+  display: none;
+  box-shadow: var(--shadow-hover);
+}
+.detail-panel.open { display: block; }
+
+.dp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+.dp-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.dp-close {
+  cursor: pointer;
+  font-size: 20px;
+  color: var(--text-tertiary);
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background .15s, color .15s;
+}
+.dp-close:hover { background: var(--bg); color: var(--text-primary); }
+
+.dp-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+.dp-section { font-size: 12px; }
+.dp-label {
+  font-weight: 700;
+  color: var(--text-tertiary);
+  font-size: 10.5px;
+  letter-spacing: .8px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.dp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+.dp-item::before {
+  content: '✓';
+  color: var(--sea);
+  font-size: 11px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .stat-row { grid-template-columns: repeat(2,1fr); }
+  .dp-body  { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .grid { grid-template-columns: 1fr 1fr; }
+}
+
+.hidden { display: none; }
+</style>
+
+<body>
+<div class="app-shell">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <span class="top-bar-label">عرض:</span>
+    <button class="pill pill-all active" onclick="filter('all',this)">الكل</button>
+    <button class="pill pill-admin" onclick="filter('admin',this)">Admin Portal</button>
+    <button class="pill pill-broker" onclick="filter('broker',this)">Broker Portal</button>
+    <button class="pill pill-flow" onclick="filter('flow',this)">Policy Flows</button>
+    <button class="pill pill-comp" onclick="filter('comp',this)">Components</button>
+  </div>
+
+  <!-- Stats -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--ind)">47</div>
+      <div class="stat-lbl">إجمالي الشاشات</div>
+      <div class="stat-bar" style="background:var(--ind)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--sea)">98%</div>
+      <div class="stat-lbl">تطابق مع المتطلبات</div>
+      <div class="stat-bar" style="background:var(--sea)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--rg)">15</div>
+      <div class="stat-lbl">مكون قابل لإعادة الاستخدام</div>
+      <div class="stat-bar" style="background:var(--rg)"></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--oce)">8</div>
+      <div class="stat-lbl">صفحات Figma</div>
+      <div class="stat-bar" style="background:var(--oce)"></div>
+    </div>
+  </div>
+
+  <!-- Screens -->
+  <div id="screens-container"></div>
+
+  <!-- Detail Panel -->
+  <div class="detail-panel" id="detail-panel">
+    <div class="dp-header">
+      <div class="dp-title" id="dp-title"></div>
+      <span class="dp-close" onclick="closeDetail()">×</span>
+    </div>
+    <div class="dp-body" id="dp-body"></div>
+  </div>
+
+</div>
+
+<script>
+const sections = [
+  {
+    id: 'comp', label: 'Design System & Components', color: 'var(--oce)', dot: '#5469D4',
+    screens: [
+      { id:'C1',  name:'Color Tokens',        desc:'Indigo, Rose-Gold, Ocean, Seafoam, Sunrise, Deep Blue',                 type:'comp', reqs:['DS','GIG V9'], detail:{elements:['15 Color Variables','LOB Token Colors','Status Token Colors','Tint Scale 10-100%'],interactions:['Dark mode auto','CSS Variables'],coverage:['GIG V9 Colour System','Brand Identity']}},
+      { id:'C2',  name:'Typography Scale',    desc:'Reforma + Georama + IBM Plex Mono',                                     type:'comp', reqs:['DS','GIG V9'], detail:{elements:['Display/H1/H2/H3 tokens','Body/Label/Caption','Mono for IDs & numbers','Arabic RTL pairing'],interactions:['Font switching EN/AR'],coverage:['GIG V9 Type System','8 type tokens']}},
+      { id:'C3',  name:'Button Library',      desc:'Primary, Rose-Gold, Outline, Ghost, Danger · SM/MD/LG',                type:'comp', reqs:['DS'], detail:{elements:['5 button variants','3 size props','Loading spinner state','Disabled state'],interactions:['Hover/Active/Disabled','Click events'],coverage:['GIG Component Library','All 5 variants from spec']}},
+      { id:'C4',  name:'Input Fields',        desc:'Default, Focus, Error, Disabled, Search, OTP, File Upload',            type:'comp', reqs:['DS','DOC'], detail:{elements:['7 input types','Inline validation','Helper text','Error messages'],interactions:['Real-time validation','File drag & drop','OCR trigger'],coverage:['All form validations from doc']}},
+      { id:'C5',  name:'Navigation Bar',      desc:'Sticky top nav · GIG branding · RTL aware',                            type:'comp', reqs:['DS','DOC'], detail:{elements:['GIG Logo → home','Notification bell','User avatar menu','Language EN/AR toggle'],interactions:['Logo click → home','Bell → notifications','RTL mirror'],coverage:['GIG NavBar spec','Portal feature #5 (GIG Logo)']}},
+      { id:'C6',  name:'Sidebar Navigation',  desc:'Role-based menu · Collapsible · RTL mirror',                           type:'comp', reqs:['DS','DOC'], detail:{elements:['Expand/collapse 260→68px','Role-based menu items','Active state indicator','Section dividers'],interactions:['Toggle animation','Role-based visibility'],coverage:['All menu tabs per role from doc']}},
+      { id:'C7',  name:'Status Badges',       desc:'15 variants using exact GIG status tokens',                            type:'comp', reqs:['DS','DOC'], detail:{elements:['Active/Pending/Expired','Blocked/Inactive/Draft','Paid/Not Paid/In Progress','Approved/Rejected/Under Review'],interactions:['Token color mapping'],coverage:['GIG Status Tokens exactly']}},
+      { id:'C8',  name:'LOB Chips',           desc:'Travel/Motor/Medical/Home/Domestic with token colors',                 type:'comp', reqs:['DS','DOC'], detail:{elements:['5 LOB token colors','Icon per LOB type','Used in tables, cards, filters'],interactions:['Filter toggle behavior'],coverage:['GIG LOB Token System']}},
+      { id:'C9',  name:'Data Table',          desc:'Sortable · Paginated · Skeleton · Empty state',                        type:'comp', reqs:['DOC'], detail:{elements:['Sort indicators','Pagination controls','Row hover state','Zebra striping','Action columns'],interactions:['Sort click','Page navigation','Row expand'],coverage:['All grid views in document']}},
+      { id:'C10', name:'KPI / Metric Cards',  desc:'IBM Plex Mono numbers · Trend arrows · Sparklines',                   type:'comp', reqs:['DS','DOC'], detail:{elements:['Large number display','Trend indicator','Sparkline chart','Color-coded values'],interactions:['Click → drill down'],coverage:['Dashboard feature in doc']}},
+      { id:'C11', name:'Modal & Dialogs',     desc:'Form modal · Confirm dialog · Full-screen overlay',                   type:'comp', reqs:['DOC'], detail:{elements:['Header + body + footer','Backdrop blur overlay','Scrollable body','Action buttons'],interactions:['Open/close animation','Backdrop dismiss'],coverage:['All modal flows in doc']}},
+      { id:'C12', name:'Toast Notifications', desc:'Success/Error/Warning/Info · Auto-dismiss with progress',              type:'comp', reqs:['DS','DOC'], detail:{elements:['4 semantic variants','Progress bar timer','Stack management','Dismiss button'],interactions:['Auto dismiss 4s','Manual dismiss'],coverage:['Notification system']}},
+      { id:'C13', name:'Stepper Component',   desc:'Policy issuance steps · Completed/Active/Upcoming states',            type:'comp', reqs:['DOC'], detail:{elements:['Seafoam completed','Indigo active','Pearl upcoming','Connector lines'],interactions:['Step navigation','Validation lock'],coverage:['All issuance flows']}},
+      { id:'C14', name:'Policy Card',         desc:'LOB-accented card · Status badge · Commission display',               type:'comp', reqs:['DS','DOC'], detail:{elements:['LOB left accent','Policy number mono','Amount in Rose-Gold','Status badge'],interactions:['Hover lift','Click → detail'],coverage:['My Policies screen']}},
+      { id:'C15', name:'Information Cards',   desc:'GIG spec: left accent, Reforma title, Rose-Gold CTA',                 type:'comp', reqs:['DS'], detail:{elements:['LOB color left border','H3 Reforma title','Georama body','Learn more → RG'],interactions:['Hover translateY'],coverage:['GIG Component Library spec']}},
+    ]
+  },
+  {
+    id: 'admin', label: 'Admin Portal — GIG Employees', color: 'var(--ind)', dot: '#19058C',
+    screens: [
+      { id:'A1',  name:'Admin Login',           desc:'Split-screen · Active Directory · Gulf motif',                         type:'admin', reqs:['DOC','DS'], detail:{elements:['Deep indigo gradient panel','Gulf geometric pattern','Microsoft SSO button','GIG branding display'],interactions:['Microsoft login flow','Language toggle'],coverage:['Portal Accessibility section','Active Directory auth']}},
+      { id:'A2',  name:'Super Admin Dashboard', desc:'KPI cards · Charts · Expiry alerts · Performance table',              type:'admin', reqs:['DOC','DS'], detail:{elements:['4 KPI metric cards','Donut chart (status tokens)','LOB bar chart (LOB tokens)','License expiry alerts list','Performance table'],interactions:['Filter by broker','Hover tooltips','Drill-down clicks'],coverage:['Dashboard feature full spec','All 7 dashboard widgets']}},
+      { id:'A3',  name:'Manage Roles — Main',   desc:'GIG Users tab · Roles tab · Create/Edit actions',                    type:'admin', reqs:['DOC'], detail:{elements:['Two-tab layout','GIG Users table','Roles table with toggles','Add User & Create Role CTAs'],interactions:['Tab switching','Status toggle','Row actions'],coverage:['Roles and Permissions section','All role management features']}},
+      { id:'A3a', name:'Add GIG User Modal',    desc:'AD autocomplete · Role assignment · Auto-fill fields',               type:'admin', reqs:['DOC'], detail:{elements:['AD search autocomplete','Auto-populated readonly fields','Role assignment dropdown'],interactions:['Search → populate','Save → close + toast'],coverage:['Add new User (GIG User) spec']}},
+      { id:'A3b', name:'Create/Edit Role',      desc:'Role identity · Permissions matrix · User assignment',               type:'admin', reqs:['DOC'], detail:{elements:['EN/AR name fields','Full permissions matrix grid','Select All toggles','Multi-user picker with chips'],interactions:['Matrix checkboxes','Select All per row','User chip removal'],coverage:['Add new role & permissions spec','Validation table from doc']}},
+      { id:'A3c', name:'View Role (Drawer)',    desc:'Read-only permissions · Assigned users · Audit info',                type:'admin', reqs:['DOC'], detail:{elements:['Permission tags grouped','Assigned user avatars','Last modified info','Edit button if authorized'],interactions:['Collapse permission groups','Edit navigation'],coverage:['View existing roles spec']}},
+      { id:'A4',  name:'Manage Brokers/Agents', desc:'Full grid · Filters · Color-coded expiry rows',                      type:'admin', reqs:['DOC'], detail:{elements:['Advanced filter bar','Status KPI pills','Color-coded expiry rows','6 action icon buttons'],interactions:['Filter apply/reset','Row hover actions','Sort columns','Pagination'],coverage:['Manage Brokers/Agents full spec','All 6 action functions']}},
+      { id:'A4a', name:'View Broker (Panel)',   desc:'4 tabs: Info/License/Commissions/Sub-Brokers',                       type:'admin', reqs:['DOC'], detail:{elements:['Avatar + status header','Personal Info tab','License & LOB tab','Commissions readonly tab','Sub-Brokers tab'],interactions:['Tab navigation','Download license docs'],coverage:['View Agent and Broker spec']}},
+      { id:'A4b', name:'Edit Broker Modal',     desc:'License dates · CBJ multi-select · File upload · Commission',        type:'admin', reqs:['DOC'], detail:{elements:['Future-only date picker','CBJ multi-select (mandatory)','Multi-file upload','Commission read-only field'],interactions:['Date validation','File upload progress','Min 1 LOB enforcement'],coverage:['Edit Broker & agent spec','Validation table exactly']}},
+      { id:'A4c', name:'Change Broker Role',    desc:'Current role display · New role · Effective immediately',            type:'admin', reqs:['DOC'], detail:{elements:['Broker mini-card','Role dropdown','Effective note','Optional notes'],interactions:['Immediate application notice'],coverage:['Role management for brokers']}},
+      { id:'A4d', name:'Send Invitation Modal', desc:'Email preview EN/AR · 72hr expiry warning · Re-invite logic',        type:'admin', reqs:['DOC'], detail:{elements:['Broker summary card','Bilingual email preview','72hr expiry warning','Re-invite deactivation banner'],interactions:['Language toggle on preview','Send → status update + toast'],coverage:['Send Invitation spec fully','Invitation email template']}},
+      { id:'A5',  name:'Audit Trail',           desc:'Timestamped log · Color-coded actions · Before/After diff',          type:'admin', reqs:['DOC'], detail:{elements:['Timestamp (IBM Plex)','Color-coded action pills','Expandable rows','Before/After diff view'],interactions:['Date range filter','Action type filter','Row expand → diff'],coverage:['Audit trail feature','All activity types']}},
+      { id:'A6',  name:'Approval Engine',       desc:'Motor video review · Policy details · Approve/Reject',               type:'admin', reqs:['DOC'], detail:{elements:['Pending/Approved/Rejected tabs','Video player left','Policy details right','Approve/Reject buttons'],interactions:['Video playback','Approve → email trigger','Reject → reason textarea'],coverage:['Video Approval by GIG spec','Motor Step 12']}},
+    ]
+  },
+  {
+    id: 'broker', label: 'Broker / Agent Portal', color: 'var(--rg)', dot: '#C0773A',
+    screens: [
+      { id:'B1',  name:'Broker Login',             desc:'4 login options: Google/Microsoft/Apple/Email · Invite-only note', type:'broker', reqs:['DOC','DS'], detail:{elements:['Google / Microsoft / Apple cards','Email option card','Invite-only note','Gulf motif left panel'],interactions:['Each card → auth flow','Language toggle'],coverage:['Login page spec','All 4 login types from table']}},
+      { id:'B1a', name:'Email OTP Flow',            desc:'Enter email → 6-digit OTP → countdown timer',                    type:'broker', reqs:['DOC'], detail:{elements:['Email input','6 OTP boxes (48×56px)','Countdown timer IBM Plex','Resend link after countdown'],interactions:['OTP auto-advance','Paste support','Countdown timer'],coverage:['Sign in with email spec']}},
+      { id:'B1b', name:'Expired License Popup',     desc:'Non-dismissible · Expiry date prominent · Renew CTA',            type:'broker', reqs:['DOC'], detail:{elements:['Sunrise warning icon','Expired date IBM Plex','Renew button Rose-Gold','Contact support link'],interactions:['Non-dismissible overlay','Renew → B1c flow'],coverage:['Login Attempt with Expired License spec']}},
+      { id:'B1c', name:'License Renewal Flow',      desc:'3-step: Upload → Review → Submitted · Approval workflow',        type:'broker', reqs:['DOC'], detail:{elements:['3-step stepper','Expiry alert banner','File upload mandatory','Timeline tracker submitted state'],interactions:['Step navigation','Upload → verify','Submit → pending state'],coverage:['License Renewal Process full spec','All 6 renewal steps']}},
+      { id:'B2',  name:'Broker Dashboard',          desc:'Welcome · KPIs · LOB tiles · Charts · Commission table',         type:'broker', reqs:['DOC','DS'], detail:{elements:['"Relationship is Wealth" greeting','4 personal KPI cards','Policy mix donut chart','6 LOB quick-access tiles','Monthly volume chart','Commission table'],interactions:['LOB tiles → issuance flow','Chart hover tooltips','Filter by month'],coverage:['Broker Portal dashboard spec','LOB Insights + Commission dashboard']}},
+      { id:'B3',  name:'My Policies',               desc:'LOB tabs · Card/Table toggle · Policy detail view',               type:'broker', reqs:['DOC'], detail:{elements:['LOB filter tabs (token colors)','Card grid view','Table list view','Policy detail full page','5 detail tabs'],interactions:['View toggle','LOB tab filter','Policy card → detail','Download PDF'],coverage:['My policies page spec','Policy detail fields table']}},
+      { id:'B4',  name:'Statement of Account',      desc:'Summary banner · Transaction table · Export Excel',               type:'broker', reqs:['DOC','NEW'], detail:{elements:['Indigo gradient summary banner','4 KPI values','Dense transaction table','Footer totals row','Export Excel button'],interactions:['Date range filter','LOB filter','Export click'],coverage:['Statement of account tab (doc page 16)']}},
+      { id:'B5',  name:'Manage Sub-Brokers',        desc:'Sub-broker grid · Add/Edit · Inherited fields readonly',          type:'broker', reqs:['DOC'], detail:{elements:['Sub-broker table','Status badges','Inherited license/LOB (readonly)','Deactivate toggle'],interactions:['Add sub-broker modal','Edit modal','Deactivate toggle'],coverage:['Manage sub brokers spec fully']}},
+      { id:'B5a', name:'Add/Edit Sub-Broker Modal', desc:'EN/AR names · Mobile validation · Inherited fields',              type:'broker', reqs:['DOC'], detail:{elements:['English Name (EN only)','Arabic Name (AR only)','Mobile 07XXXXXXXXX','Email validation','Inherited readonly fields'],interactions:['Real-time validation','Save → table update'],coverage:['Add/update sub broker spec','Validation table exactly']}},
+      { id:'B6',  name:'Notification Center',       desc:'Grouped timeline · Type filter · Read/Unread · Actions',          type:'broker', reqs:['DOC'], detail:{elements:['Timeline grouped by date','Type-colored icons','Read/unread states','Action links per notification','Empty state'],interactions:['Mark all read','Filter by type','Notification → navigate to screen','Dismiss'],coverage:['Notification Center full spec','All acceptance criteria']}},
+      { id:'B7',  name:'My Profile',                desc:'Sidebar card · License tab with renewal alert · Security',        type:'broker', reqs:['DOC'], detail:{elements:['Avatar + role + status','3 profile tabs','License expiry alert (≤30 days)','LOB chips display','Security tab'],interactions:['Renewal alert → renewal flow','Sub-broker editable fields'],coverage:['Profile Management spec']}},
+      { id:'B8',  name:'Reports Page',              desc:'Policy / Broker / Commission tabs · Charts · Export',             type:'broker', reqs:['DOC','NEW'], detail:{elements:['3 report tabs','Summary KPI cards','Policy LOB bar chart','Commission line chart','Export buttons'],interactions:['Date range filter','LOB filter','Generate report'],coverage:['Reporting Capabilities spec fully']}},
+    ]
+  },
+  {
+    id: 'flow', label: 'Policy Issuance Flows', color: 'var(--sea)', dot: '#2AADA0',
+    screens: [
+      { id:'T1', name:'Travel — Step 1: Trip Details',        desc:'Coverage/Destination/Type/Date · Extra days rules · Promo',       type:'flow', reqs:['DOC'], detail:{elements:['Policy Type segmented control','Coverage dropdown (7 options)','Destination (39 Schengen countries)','Extra days with validation','Promo code + Apply button'],interactions:['Coverage filters destination','Individual disables extra days','Future-only date picker'],coverage:['Travel Details tab spec fully','All extra days rules']}},
+      { id:'T2', name:'Travel — Step 2: Traveler Info',       desc:'Manual/Digital scan · OCR · Family accordions · All validations', type:'flow', reqs:['DOC'], detail:{elements:['Entry method toggle','OCR upload + loading state','4-part EN name fields','AR name (mandatory if JO)','DOB age validation','Passport 6-month rule'],interactions:['OCR extract → populate fields','Family: Add Spouse/Child','Relation auto-sets for individual'],coverage:['Traveler Details fields table exactly','All 15 field validations']}},
+      { id:'T3', name:'Travel — Step 3: Review & Price',      desc:'Trip summary · Price breakdown · Commission · Payment selection', type:'flow', reqs:['DOC'], detail:{elements:['Trip summary card','Price breakdown (Base/Discount/Tax/Total)','Agent Commission rose-gold','Credit/Debit payment cards','Terms checkbox'],interactions:['Edit → back to step 1/2','Payment selection','Issue button disabled until checkbox'],coverage:['Calculate Price and Review screen','Agent Commissions spec']}},
+      { id:'T4', name:'Travel — Step 4: Payment',             desc:'Credit: link sent status tracker · Debit: processing → confirm',  type:'flow', reqs:['DOC'], detail:{elements:['Payment link sent confirmation','Status tracker (4 states)','Credit vs Debit variants'],interactions:['Debit → auto advance','Credit → tracker polling'],coverage:['Credit and Debit payment options']}},
+      { id:'T5', name:'Travel — Step 5: Confirmation',        desc:'Animated checkmark · Policy # · Dual email previews',            type:'flow', reqs:['DOC'], detail:{elements:['Seafoam SVG checkmark animation','Policy number IBM Plex Mono','GIG internal email preview','Customer email preview (bilingual)','3 action buttons'],interactions:['Download PDF','Issue Another','View All Policies'],coverage:['Email notifications section fully','Both email templates from doc']}},
+      { id:'M1', name:'Motor — Step 1: Vehicle',              desc:'OCR dual upload · Auto-populate · Market value range · Ownership',type:'flow', reqs:['DOC'], detail:{elements:['Front+back license upload','OCR extract button','Auto-populated fields','Market value min/max display','Ownership Yes/No with JOIF note','Business rules sidebar'],interactions:['Extract → populate','Sum insured min/max validation','JOIF ownership check','Blocking rule → disable Next'],coverage:['Vehicle & Driver Documentation spec','Rule 1 & Rule 2 from Motor spec']}},
+      { id:'M2', name:'Motor — Step 2: Customer',             desc:'Driving ID OCR · Customer fields · Corporate flow with KINZ',    type:'flow', reqs:['DOC'], detail:{elements:['Driving license OCR','Customer fields (age ≥24 validation)','ESKA data retrieval','Accounted-For toggle','Corporate: KINZ API + OTP','Full corporate registration form'],interactions:['OCR → populate','ESKA retrieve on ID entry','Corporate → sub-flow','KINZ validate → OTP → complete'],coverage:['Customer Information Entry spec','Corporate Customer Registration user story']}},
+      { id:'M3', name:'Motor — Step 3: Accident Check',       desc:'Auto-check radar · Accident table · Surcharge calc · Blocking', type:'flow', reqs:['DOC'], detail:{elements:['Radar animation while checking','No-accident seafoam banner','Accident table with impact %','Surcharge running total','3 blocking conditions'],interactions:['Auto-trigger on load','Blocking → disable Next','Surcharge color-coded'],coverage:['Accident History Check spec','Rule 2 accident criteria exactly']}},
+      { id:'M4', name:'Motor — Step 4: Coverage',             desc:'Mandatory locked · Optional grid · Live price impact counter',   type:'flow', reqs:['DOC'], detail:{elements:['Mandatory section (locked)','Optional coverage cards','+JD impact badges','Running total updater'],interactions:['Checkbox toggles price','Running total live update'],coverage:['Coverage Selection spec']}},
+      { id:'M5', name:'Motor — Step 5: Calculate',            desc:'Calculation animation · Full breakdown · Commission · Save',    type:'flow', reqs:['DOC'], detail:{elements:['Calculation animation','Full premium breakdown','Accident surcharge line','Commission rose-gold IBM Plex','Save as Draft button'],interactions:['Save draft → My Policies','Proceed → Step 6'],coverage:['Calculation spec','Save quote feature']}},
+      { id:'M6', name:'Motor — Step 6: Video Upload',         desc:'MP4/MOV upload · Receipt optional · Payment method',            type:'flow', reqs:['DOC'], detail:{elements:['Large video upload zone','Format/size constraints shown','Receipt upload (optional)','Payment method selection'],interactions:['Upload progress bar','Submit → Step 7'],coverage:['Vehicle Video Upload spec','Receipt Upload spec']}},
+      { id:'M7', name:'Motor — Step 7: Awaiting Approval',   desc:'Status tracker · Policy summary · Rejected state variant',      type:'flow', reqs:['DOC'], detail:{elements:['4-state animated tracker','Policy readonly summary','"Under Review" pulse','Rejected state variant','Resubmit option on rejection'],interactions:['Status polling visual','Rejection reason display'],coverage:['Video Approval by GIG spec']}},
+      { id:'M8', name:'Motor — Step 8: Confirmed',            desc:'Policy issued · Download · Delivery note to agent',             type:'flow', reqs:['DOC'], detail:{elements:['Success checkmark animation','Motor policy number','Agent delivery note','Download + View actions'],interactions:['Download policy','View all policies'],coverage:['Motor issuance confirmation']}},
+    ]
+  }
+];
+
+const reqMap   = { 'DOC':'من المستند', 'DS':'من Design System', 'GIG V9':'GIG V9', 'NEW':'مضاف' };
+const reqClass = { 'DOC':'badge-doc', 'DS':'badge-ds', 'GIG V9':'badge-ds', 'NEW':'badge-new', 'RULE':'badge-rule' };
+
+let currentFilter = 'all';
+
+function render() {
+  const container = document.getElementById('screens-container');
+  container.innerHTML = '';
+  sections.forEach(sec => {
+    const filtered = sec.screens.filter(s => currentFilter === 'all' || s.type === currentFilter);
+    if (!filtered.length) return;
+    const div = document.createElement('div');
+    div.className = 'section';
+    div.innerHTML = `
+      <div class="section-header">
+        <div class="section-dot" style="background:${sec.dot}"></div>
+        <span class="section-title">${sec.label}</span>
+        <span class="section-count">${filtered.length} شاشة</span>
+      </div>
+      <div class="grid" id="grid-${sec.id}"></div>`;
+    container.appendChild(div);
+    const grid = div.querySelector(`#grid-${sec.id}`);
+    filtered.forEach(s => {
+      const card = document.createElement('div');
+      card.className = `screen-card ${s.type}`;
+      card.innerHTML = `
+        <div class="card-id">${s.id}</div>
+        <div class="card-name">${s.name}</div>
+        <div class="card-desc">${s.desc}</div>
+        <div class="req-badges">${s.reqs.map(r=>`<span class="req-badge ${reqClass[r]||'badge-doc'}">${reqMap[r]||r}</span>`).join('')}</div>`;
+      card.onclick = () => showDetail(s, sec);
+      grid.appendChild(card);
+    });
+  });
+}
+
+function showDetail(s, sec) {
+  const panel = document.getElementById('detail-panel');
+  document.getElementById('dp-title').textContent = `${s.id} · ${s.name}`;
+  const d = s.detail;
+  document.getElementById('dp-body').innerHTML = `
+    <div class="dp-section">
+      <div class="dp-label">العناصر والمكونات</div>
+      ${d.elements.map(e=>`<div class="dp-item">${e}</div>`).join('')}
+    </div>
+    <div class="dp-section">
+      <div class="dp-label">التفاعلات المبرمجة</div>
+      ${d.interactions.map(i=>`<div class="dp-item">${i}</div>`).join('')}
+    </div>
+    <div class="dp-section">
+      <div class="dp-label">تغطية المتطلبات</div>
+      ${d.coverage.map(c=>`<div class="dp-item">${c}</div>`).join('')}
+    </div>`;
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+function closeDetail() {
+  document.getElementById('detail-panel').classList.remove('open');
+}
+
+function filter(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  closeDetail();
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

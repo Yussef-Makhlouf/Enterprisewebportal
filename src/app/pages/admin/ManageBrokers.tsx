@@ -5,6 +5,7 @@ import { BrokerDetailDrawer } from '../../components/admin/BrokerDetailDrawer';
 import { SendInvitationModal } from '../../components/admin/SendInvitationModal';
 import { EditBrokerDrawer } from '../../components/admin/EditBrokerDrawer';
 import { ConfirmationModal } from '../../components/global/ConfirmationModal';
+import { ChangeBrokerRoleModal } from '../../components/admin/ChangeBrokerRoleModal';
 
 const BROKERS = [
   { id: 1, name: 'Khalid Al-Mansouri', nameAr: 'خالد المنصوري', email: 'k.mansouri@email.com', type: 'Broker', typeAr: 'وسيط', status: 'Active', lobs: ['Travel', 'Motor', 'Medical'], expiry: '31/12/2025', commission: '8.0', invitation: 'Sent', avatar: 'KM', daysToExpiry: 290 },
@@ -42,6 +43,7 @@ export function ManageBrokers() {
   const [editBroker, setEditBroker] = useState<any>(null);
   const [inviteBroker, setInviteBroker] = useState<any>(null);
   const [confirmModal, setConfirmModal] = useState<any>(null);
+  const [changeRoleBroker, setChangeRoleBroker] = useState<any>(null);
   const [page, setPage] = useState(1);
   const perPage = 8;
 
@@ -293,7 +295,7 @@ export function ManageBrokers() {
                         </button>
                         <button className="p-1.5 rounded-lg hover:bg-white/8 transition-all"
                           style={{ color: textSecondary }}
-                          onClick={() => setConfirmModal({ broker, action: broker.status === 'Blocked' ? 'unblock' : 'block' })}
+                          onClick={() => setChangeRoleBroker(broker)}
                           title={isAr ? 'المزيد' : 'More'}>
                           <MoreHorizontal size={15} />
                         </button>
@@ -342,6 +344,13 @@ export function ManageBrokers() {
           setInviteBroker(null);
           addToast({ type: 'success', title: isAr ? 'تم الإرسال' : 'Invitation Sent' });
         }} />
+      )}
+      {changeRoleBroker && (
+        <ChangeBrokerRoleModal
+          broker={changeRoleBroker}
+          onClose={() => setChangeRoleBroker(null)}
+          onSave={() => setChangeRoleBroker(null)}
+        />
       )}
       {confirmModal && (
         <ConfirmationModal

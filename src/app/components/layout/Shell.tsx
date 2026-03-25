@@ -4,9 +4,11 @@ import {
   LayoutDashboard, Users, Shield, FileText, BookOpen,
   Bell, User, Settings, LogOut, ChevronRight,
   Globe, Sun, Moon, Search, Building2,
-  ClipboardList, CreditCard, UserCheck, Layers
+  ClipboardList, CreditCard, UserCheck, Layers,
+  Check, AlertTriangle, CheckCircle, XCircle, ArrowRight, Settings2,
+  type LucideIcon
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 /* ── Brand tokens ─────────────────────────────────── */
 const GIG = {
@@ -20,8 +22,22 @@ const GIG = {
   seafoam:   '#6BCABA',
 } as const;
 
+interface NavItem {
+  icon: LucideIcon;
+  label: string;
+  labelAr: string;
+  path: string;
+  badge?: number;
+}
+
+interface NavGroup {
+  group: string;
+  groupAr: string;
+  items: NavItem[];
+}
+
 /* ── Nav data ─────────────────────────────────────── */
-const adminNav = [
+const adminNav: NavGroup[] = [
   {
     group: 'PORTAL MANAGEMENT', groupAr: 'إدارة البوابة',
     items: [
@@ -45,7 +61,7 @@ const adminNav = [
   }
 ];
 
-const brokerNav = [
+const brokerNav: NavGroup[] = [
   {
     group: 'OVERVIEW', groupAr: 'نظرة عامة',
     items: [
@@ -107,6 +123,24 @@ export function Shell() {
   const location  = useLocation();
   const navigate  = useNavigate();
   const [navOpen, setNavOpen] = useState(true);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setNotifOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const RECENT_NOTIFS = [
+    { id: 1, Icon: AlertTriangle, title: 'License Expiring Soon', titleAr: 'الرخصة تنتهي قريباً', time: '2h', type: 'warning', color: '#F0B030', bg: 'rgba(240,176,48,0.12)', unread: true },
+    { id: 2, Icon: FileText, title: 'Policy Approval Required', titleAr: 'الموافقة على الوثيقة مطلوبة', time: '4h', type: 'approval', color: '#D28C64', bg: 'rgba(210,140,100,0.12)', unread: true },
+    { id: 3, Icon: CheckCircle, title: 'Travel Policy Issued', titleAr: 'تم إصدار وثيقة السفر', time: '1d', type: 'success', color: '#00C896', bg: 'rgba(0,200,150,0.12)', unread: false },
+  ];
 
   if (!isAuthenticated) return <Navigate to="/" replace />;
 
@@ -459,17 +493,74 @@ export function Shell() {
             </button>
 
             {/* Notifications bell */}
-            <div className="relative">
+            <div className="relative" ref={notifRef}>
               <button
                 className="flex items-center justify-center w-9 h-9 rounded-full transition-all"
-                style={{ color: fgPrimary, border: `1px solid ${topbarBdr}` }}
-                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(210,140,100,0.45)'; (e.currentTarget as HTMLElement).style.background = 'rgba(210,140,100,0.08)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = topbarBdr; (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+                style={{
+                  color: fgPrimary, border: `1px solid ${topbarBdr}`,
+                  background: notifOpen ? 'rgba(210,140,100,0.12)' : 'transparent',
+                  borderColor: notifOpen ? 'rgba(210,140,100,0.45)' : topbarBdr,
+                }}
+                onMouseEnter={e => { if (!notifOpen) { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(210,140,100,0.45)'; (e.currentTarget as HTMLElement).style.background = 'rgba(210,140,100,0.08)'; } }}
+                onMouseLeave={e => { if (!notifOpen) { (e.currentTarget as HTMLElement).style.borderColor = topbarBdr; (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
+                onClick={() => setNotifOpen(!notifOpen)}
               >
                 <Bell size={15} />
               </button>
               <span className="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white flex items-center justify-center"
                 style={{ fontSize: '9px', fontWeight: 700, background: GIG.roseGold }}>2</span>
+
+              {/* Dropdown Panel */}
+              {notifOpen && (
+                <div
+                  className="absolute top-full mt-3 z-50 overflow-hidden"
+                  style={{
+                    [isRTL ? 'left' : 'right']: '-10px',
+                    width: '320px',
+                    background: isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF',
+                    border: `1px solid ${topbarBdr}`,
+                    borderRadius: '12px',
+                    boxShadow: isDark ? '0 20px 48px rgba(0,0,0,0.50)' : '0 10px 30px rgba(25,5,140,0.12)',
+                    direction: isRTL ? 'rtl' : 'ltr',
+                  }}
+                >
+                  <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: topbarBdr }}>
+                    <h3 style={{ fontSize: '13px', fontWeight: 700, color: fgPrimary, fontFamily: ffH }}>
+                      {isAr ? 'الإشعارات' : 'Notifications'}
+                    </h3>
+                    <button className="text-[10px] font-bold uppercase tracking-wider hover:opacity-80"
+                      style={{ color: GIG.roseGold, fontFamily: ff }}>
+                      {isAr ? 'تعليم الكل كمقروء' : 'Mark all read'}
+                    </button>
+                  </div>
+
+                  <div className="max-h-[300px] overflow-y-auto">
+                    {RECENT_NOTIFS.map((n) => (
+                      <div key={n.id} className="px-4 py-3 flex items-start gap-3 border-b last:border-0 hover:bg-white/5 transition-all cursor-pointer"
+                        style={{ borderColor: topbarBdr }}>
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ background: n.bg }}>
+                          <n.Icon size={14} style={{ color: n.color }} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p style={{ fontSize: '12px', fontWeight: n.unread ? 700 : 500, color: fgPrimary, fontFamily: ff }}>
+                            {isAr ? n.titleAr : n.title}
+                          </p>
+                          <p style={{ fontSize: '10px', color: fgMuted, marginTop: '2px', fontFamily: ff }}>{n.time}</p>
+                        </div>
+                        {n.unread && <div className="w-1.5 h-1.5 rounded-full bg-roseGold shrink-0 mt-2" style={{ background: GIG.roseGold }} />}
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    className="w-full py-2.5 text-center text-[11px] font-bold uppercase tracking-widest transition-all hover:bg-white/5"
+                    style={{ color: fgMuted, borderTop: `1px solid ${topbarBdr}`, fontFamily: ff }}
+                    onClick={() => { setNotifOpen(false); navigate('/broker/notifications'); }}
+                  >
+                    {isAr ? 'عرض الكل' : 'View All Notifications'}
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Avatar */}
