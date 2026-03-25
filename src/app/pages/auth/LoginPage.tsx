@@ -1,4 +1,4 @@
-import gigLogo from 'figma:asset/11b114c88a40163eff79fddefd1cfffde1fcfd17.png';
+import gigLogo from '../../../assets/11b114c88a40163eff79fddefd1cfffde1fcfd17.png';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useApp } from '../../context/AppContext';
