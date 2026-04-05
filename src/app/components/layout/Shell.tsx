@@ -381,14 +381,14 @@ export function Shell() {
                         background: isActive
                           ? (isDark ? 'rgba(210,140,100,0.14)' : 'rgba(255,255,255,0.18)')
                           : 'transparent',
-                        color: isActive ? '#FFFFFF' : (isDark ? 'rgba(180,205,255,0.60)' : 'rgba(255,255,255,0.80)'),
+                        color: '#FFFFFF',
                         borderInlineStart: isActive ? `2px solid ${activeAccent}` : '2px solid transparent',
                         fontFamily: ff,
-                        fontWeight: isActive ? 600 : 400,
+                        fontWeight: 600,
                         fontSize: '13px',
                       }}
                       onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.13)'; (e.currentTarget as HTMLElement).style.color = '#FFFFFF'; } }}
-                      onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = isDark ? 'rgba(180,205,255,0.60)' : 'rgba(255,255,255,0.80)'; } }}
+                      onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#FFFFFF'; } }}
                       onClick={() => navigate(item.path)}
                     >
                       <item.icon size={15} className="shrink-0" />

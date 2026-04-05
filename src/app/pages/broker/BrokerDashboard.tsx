@@ -176,7 +176,7 @@ export function BrokerDashboard() {
             )}
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span style={{ fontSize: '10px', color: tMute, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
+                <span style={{ fontSize: '10px', color: isDark ? '#FFFFFF' : tMute, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
                   {kpi.label}
                 </span>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -192,7 +192,7 @@ export function BrokerDashboard() {
                 {kpi.value}
               </div>
               <div className="flex items-center justify-between mt-3">
-                <div style={{ fontSize: '12px', color: tMute, fontFamily: ff }}>{kpi.sub}</div>
+                <div style={{ fontSize: '12px', color: isDark ? '#FFFFFF' : tMute, fontFamily: ff }}>{kpi.sub}</div>
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-full"
                   style={{
                     fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', fontFamily: ff,
@@ -216,7 +216,7 @@ export function BrokerDashboard() {
               style={{ background: `${item.color}10`, border: `1px solid ${item.color}25` }}>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: item.color }} />
-                <span style={{ fontFamily: ff, fontSize: '11px', color: tMute, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{item.name}</span>
+                <span style={{ fontFamily: ff, fontSize: '11px', color: isDark ? '#FFFFFF' : tMute, textTransform: 'uppercase', letterSpacing: '0.07em' }}>{item.name}</span>
               </div>
               <span style={{ fontFamily: ffM, fontSize: '13px', fontWeight: 700, color: item.color }}>{item.value}%</span>
             </div>

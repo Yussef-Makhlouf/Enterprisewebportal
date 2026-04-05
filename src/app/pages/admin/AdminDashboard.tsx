@@ -97,9 +97,9 @@ export function AdminDashboard() {
   /* KPIs */
   const kpis = [
     { label: isAr ? 'إجمالي الوسطاء'         : 'TOTAL BROKERS',   value: '148',   delta: '+12%',  up: true,  sub: isAr ? '124 نشط'       : '124 active',  stripe: isDark ? B.ocean : B.indigo,   glow: 'rgba(128,148,230,0.22)', icon: Users      },
-    { label: isAr ? 'الوثائق النشطة'          : 'ACTIVE POLICIES', value: '2,847', delta: '+8.3%', up: true,  sub: isAr ? '47 هذا الأسبوع' : '47 this week', stripe: B.ocean,    glow: 'rgba(128,148,230,0.22)', icon: FileText   },
-    { label: isAr ? 'الأقساط الشهرية (دينار)' : 'MONTHLY PREMIUM', value: '1.2M',  delta: '+5.1%', up: true,  sub: isAr ? 'أكتوبر 2025'   : 'October 2025', stripe: B.seafoam,  glow: 'rgba(107,202,186,0.18)', icon: DollarSign },
-    { label: isAr ? 'المهام المعلقة'          : 'PENDING TASKS',   value: '23',    delta: '-3',    up: false, sub: isAr ? '5 عاجلة'       : '5 urgent',     stripe: B.roseGold, glow: 'rgba(210,140,100,0.18)', icon: Clock      },
+    { label: isAr ? 'الوثائق النشطة'          : 'ACTIVE POLICIES', value: '2,847', delta: '+8.3%', up: true,  sub: isAr ? '47 هذا الأسبوع' : '47 this week', stripe: isDark ? B.ocean : B.indigo,    glow: 'rgba(128,148,230,0.22)', icon: FileText   },
+    { label: isAr ? 'الأقساط الشهرية (دينار)' : 'MONTHLY PREMIUM', value: '1.2M',  delta: '+5.1%', up: true,  sub: isAr ? 'أكتوبر 2025'   : 'October 2025', stripe: isDark ? B.seafoam : '#2C8E7D',  glow: 'rgba(107,202,186,0.18)', icon: DollarSign },
+    { label: isAr ? 'المهام المعلقة'          : 'PENDING TASKS',   value: '23',    delta: '-3',    up: false, sub: isAr ? '5 عاجلة'       : '5 urgent',     stripe: isDark ? B.roseGold : '#B65C2B', glow: 'rgba(210,140,100,0.18)', icon: Clock      },
   ];
 
   const cardStyle = (stripe: string) => ({
@@ -184,7 +184,7 @@ export function AdminDashboard() {
             )}
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span style={{ fontSize: '10px', color: tMute, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
+                <span style={{ fontSize: '10px', color: isDark ? '#FFFFFF' : '#3D3560', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
                   {kpi.label}
                 </span>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -196,7 +196,7 @@ export function AdminDashboard() {
                 {kpi.value}
               </div>
               <div className="flex items-center justify-between mt-3">
-                <div style={{ fontSize: '12px', color: tMute, fontFamily: ff }}>{kpi.sub}</div>
+                <div style={{ fontSize: '12px', color: isDark ? '#FFFFFF' : '#3D3560', fontFamily: ff }}>{kpi.sub}</div>
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-full"
                   style={{
                     fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', fontFamily: ff,
