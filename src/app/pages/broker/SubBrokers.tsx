@@ -109,8 +109,8 @@ export function SubBrokers() {
   const rowHover = isDark ? 'rgba(128,148,230,0.07)' : 'rgba(25,5,140,0.03)';
 
   /* ── fonts ── */
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif"  : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"    : "'Reforma', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"    : "'Georama', Verdana, sans-serif";
   const ffM = "'IBM Plex Mono', monospace";
 
   /* ── state ── */

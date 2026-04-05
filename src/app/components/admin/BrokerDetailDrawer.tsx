@@ -46,7 +46,7 @@ export function BrokerDetailDrawer({ broker, onClose, onEdit }: Props) {
 
   const bg            = drawerBg(isDark);
   const textPrimary   = textHero(isDark);
-  const textSecondary = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
+  const textSecondary = isDark ? 'rgba(180,205,255,0.78)' : '#3D3560';
   const borderColor   = cardBdr(isDark);
   const rowBg         = innerBg(isDark);
 
@@ -207,14 +207,17 @@ export function BrokerDetailDrawer({ broker, onClose, onEdit }: Props) {
                       {isAr ? lob.labelAr : lob.label}
                     </span>
                   </div>
-                  {/* Toggle */}
+                  {/* Toggle — uses the LOB's own accent so it's always visible */}
                   <button
                     className="w-10 h-5 rounded-full transition-all relative shrink-0"
-                    style={{ background: lob.active ? '#19058C' : (isDark ? 'rgba(255,255,255,0.12)' : '#C0CBDE') }}
+                    style={{
+                      background: lob.active ? lob.color : (isDark ? 'rgba(128,148,230,0.20)' : '#C0CBDE'),
+                      boxShadow: lob.active ? `0 0 8px ${lob.color}60` : 'none',
+                    }}
                     onClick={() => setLobs(prev => prev.map(l => l.key === lob.key ? { ...l, active: !l.active } : l))}
                   >
                     <span className="absolute top-0.5 transition-all rounded-full w-4 h-4 bg-white"
-                      style={{ [isRTL ? 'right' : 'left']: lob.active ? '22px' : '2px' }} />
+                      style={{ [isRTL ? 'right' : 'left']: lob.active ? '22px' : '2px', boxShadow: '0 1px 4px rgba(0,0,0,0.25)' }} />
                   </button>
                 </div>
               ))}
@@ -292,9 +295,14 @@ export function BrokerDetailDrawer({ broker, onClose, onEdit }: Props) {
               {isAr ? 'تعديل البيانات' : 'Edit Details'}
             </button>
           ) : (
-            <button
+          <button
               className="flex-1 py-2.5 rounded-lg text-white font-medium text-sm transition-all hover:opacity-90"
-              style={{ background: '#19058C', boxShadow: '0 2px 10px rgba(25,5,140,0.30)' }}
+              style={{
+                background: isDark
+                  ? `linear-gradient(135deg, ${B.ocean} 0%, #6B7FD4 100%)`
+                  : `linear-gradient(135deg, ${B.indigo} 0%, #2D1A9E 100%)`,
+                boxShadow: isDark ? '0 2px 10px rgba(128,148,230,0.30)' : '0 2px 10px rgba(25,5,140,0.30)',
+              }}
             >
               {isAr ? 'حفظ التغييرات' : 'Save Changes'}
             </button>

@@ -1,25 +1,9 @@
 /* ── GIG Brand Fonts ──────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+/* Master Font (Latin): Georama — Headings & UI */
+@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+/* Master Font (Arabic): Kufam — Headings & UI RTL */
+@import url('https://fonts.googleapis.com/css2?family=Kufam:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
+/* Secondary Font: Almarai — Body text & supporting content */
 @import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
-
-/* Reforma — loaded via local or Verdana fallback */
-@font-face {
-  font-family: 'Reforma';
-  src: local('Reforma Gris'), local('Reforma'), local('Verdana');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Reforma';
-  src: local('Reforma Negra'), local('Reforma Bold'), local('Verdana Bold'), local('Verdana');
-  font-weight: 700 900;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Reforma';
-  src: local('Reforma Blanca'), local('Reforma Light'), local('Verdana');
-  font-weight: 300;
-  font-style: normal;
-}
+/* Mono Font: IBM Plex Mono — Data, codes, IDs */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap');

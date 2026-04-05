@@ -56,7 +56,7 @@ export function CommandPalette() {
   const bdr = cardBdr(isDark);
   const tH  = textHero(isDark);
   const tM  = textMuted(isDark);
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
   const hoverBg = isDark ? 'rgba(128,148,230,0.10)' : 'rgba(25,5,140,0.05)';
 
   const handleSelect = (path: string) => {

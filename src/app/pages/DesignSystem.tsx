@@ -19,13 +19,13 @@ const GRADIENTS = [
 ];
 
 const TYPE_SCALE = [
-  { token: 'Display',   font: 'Reforma',  size: '2.8rem', weight: '700/900', usage: 'Hero greetings, landing headline' },
-  { token: 'H1',        font: 'Reforma',  size: '1.75rem', weight: '700',    usage: 'Page titles' },
-  { token: 'H2',        font: 'Reforma',  size: '1.375rem', weight: '600',   usage: 'Section headings' },
-  { token: 'H3',        font: 'Reforma',  size: '1.125rem', weight: '600',   usage: 'Card titles, sub-sections' },
-  { token: 'Body',      font: 'Georama',  size: '0.875rem', weight: '400',   usage: 'General body text, table cells' },
-  { token: 'Label',     font: 'Georama',  size: '0.6875rem', weight: '600',  usage: 'Uppercase labels, section tags' },
-  { token: 'Caption',   font: 'Georama',  size: '0.6875rem', weight: '400',  usage: 'Help text, timestamps' },
+  { token: 'Display',   font: 'Georama',  size: '2.8rem', weight: '700/900', usage: 'Hero greetings, landing headline' },
+  { token: 'H1',        font: 'Georama',  size: '1.75rem', weight: '700',    usage: 'Page titles' },
+  { token: 'H2',        font: 'Georama',  size: '1.375rem', weight: '600',   usage: 'Section headings' },
+  { token: 'H3',        font: 'Georama',  size: '1.125rem', weight: '600',   usage: 'Card titles, sub-sections' },
+  { token: 'Body',      font: 'Almarai',  size: '0.875rem', weight: '400',   usage: 'General body text, table cells' },
+  { token: 'Label',     font: 'Almarai',  size: '0.6875rem', weight: '600',  usage: 'Uppercase labels, section tags' },
+  { token: 'Caption',   font: 'Almarai',  size: '0.6875rem', weight: '400',  usage: 'Help text, timestamps' },
   { token: 'Mono',      font: 'IBM Plex Mono', size: '0.75rem', weight: '500', usage: 'KPI numbers, policy IDs, codes' },
 ];
 
@@ -61,8 +61,8 @@ export function DesignSystem() {
   const textMuted = isDark ? 'rgba(255,255,255,0.45)' : 'rgba(61,53,96,0.55)';
   const sectionBdr = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(25,5,140,0.07)';
 
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"   : "'Reforma', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"   : "'Georama', Verdana, sans-serif";
   const ffM = "'IBM Plex Mono', monospace";
 
   const Section = ({ n, title, titleAr, children }: { n: string; title: string; titleAr: string; children: React.ReactNode }) => (
@@ -203,20 +203,20 @@ export function DesignSystem() {
           <div className="grid grid-cols-2 gap-5 mb-8">
             {[
               {
-                role: isAr ? 'أساسي · لاتيني' : 'Primary · Latin',
-                name: 'Reforma',
-                desc: isAr ? 'خط إنساني تقليدي بلمسة حديثة. طازج وعملي وترحيبي. رائع للعناوين الجريئة.' : 'Traditional humanist typeface with a modern twist. Fresh, practical, organic. Great for bold expressive headlines.',
-                weights: isAr ? ['بلانكا (خفيف)','غريس (عادي)','نيغرا (عريض)','مائل'] : ['Blanca (Light)','Gris (Regular)','Negra (Bold)','Italic'],
+                role: isAr ? 'رئيسي · لاتيني' : 'Master · Latin',
+                name: 'Georama',
+                desc: isAr ? 'خط عصري متعدد الاستخدامات للعناوين والهوية. يجمع بين الحداثة والوضوح.' : 'A versatile modern typeface for headlines and brand identity. Combines modernity with clarity.',
+                weights: isAr ? ['خفيف','عادي','متوسط','عريض'] : ['Light','Regular','Medium','Bold'],
                 specimen: { display: 'Invested in You', h1: 'Gulf Insurance Group', body: 'Relationship is wealth.', caption: 'INSURANCE MADE FOR YOU' },
-                specimenFont: "'Reforma', Verdana, serif",
+                specimenFont: "'Georama', Verdana, serif",
               },
               {
-                role: isAr ? 'ثانوي · لاتيني' : 'Secondary · Latin',
-                name: 'Georama',
-                desc: isAr ? 'خط بلا أعشار محسّن للقراءة على الشاشات. مثالي للنصوص الوظيفية.' : 'Sans-serif optimized for screen readability. Ideal for functional and supporting text across all environments.',
-                weights: isAr ? ['عادي','متوسط','عريض'] : ['Regular','Medium','Bold'],
-                specimen: { display: 'Home · About · Products', h1: 'Premium, Commissions & KPIs', body: "We're here to make insurance more human.", caption: 'BROKER PORTAL · VERSION 9' },
-                specimenFont: "'Georama', Verdana, sans-serif",
+                role: isAr ? 'ثانوي · عربي/لاتيني' : 'Secondary · Arabic/Latin',
+                name: 'Almarai',
+                desc: isAr ? 'خط عربي حديث وواضح للنصوص والأجسام. مثالي للقراءة على الشاشات.' : 'A modern, clear Arabic typeface for body text and supporting content. Ideal for screen readability.',
+                weights: isAr ? ['خفيف','عادي','عريض','عريض جداً'] : ['Light','Regular','Bold','ExtraBold'],
+                specimen: { display: 'مرحباً بالعالم', h1: 'التأمين الصحي', body: 'نحن هنا لجعل التأمين أكثر إنسانية.', caption: 'بوابة الوسطاء · الإصدار 9' },
+                specimenFont: "'Almarai', Verdana, sans-serif",
               },
             ].map(card => (
               <div key={card.name} style={{ background: cardBg, borderRadius: '12px', padding: '28px', border: `1px solid ${cardBdr}`, boxShadow: cardSdw }}>

@@ -6,13 +6,13 @@ import { Sun, Moon, Globe, Eye, EyeOff, Shield, BarChart3, Languages, Mail, Moni
 
 /* ── Brand ──────────────────────────────────────────── */
 const B = {
-  indigo:   '#19058C',
+  indigo: '#19058C',
   roseGold: '#D28C64',
   deepBlue: '#1F0F4D',
-  ocean:    '#8094E6',
-  sunrise:  '#FF7366',
-  seafoam:  '#6BCABA',
-  pearl:    '#E5E5E5',
+  ocean: '#8094E6',
+  sunrise: '#FF7366',
+  seafoam: '#6BCABA',
+  pearl: '#E5E5E5',
 } as const;
 
 export function LoginPage() {
@@ -23,19 +23,19 @@ export function LoginPage() {
   const isAr = language === 'ar';
   const isDark = theme === 'dark';
 
-  const handleEmployeeLogin = () => { setUserRole('admin');  setIsAuthenticated(true); navigate('/admin'); };
-  const handleBrokerOTP     = () => { navigate('/auth/otp'); };
-  const handleSocialLogin   = () => { setUserRole('broker'); setIsAuthenticated(true); navigate('/broker'); };
+  const handleEmployeeLogin = () => { setUserRole('admin'); setIsAuthenticated(true); navigate('/admin'); };
+  const handleBrokerOTP = () => { navigate('/auth/otp'); };
+  const handleSocialLogin = () => { setUserRole('broker'); setIsAuthenticated(true); navigate('/broker'); };
 
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"   : "'Reforma', Verdana, sans-serif";
+  const ff = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
 
-  const panelBg   = isDark ? '#0F1825' : '#FFFFFF';
-  const panelText = isDark ? '#E8F0FF'  : B.indigo;
-  const inputBg   = isDark ? 'rgba(128,148,230,0.07)' : '#F8F7FC';
-  const inputBdr  = isDark ? 'rgba(128,148,230,0.18)' : 'rgba(25,5,140,0.15)';
+  const panelBg = isDark ? '#0F1825' : '#FFFFFF';
+  const panelText = isDark ? '#E8F0FF' : B.indigo;
+  const inputBg = isDark ? 'rgba(128,148,230,0.07)' : '#F8F7FC';
+  const inputBdr = isDark ? 'rgba(128,148,230,0.18)' : 'rgba(25,5,140,0.15)';
   const textMuted = isDark ? 'rgba(130,160,220,0.58)' : 'rgba(61,53,96,0.60)';
-  const textBody  = isDark ? 'rgba(180,205,255,0.78)' : '#3D3560';
+  const textBody = isDark ? 'rgba(180,205,255,0.78)' : '#3D3560';
 
   return (
     <div
@@ -71,7 +71,7 @@ export function LoginPage() {
             </div>
             <div>
               <div style={{ color: '#FFFFFF', fontFamily: ffH, fontWeight: 700, fontSize: '16px', lineHeight: 1.2 }}>
-                {isAr ? 'جي آي جي الأردن' : 'GIG Jordan'}
+                {isAr ? 'GIG Jordan team' : 'GIG Jordan'}
               </div>
               <div style={{ color: 'rgba(255,255,255,0.50)', fontSize: '13px', fontFamily: ff }}>
                 {isAr ? 'للتأمين' : 'Insurance Company'}
@@ -103,7 +103,7 @@ export function LoginPage() {
             </h1>
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: '14px', maxWidth: '440px', lineHeight: 1.7, fontFamily: ff }}>
               {isAr
-                ? 'منصة متكاملة لإدارة وثائق التأمين وتتبع العمولات والتواصل مع فريق جي آي جي الأردن'
+                ? 'منصة متكاملة لإدارة وثائق التأمين وتتبع العمولات والتواصل مع فريقGIG Jordan teamالأردن'
                 : 'A comprehensive platform for managing insurance policies, tracking commissions, and collaborating with the GIG Jordan team.'}
             </p>
           </div>
@@ -111,9 +111,9 @@ export function LoginPage() {
           {/* Feature pills */}
           <div className="flex flex-wrap gap-3">
             {[
-              { icon: Shield,   label: isAr ? 'أمان عالي المستوى' : 'Enterprise Security',  color: B.indigo   },
-              { icon: BarChart3, label: isAr ? 'تحليلات متقدمة'    : 'Advanced Analytics',   color: B.ocean    },
-              { icon: Languages, label: isAr ? 'ثنائي اللغة'        : 'Bilingual AR / EN',    color: B.seafoam  },
+              { icon: Shield, label: isAr ? 'أمان عالي المستوى' : 'Enterprise Security', color: B.indigo },
+              { icon: BarChart3, label: isAr ? 'تحليلات متقدمة' : 'Advanced Analytics', color: B.ocean },
+              { icon: Languages, label: isAr ? 'ثنائي اللغة' : 'Bilingual AR / EN', color: B.seafoam },
             ].map((f) => (
               <div key={f.label}
                 className="flex items-center gap-2 px-4 py-2 rounded-full border"
@@ -186,7 +186,7 @@ export function LoginPage() {
               style={{ background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(25,5,140,0.06)' }}>
               {[
                 { key: 'employee', label: isAr ? 'موظف GIG' : 'GIG Employee' },
-                { key: 'broker',   label: isAr ? 'وسيط / وكيل' : 'Broker / Agent' }
+                { key: 'broker', label: isAr ? 'وسيط / وكيل' : 'Broker / Agent' }
               ].map((opt) => (
                 <button
                   key={opt.key}
@@ -220,7 +220,7 @@ export function LoginPage() {
                       placeholder={field.placeholder}
                       defaultValue={field.defaultValue}
                       onFocus={e => { e.currentTarget.style.borderColor = B.indigo; }}
-                      onBlur={e  => { e.currentTarget.style.borderColor = inputBdr; }}
+                      onBlur={e => { e.currentTarget.style.borderColor = inputBdr; }}
                     />
                   </div>
                 ))}
@@ -236,7 +236,7 @@ export function LoginPage() {
                       placeholder="••••••••••"
                       defaultValue="password123"
                       onFocus={e => { e.currentTarget.style.borderColor = B.indigo; }}
-                      onBlur={e  => { e.currentTarget.style.borderColor = inputBdr; }}
+                      onBlur={e => { e.currentTarget.style.borderColor = inputBdr; }}
                     />
                     <button
                       className="absolute end-3 top-1/2 -translate-y-1/2"
@@ -266,10 +266,10 @@ export function LoginPage() {
             ) : (
               <div className="space-y-3">
                 {[
-                  { provider: 'google',    label: isAr ? 'الدخول بـ Google'    : 'Sign in with Google',    Icon: Globe2,   filled: false },
-                  { provider: 'microsoft', label: isAr ? 'الدخول بـ Microsoft' : 'Sign in with Microsoft', Icon: Grid3X3,  filled: false },
-                  { provider: 'apple',     label: isAr ? 'الدخول بـ Apple'     : 'Sign in with Apple',     Icon: Monitor,  filled: false },
-                  { provider: 'otp',       label: isAr ? 'الدخول بـ OTP البريد' : 'Sign in with Email OTP', Icon: Mail,     filled: true  },
+                  { provider: 'google', label: isAr ? 'الدخول بـ Google' : 'Sign in with Google', Icon: Globe2, filled: false },
+                  { provider: 'microsoft', label: isAr ? 'الدخول بـ Microsoft' : 'Sign in with Microsoft', Icon: Grid3X3, filled: false },
+                  { provider: 'apple', label: isAr ? 'الدخول بـ Apple' : 'Sign in with Apple', Icon: Monitor, filled: false },
+                  { provider: 'otp', label: isAr ? 'الدخول بـ OTP البريد' : 'Sign in with Email OTP', Icon: Mail, filled: true },
                 ].map((btn) => (
                   <button
                     key={btn.provider}

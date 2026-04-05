@@ -46,7 +46,7 @@ export function LicenseRenewalPage() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'dark' : ''}`}
-      style={{ background: bg, fontFamily: isAr ? "'Tajawal', sans-serif" : "'IBM Plex Sans', sans-serif" }}>
+      style={{ background: bg, fontFamily: "'Almarai', Verdana, sans-serif" }}>
       <div className="max-w-2xl mx-auto px-6 py-10">
         {/* Header */}
         <div className="text-center mb-8">

@@ -22,6 +22,9 @@ export function StatementPage() {
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   const kpis = [
     { label: isAr ? 'الرصيد الحالي' : 'Current Balance', value: 'JOD 1,234.50', color: '#00C896', icon: Wallet, bg: 'rgba(0,200,150,0.1)' },
     { label: isAr ? 'إجمالي العمولات' : 'Total Commissions', value: 'JOD 174.00', color: '#D28C64', icon: TrendingUp, bg: 'rgba(210,140,100,0.10)' },
@@ -48,8 +51,8 @@ export function StatementPage() {
     <div className="p-5 min-h-full" style={{ background: bg }}>
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>{isAr ? 'كشف الحساب' : 'Statement of Account'}</h1>
-          <p style={{ fontSize: '13px', color: textSecondary }}>{isAr ? 'سجل المعاملات المالية الكاملة' : 'Complete financial transaction record'}</p>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>{isAr ? 'كشف الحساب' : 'Statement of Account'}</h1>
+          <p style={{ fontSize: '13px', color: textSecondary, fontFamily: ff }}>{isAr ? 'سجل المعاملات المالية الكاملة' : 'Complete financial transaction record'}</p>
         </div>
         <div className="flex gap-3">
           <input type="date" className="px-3 py-2 rounded-lg border text-sm outline-none"

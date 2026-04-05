@@ -78,6 +78,9 @@ export function NotificationsPage() {
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   const markAllRead = () => setNotifications(prev => prev.map(n => ({ ...n, unread: false })));
   const markRead = (id: number) => setNotifications(prev => prev.map(n => n.id === id ? { ...n, unread: false } : n));
 
@@ -93,8 +96,8 @@ export function NotificationsPage() {
     <div className="p-5 min-h-full" style={{ background: bg }}>
       <div className="flex items-center justify-between mb-5">
         <div>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>{isAr ? 'مركز الإشعارات' : 'Notification Center'}</h1>
-          <p style={{ fontSize: '13px', color: textSecondary }}>{isAr ? 'جميع إشعارات حسابك' : 'All your account notifications'}</p>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>{isAr ? 'مركز الإشعارات' : 'Notification Center'}</h1>
+          <p style={{ fontSize: '13px', color: textSecondary, fontFamily: ff }}>{isAr ? 'جميع إشعارات حسابك' : 'All your account notifications'}</p>
         </div>
         <button
           className="px-4 py-2 rounded-lg border text-sm font-medium flex items-center gap-2 hover:opacity-80"

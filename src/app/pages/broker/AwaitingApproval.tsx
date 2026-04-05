@@ -13,6 +13,9 @@ export function AwaitingApproval() {
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   const timeline = [
     { label: isAr ? 'تم إنشاء العرض' : 'Quote Created', time: '14:30', done: true },
     { label: isAr ? 'تم رفع الفيديو' : 'Video Uploaded', time: '14:34', done: true },
@@ -47,7 +50,7 @@ export function AwaitingApproval() {
           </div>
 
           <div className="mb-6">
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: textPrimary, marginBottom: '8px' }}>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: textPrimary, marginBottom: '8px', fontFamily: ffH }}>
               {isAr ? 'في انتظار موافقة GIG' : 'Awaiting GIG Approval'}
             </h2>
             <div className="font-mono font-bold mb-2" style={{ fontSize: '1.1rem', color: '#C8102E' }}>

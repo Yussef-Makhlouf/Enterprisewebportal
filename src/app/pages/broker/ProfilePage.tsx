@@ -20,6 +20,9 @@ export function ProfilePage() {
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
   const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   const Input = ({ label, locked = false, type = 'text', ...props }: { label: string; locked?: boolean; type?: string } & React.InputHTMLAttributes<HTMLInputElement>) => (
     <div>
       <label className="block mb-1.5" style={{ fontSize: '12px', fontWeight: 500, color: textSecondary }}>{label}</label>
@@ -50,8 +53,8 @@ export function ProfilePage() {
   return (
     <div className="p-5 min-h-full pb-20" style={{ background: bg }}>
       <div className="mb-5">
-        <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>{isAr ? 'ملفي الشخصي' : 'My Profile'}</h1>
-        <p style={{ fontSize: '13px', color: textSecondary }}>{isAr ? 'إدارة بياناتك الشخصية وإعدادات الأمان' : 'Manage your personal information and security settings'}</p>
+        <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>{isAr ? 'ملفي الشخصي' : 'My Profile'}</h1>
+        <p style={{ fontSize: '13px', color: textSecondary, fontFamily: ff }}>{isAr ? 'إدارة بياناتك الشخصية وإعدادات الأمان' : 'Manage your personal information and security settings'}</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -184,7 +187,7 @@ export function ProfilePage() {
               </div>
               <button
                 className="w-12 h-6 rounded-full transition-all relative"
-                style={{ background: twoFactor ? '#C8102E' : (theme === 'dark' ? '#2A3650' : '#C0CBDE') }}
+                style={{ background: twoFactor ? '#1f0f4d' : (theme === 'dark' ? '#2A3650' : '#C0CBDE') }}
                 onClick={() => setTwoFactor(p => !p)}>
                 <span className="absolute top-1 transition-all rounded-full w-4 h-4 bg-white" style={{ left: twoFactor ? '26px' : '4px' }} />
               </button>

@@ -73,8 +73,8 @@ export function DomesticWorkerIssuance() {
   const tBody = textBody(isDark);
   const tMute = textMuted(isDark);
   
-  const ff = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Reforma', Verdana, sans-serif";
+  const ff = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
   const ffM = "'IBM Plex Mono', monospace";
 
   const steps = [

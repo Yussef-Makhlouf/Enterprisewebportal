@@ -11,16 +11,16 @@ interface Props {
 
 export function SendInvitationModal({ broker, onClose, onSend }: Props) {
   const { theme, language, isRTL } = useApp();
-  const isAr  = language === 'ar';
+  const isAr = language === 'ar';
   const isDark = theme === 'dark';
   const [emailLang, setEmailLang] = useState<'en' | 'ar'>('en');
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  const bg            = modalBg(isDark);
-  const textPrimary   = textHero(isDark);
+  const bg = modalBg(isDark);
+  const textPrimary = textHero(isDark);
   const textSecondary = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
-  const borderColor   = cardBdr(isDark);
-  const tM            = textMuted(isDark);
+  const borderColor = cardBdr(isDark);
+  const tM = textMuted(isDark);
 
   return (
     <>
@@ -97,7 +97,7 @@ export function SendInvitationModal({ broker, onClose, onSend }: Props) {
                 <div className="rounded-lg p-4"
                   style={{ background: isDark ? '#0C1221' : '#F0F4FA', fontSize: '12px', color: textSecondary, lineHeight: '1.7' }}>
                   <p style={{ color: textPrimary, fontWeight: 600, marginBottom: '8px' }}>
-                    {emailLang === 'en' ? 'GIG Jordan Broker Portal — Invitation' : 'بوابة وسطاء جي آي جي الأردن — دعوة'}
+                    {emailLang === 'en' ? 'GIG Jordan Broker Portal — Invitation' : 'بوابة وسطاءGIG Jordan teamالأردن — دعوة'}
                   </p>
                   {emailLang === 'en' ? (
                     <>
@@ -108,7 +108,7 @@ export function SendInvitationModal({ broker, onClose, onSend }: Props) {
                   ) : (
                     <div dir="rtl">
                       <p>عزيزي {broker.nameAr}،</p>
-                      <p className="mt-2">لقد تمت دعوتك للوصول إلى بوابة وسطاء جي آي جي الأردن. هذه الدعوة صالحة لمدة 72 ساعة.</p>
+                      <p className="mt-2">لقد تمت دعوتك للوصول إلى بوابة وسطاءGIG Jordan teamالأردن. هذه الدعوة صالحة لمدة 72 ساعة.</p>
                     </div>
                   )}
                 </div>

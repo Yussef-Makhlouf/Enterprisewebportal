@@ -19,7 +19,7 @@ export function LicenseExpiredPage() {
 
   return (
     <div className={`min-h-screen flex items-center justify-center p-6 ${theme === 'dark' ? 'dark' : ''}`}
-      style={{ background: bg, fontFamily: "'Georama', Verdana, sans-serif" }}>
+      style={{ background: bg, fontFamily: "'Almarai', Verdana, sans-serif" }}>
       <div className="w-full max-w-lg text-center">
         <div className="rounded-2xl p-10 shadow-2xl"
           style={{

@@ -34,7 +34,7 @@ export function TravelIssuance() {
   const textPrimary = isDark ? '#E8F0FF' : B.indigo;
   const textMuted   = isDark ? 'rgba(255,255,255,0.50)' : 'rgba(61,53,96,0.60)';
   const inputBg     = isDark ? 'rgba(128,148,230,0.07)' : '#F8F7FC';
-  const ff          = "'Georama', Verdana, sans-serif";
+  const ff          = "'Almarai', Verdana, sans-serif";
 
   const Input = ({ label, ...p }: { label: string } & React.InputHTMLAttributes<HTMLInputElement>) => (
     <div>

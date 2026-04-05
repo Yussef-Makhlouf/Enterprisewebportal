@@ -5,6 +5,7 @@ import { BrokerDetailDrawer } from '../../components/admin/BrokerDetailDrawer';
 import { SendInvitationModal } from '../../components/admin/SendInvitationModal';
 import { EditBrokerDrawer } from '../../components/admin/EditBrokerDrawer';
 import { ConfirmationModal } from '../../components/global/ConfirmationModal';
+import { B } from '../../utils/darkPalette';
 
 const BROKERS = [
   { id: 1, name: 'Khalid Al-Mansouri', nameAr: 'خالد المنصوري', email: 'k.mansouri@email.com', type: 'Broker', typeAr: 'وسيط', status: 'Active', lobs: ['Travel', 'Motor', 'Medical'], expiry: '31/12/2025', commission: '8.0', invitation: 'Sent', avatar: 'KM', daysToExpiry: 290 },
@@ -49,10 +50,13 @@ export function ManageBrokers() {
   const bg          = isDark ? '#070E1C' : '#F0F4FA';
   const cardBg        = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
   const textPrimary   = isDark ? '#E8F0FF'                   : '#19058C';
-  const textSecondary = isDark ? 'rgba(180,205,255,0.65)'   : '#3D3560';
+  const textSecondary = isDark ? 'rgba(180,205,255,0.78)'   : '#3D3560';
   const borderColor   = isDark ? 'rgba(128,148,230,0.16)'   : 'rgba(13,31,60,0.10)';
   const rowBg         = isDark ? 'rgba(128,148,230,0.05)'   : '#FFFFFF';
   const rowHover      = isDark ? 'rgba(128,148,230,0.09)'   : '#F5F8FF';
+
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
 
   const filteredBrokers = BROKERS.filter(b => {
     const matchSearch = b.name.toLowerCase().includes(search.toLowerCase()) || b.email.toLowerCase().includes(search.toLowerCase());
@@ -89,10 +93,10 @@ export function ManageBrokers() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row lg:items-center justify-between gap-4 mb-5">
         <div>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>
             {isAr ? 'إدارة الوسطاء والوكلاء' : 'Manage Brokers & Agents'}
           </h1>
-          <p style={{ fontSize: '13px', color: textSecondary }}>
+          <p style={{ fontSize: '13px', color: textSecondary, fontFamily: ff }}>
             {isAr ? 'إدارة جميع الوسطاء والوكلاء المسجلين' : 'Manage all registered brokers and agents'}
           </p>
         </div>
@@ -106,7 +110,12 @@ export function ManageBrokers() {
           </button>
           <button
             className="px-4 py-2 rounded-lg text-white font-medium text-sm flex items-center gap-2 hover:opacity-90 transition-all"
-            style={{ background: '#19058C', boxShadow: '0 2px 10px rgba(25,5,140,0.30)' }}
+            style={{
+              background: isDark
+                ? `linear-gradient(135deg, ${B.ocean} 0%, #6B7FD4 100%)`
+                : `linear-gradient(135deg, ${B.indigo} 0%, #2D1A9E 100%)`,
+              boxShadow: isDark ? '0 2px 10px rgba(128,148,230,0.30)' : '0 2px 10px rgba(25,5,140,0.30)',
+            }}
             onClick={() => setInviteBroker(BROKERS[0])}
           >
             <Plus size={15} />
@@ -135,8 +144,8 @@ export function ManageBrokers() {
               key={chip}
               className="px-3 py-1.5 rounded-full text-sm font-medium transition-all border"
               style={{
-                background: activeFilter === chip ? '#19058C' : 'transparent',
-                borderColor: activeFilter === chip ? '#19058C' : borderColor,
+                background: activeFilter === chip ? (isDark ? B.ocean : B.indigo) : 'transparent',
+                borderColor: activeFilter === chip ? (isDark ? B.ocean : B.indigo) : borderColor,
                 color: activeFilter === chip ? '#fff' : textSecondary,
               }}
               onClick={() => setActiveFilter(chip)}
@@ -284,7 +293,7 @@ export function ManageBrokers() {
                     <td className="px-4 py-3">
                       {broker.invitation === 'Sent' ? (
                         <span className="px-2.5 py-1 rounded-full"
-                          style={{ fontSize: '11px', background: 'rgba(0,200,150,0.12)', color: '#00C896', fontWeight: 500 }}>
+                          style={{ fontSize: '11px', background: `${B.seafoam}18`, color: B.seafoam, fontWeight: 500 }}>
                           {isAr ? 'مرسل' : 'Sent'}
                         </span>
                       ) : (
@@ -340,7 +349,7 @@ export function ManageBrokers() {
               <button key={i}
                 className="w-7 h-7 rounded-lg text-xs font-medium transition-all"
                 style={{
-                  background: p === page ? '#19058C' : 'transparent',
+                  background: p === page ? (isDark ? B.ocean : B.indigo) : 'transparent',
                   color: p === page ? '#fff' : textSecondary,
                 }}>
                 {p}

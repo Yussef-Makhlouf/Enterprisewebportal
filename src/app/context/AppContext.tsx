@@ -67,7 +67,7 @@ const translations: Record<string, Record<string, string>> = {
   },
   ar: {
     'app.title': 'بوابة الوسطاء والوكلاء',
-    'app.company': 'جي آي جي الأردن للتأمين',
+    'app.company': 'GIG Jordan team للتأمين',
     'nav.dashboard': 'لوحة التحكم',
     'nav.brokers': 'إدارة الوسطاء',
     'nav.roles': 'الأدوار والصلاحيات',

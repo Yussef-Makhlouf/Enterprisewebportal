@@ -43,7 +43,7 @@ export function SetPasswordPage() {
 
   return (
     <div className={`min-h-screen flex items-center justify-center p-6 ${theme === 'dark' ? 'dark' : ''}`}
-      style={{ background: bg, fontFamily: isAr ? "'Tajawal', sans-serif" : "'IBM Plex Sans', sans-serif" }}>
+      style={{ background: bg, fontFamily: "'Almarai', Verdana, sans-serif" }}>
       <div className="w-full max-w-md">
         <div className="rounded-2xl p-8 shadow-2xl"
           style={{ background: cardBg, border: `1px solid ${theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.08)'}` }}>

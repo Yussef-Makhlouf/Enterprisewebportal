@@ -69,11 +69,11 @@ export function BrokerDashboard() {
   const grid  = gridLine(isDark);
 
   /* fonts */
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif"  : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"    : "'Reforma', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"    : "'Georama', Verdana, sans-serif";
   const ffM = "'IBM Plex Mono', monospace";
 
-  const tt = tooltipStyle(ff);
+  const tt = tooltipStyle(ff, isDark);
 
   /* KPIs */
   const kpis = [
@@ -228,7 +228,7 @@ export function BrokerDashboard() {
         {/* Line chart */}
         <div className="col-span-1 lg:col-span-2 p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
               {isAr ? 'وثائقي حسب الشهر' : 'My Policies by Month'}
             </h3>
             {isDark && (
@@ -266,7 +266,7 @@ export function BrokerDashboard() {
 
         {/* Donut */}
         <div className="p-6 rounded-xl flex flex-col" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
-          <h3 className="mb-4" style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+          <h3 className="mb-4" style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
             {isAr ? 'توزيع العمولات' : 'Commission Breakdown'}
           </h3>
           <div className="flex-1 flex flex-col justify-center">
@@ -300,7 +300,7 @@ export function BrokerDashboard() {
         {/* Recent Policies */}
         <div className="p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
               {isAr ? 'الوثائق الأخيرة' : 'Recent Policies'}
             </h3>
             <button
@@ -355,7 +355,7 @@ export function BrokerDashboard() {
         {/* Sub-Brokers */}
         <div className="p-6 rounded-xl" style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
               {isAr ? 'وسطائي الفرعيون' : 'My Sub-Brokers'}
             </h3>
             <button

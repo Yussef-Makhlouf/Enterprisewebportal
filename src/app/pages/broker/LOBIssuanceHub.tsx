@@ -5,19 +5,19 @@ import { ArrowRight, Lock, Info, Plane, Car, Stethoscope, Home, HardHat, Wrench,
 
 /* Design-system colors only */
 const B = {
-  indigo:   '#19058C',
+  indigo: '#19058C',
   roseGold: '#D28C64',
-  ocean:    '#8094E6',
-  seafoam:  '#6BCABA',
-  purple:   '#A78BF0',
+  ocean: '#8094E6',
+  seafoam: '#6BCABA',
+  purple: '#A78BF0',
   deepBlue: '#1F0F4D',
 } as const;
 
 interface LOBItem {
   key: string;
   Icon: LucideIcon;
-  label: string;  labelAr: string;
-  desc: string;   descAr: string;
+  label: string; labelAr: string;
+  desc: string; descAr: string;
   products: number;
   available: boolean;
   color: string;
@@ -25,34 +25,34 @@ interface LOBItem {
 }
 
 const LOBS: LOBItem[] = [
-  { key: 'travel',    Icon: Plane,       label: 'Travel Insurance',  labelAr: 'تأمين السفر',     desc: 'Worldwide coverage for individual and family travel',          descAr: 'تغطية عالمية للأفراد والعائلات',           products: 7, available: true,  color: B.indigo,   path: '/broker/issuance/travel' },
-  { key: 'motor',     Icon: Car,         label: 'Motor Insurance',   labelAr: 'تأمين المركبات',  desc: 'Comprehensive vehicle coverage — new, renewal & corporate',    descAr: 'تغطية شاملة للمركبات — جديدة وتجديد',      products: 3, available: true,  color: B.roseGold, path: '/broker/issuance/motor'  },
-  { key: 'medical',   Icon: Stethoscope, label: 'Medical Insurance', labelAr: 'التأمين الطبي',   desc: 'Individual and group medical coverage plans',                 descAr: 'خطط التغطية الطبية الفردية والجماعية',     products: 3, available: true, color: B.seafoam,  path: '/broker/issuance/medical' },
-  { key: 'home',      Icon: Home,        label: 'Home Insurance',    labelAr: 'تأمين المنزل',    desc: 'Complete home and contents protection',                       descAr: 'حماية شاملة للمنزل والمحتويات',           products: 2, available: true,  color: B.ocean,    path: '/broker/issuance/home' },
-  { key: 'domestic',  Icon: HardHat,     label: 'Domestic Worker',   labelAr: 'العمالة المنزلية',desc: 'Insurance for domestic workers and household staff',           descAr: 'تأمين للعمالة المنزلية والموظفين',         products: 1, available: true,  color: B.purple,   path: '/broker/issuance/domestic-worker' },
-  { key: 'assist',    Icon: Wrench,      label: 'Home Assistance',   labelAr: 'المساعدة المنزلية',desc:'Emergency home services and technical support',                descAr: 'خدمات المنزل الطارئة والدعم التقني',      products: 1, available: true, color: B.seafoam,  path: '/broker/issuance/home-assistance' },
+  { key: 'travel', Icon: Plane, label: 'Travel Insurance', labelAr: 'تأمين السفر', desc: 'Worldwide coverage for individual and family travel', descAr: 'تغطية عالمية للأفراد والعائلات', products: 7, available: true, color: B.indigo, path: '/broker/issuance/travel' },
+  { key: 'motor', Icon: Car, label: 'Motor Insurance', labelAr: 'تأمين المركبات', desc: 'Comprehensive vehicle coverage — new, renewal & corporate', descAr: 'تغطية شاملة للمركبات — جديدة وتجديد', products: 3, available: true, color: B.roseGold, path: '/broker/issuance/motor' },
+  { key: 'medical', Icon: Stethoscope, label: 'Medical Insurance', labelAr: 'التأمين الطبي', desc: 'Individual and group medical coverage plans', descAr: 'خطط التغطية الطبية الفردية والجماعية', products: 3, available: true, color: B.seafoam, path: '/broker/issuance/medical' },
+  { key: 'home', Icon: Home, label: 'Home Insurance', labelAr: 'تأمين المنزل', desc: 'Complete home and contents protection', descAr: 'حماية شاملة للمنزل والمحتويات', products: 2, available: true, color: B.ocean, path: '/broker/issuance/home' },
+  { key: 'domestic', Icon: HardHat, label: 'Domestic Worker', labelAr: 'العمالة المنزلية', desc: 'Insurance for domestic workers and household staff', descAr: 'تأمين للعمالة المنزلية والموظفين', products: 1, available: true, color: B.purple, path: '/broker/issuance/domestic-worker' },
+  { key: 'assist', Icon: Wrench, label: 'Home Assistance', labelAr: 'المساعدة المنزلية', desc: 'Emergency home services and technical support', descAr: 'خدمات المنزل الطارئة والدعم التقني', products: 1, available: true, color: B.seafoam, path: '/broker/issuance/home-assistance' },
 ];
 
 export function LOBIssuanceHub() {
   const { theme, language, isRTL } = useApp();
   const navigate = useNavigate();
-  const isAr   = language === 'ar';
-  const isDark  = theme === 'dark';
+  const isAr = language === 'ar';
+  const isDark = theme === 'dark';
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const textPrimary   = isDark ? '#FFFFFF' : B.indigo;
+  const textPrimary = isDark ? '#FFFFFF' : B.indigo;
   const textSecondary = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
-  const borderColor   = isDark ? 'rgba(128,148,230,0.16)' : 'rgba(25,5,140,0.09)';
-  const cardBase      = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = isDark ? 'rgba(128,148,230,0.16)' : 'rgba(25,5,140,0.09)';
+  const cardBase = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
 
-  const ff  = "'Georama', Verdana, sans-serif";
-  const ffH = "'Reforma', Verdana, sans-serif";
+  const ff = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
 
   return (
     <div className="p-7 min-h-full gig-texture-bg bg-background" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       {/* Header */}
       <div className="mb-7">
-        <h1 style={{ fontSize: '1.7rem', fontWeight: 700, color: textPrimary, fontFamily: isAr ? "'Kufam', Tahoma" : ffH }}>
+        <h1 style={{ fontSize: '1.7rem', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>
           {isAr ? 'إصدار وثيقة جديدة' : 'Issue New Policy'}
         </h1>
         <p style={{ fontSize: '13px', color: textSecondary, marginTop: '4px', fontFamily: ff }}>
@@ -118,7 +118,7 @@ export function LOBIssuanceHub() {
                   )}
                 </div>
 
-                <h3 className="mb-1.5" style={{ fontSize: '15px', fontWeight: 700, color: isHov ? lob.color : textPrimary, fontFamily: isAr ? "'Kufam', Tahoma" : ffH }}>
+                <h3 className="mb-1.5" style={{ fontSize: '15px', fontWeight: 700, color: isHov ? lob.color : textPrimary, fontFamily: ffH }}>
                   {isAr ? lob.labelAr : lob.label}
                 </h3>
                 <p className="mb-4" style={{ fontSize: '12px', color: textSecondary, lineHeight: '1.6', fontFamily: ff }}>
@@ -149,7 +149,7 @@ export function LOBIssuanceHub() {
         <Info size={15} style={{ color: B.ocean, flexShrink: 0 }} />
         <p style={{ fontSize: '12px', color: textSecondary, fontFamily: ff }}>
           {isAr
-            ? 'خطوط الأعمال غير المرخصة تتطلب تصريحاً إضافياً من جي آي جي الأردن. تواصل مع فريق الدعم لتفعيلها.'
+            ? 'خطوط الأعمال غير المرخصة تتطلب تصريحاً إضافياً منGIG Jordan teamالأردن. تواصل مع فريق الدعم لتفعيلها.'
             : 'Locked tiles require additional authorization from GIG Jordan. Contact support to activate them.'}
         </p>
       </div>

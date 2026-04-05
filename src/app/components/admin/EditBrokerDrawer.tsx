@@ -62,8 +62,8 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
           {/* Alert */}
           <div className="flex items-center gap-3 p-3 rounded-xl"
-            style={{ background: 'rgba(240,176,48,0.08)', border: '1px solid rgba(240,176,48,0.25)' }}>
-            <AlertCircle size={16} style={{ color: '#F0B030', flexShrink: 0 }} />
+            style={{ background: `${B.roseGold}12`, border: `1px solid ${B.roseGold}40` }}>
+            <AlertCircle size={16} style={{ color: B.roseGold, flexShrink: 0 }} />
             <p style={{ fontSize: '12px', color: textSecondary }}>
               {isAr ? 'التغييرات تسري فوراً' : 'Changes take effect immediately'}
             </p>
@@ -94,14 +94,14 @@ export function EditBrokerDrawer({ broker, onClose }: Props) {
                 <div className="border-2 border-dashed rounded-xl p-4 text-center cursor-pointer hover:border-[#D28C64]/50 transition-all"
                   style={{ borderColor, background: theme === 'dark' ? 'rgba(255,255,255,0.02)' : '#FAFBFD' }}>
                   <div className="flex items-center justify-center gap-2">
-                    <Upload size={16} style={{ color: '#6B7A9B' }} />
+                    <Upload size={16} style={{ color: textSecondary }} />
                     <span style={{ fontSize: '12px', color: textSecondary }}>
                       {isAr ? 'اسحب أو انقر للرفع · PDF, JPG · Max 10MB' : 'Drag or click to upload · PDF, JPG · Max 10MB'}
                     </span>
                   </div>
                   <div className="mt-2 flex items-center justify-center gap-2">
-                    <div className="w-2 h-2 rounded-full" style={{ background: '#6BCABA' }} />
-                    <span style={{ fontSize: '11px', color: '#6BCABA' }}>license_current.pdf</span>
+                    <div className="w-2 h-2 rounded-full" style={{ background: B.seafoam }} />
+                    <span style={{ fontSize: '11px', color: B.seafoam }}>license_current.pdf</span>
                   </div>
                 </div>
               </div>

@@ -18,6 +18,9 @@ export function CorporateRegistration() {
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
   const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   const handleValidate = () => {
     setValidating(true);
     setTimeout(() => {
@@ -48,12 +51,12 @@ export function CorporateRegistration() {
     <div className="p-5 min-h-full" style={{ background: bg }}>
       <div className="flex items-center gap-4 mb-6">
         <div className="w-12 h-12 rounded-xl flex items-center justify-center"
-          style={{ background: 'rgba(200,16,46,0.12)', border: '1px solid rgba(200,16,46,0.25)' }}>
-          <Building2 size={22} style={{ color: '#C8102E' }} />
+          style={{ background: '#d28c64', border: '1px solid #d17a48ff' }}>
+          <Building2 size={22} style={{ color: '#ffffff' }} />
         </div>
         <div>
-          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary }}>{isAr ? 'تسجيل عميل مؤسسي' : 'Register Corporate Account'}</h1>
-          <p style={{ fontSize: '13px', color: textSecondary }}>{isAr ? 'للوثائق المؤسسية (مركبات/طبي)' : 'For motor/medical corporate policies'}</p>
+          <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>{isAr ? 'تسجيل عميل مؤسسي' : 'Register Corporate Account'}</h1>
+          <p style={{ fontSize: '13px', color: textSecondary, fontFamily: ff }}>{isAr ? 'للوثائق المؤسسية (مركبات/طبي)' : 'For motor/medical corporate policies'}</p>
         </div>
       </div>
 
@@ -63,11 +66,11 @@ export function CorporateRegistration() {
           <div key={s.n} className="flex items-center">
             <div className="flex flex-col items-center">
               <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all ${
-                s.n < step ? 'bg-[#00C896] text-white' : s.n === step ? 'bg-[#C8102E] text-white' : 'border-2'
+                s.n < step ? 'bg-[#00C896] text-white' : s.n === step ? 'bg-[#1e0f4d] text-white' : 'border-2'
               }`} style={{ borderColor: s.n > step ? borderColor : 'transparent', color: s.n > step ? textSecondary : 'white', fontSize: '12px' }}>
                 {s.n < step ? <Check size={14} /> : s.n}
               </div>
-              <span className="mt-1" style={{ fontSize: '11px', color: s.n === step ? '#C8102E' : textSecondary }}>{s.label}</span>
+              <span className="mt-1" style={{ fontSize: '11px', color: s.n === step ? '#1e0f4d' : textSecondary }}>{s.label}</span>
             </div>
             {i < steps.length - 1 && (
               <div className="w-24 h-0.5 mb-4 mx-1" style={{ background: s.n < step ? '#00C896' : borderColor }} />
@@ -90,7 +93,7 @@ export function CorporateRegistration() {
               </div>
               <button
                 className="mt-3 flex items-center gap-2 px-4 py-2.5 rounded-lg text-white text-sm font-medium hover:opacity-90 transition-all"
-                style={{ background: validated ? '#00C896' : '#C8102E', boxShadow: `0 2px 10px ${validated ? 'rgba(0,200,150,0.3)' : 'rgba(200,16,46,0.3)'}` }}
+                style={{ background: validated ? '#00C896' : '#D28C64', boxShadow: `0 2px 10px ${validated ? 'rgba(0,200,150,0.3)' : 'rgba(200,16,46,0.3)'}` }}
                 onClick={handleValidate}
                 disabled={validating}
               >
@@ -113,10 +116,10 @@ export function CorporateRegistration() {
                 <div className="space-y-2 mb-4">
                   {['+962 79 *** ***1', '+962 77 *** ***5'].map((num, i) => (
                     <label key={num} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer"
-                      style={{ background: i === 0 ? 'rgba(200,16,46,0.08)' : 'transparent', border: `1px solid ${i === 0 ? '#C8102E' : borderColor}` }}>
+                      style={{ background: i === 0 ? 'rgba(200,16,46,0.08)' : 'transparent', border: `1px solid ${i === 0 ? '#1e0f4d' : borderColor}` }}>
                       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center`}
-                        style={{ borderColor: i === 0 ? '#C8102E' : textSecondary }}>
-                        {i === 0 && <div className="w-2 h-2 rounded-full bg-[#C8102E]" />}
+                        style={{ borderColor: i === 0 ? '#1e0f4d' : textSecondary }}>
+                        {i === 0 && <div className="w-2 h-2 rounded-full bg-[#1e0f4d]" />}
                       </div>
                       <span className="font-mono" style={{ fontSize: '14px', color: textPrimary }}>{num}</span>
                     </label>
@@ -127,7 +130,7 @@ export function CorporateRegistration() {
                     <input key={i} type="text" maxLength={1} value={d}
                       onChange={e => { const v = [...otp]; v[i] = e.target.value; setOtp(v); }}
                       className="w-11 h-12 text-center rounded-xl border-2 outline-none font-mono font-bold text-xl"
-                      style={{ background: inputBg, borderColor: d ? '#C8102E' : borderColor, color: textPrimary }} />
+                      style={{ background: inputBg, borderColor: d ? '#1e0f4d' : borderColor, color: textPrimary }} />
                   ))}
                 </div>
               </div>
@@ -187,7 +190,7 @@ export function CorporateRegistration() {
           </button>
           <button
             className="px-6 py-2.5 rounded-xl text-white text-sm font-medium flex items-center gap-2 hover:opacity-90"
-            style={{ background: '#C8102E', boxShadow: '0 2px 10px rgba(200,16,46,0.3)' }}
+            style={{ background: '#1e0f4d', boxShadow: '0 2px 10px rgba(200,16,46,0.3)' }}
             onClick={() => {
               if (step < 3) setStep(s => s + 1);
               else addToast({ type: 'success', title: isAr ? 'تم التسجيل' : 'Registered Successfully' });

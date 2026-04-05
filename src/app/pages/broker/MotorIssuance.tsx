@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useApp } from '../../context/AppContext';
 import { Check, ChevronRight, Upload, AlertTriangle, Lock, Info, Clock, CheckCircle } from 'lucide-react';
+import { B } from '../../utils/darkPalette';
 
 const STEPS = [
   { n: 1, label: 'Vehicle', labelAr: 'المركبة' },
@@ -33,12 +34,18 @@ export function MotorIssuance() {
   const [videoUploaded, setVideoUploaded] = useState(false);
   const [dragging, setDragging] = useState(false);
 
-  const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
-  const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
-  const borderColor = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.10)';
-  const textPrimary = theme === 'dark' ? '#E8F0FF' : '#19058C';
-  const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#3D3560';
-  const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
+  const isDark      = theme === 'dark';
+  const bg          = isDark ? '#0C1221' : '#F8F7FC';
+  const cardBg      = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const borderColor = isDark ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.10)';
+  const textPrimary = isDark ? '#E8F0FF' : '#19058C';
+  const textSecondary = isDark ? 'rgba(180,205,255,0.78)' : '#3D3560';
+  const inputBg     = isDark ? 'rgba(128,148,230,0.06)' : '#F8F7FC';
+  const activeStep  = isDark ? B.ocean : '#19058C';
+  const doneStep    = B.seafoam;
+
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
 
   const optionalTotal = OPTIONAL_COVERAGE.filter(c => selectedCoverage.includes(c.key)).reduce((s, c) => s + c.price, 0);
   const total = 180 + optionalTotal;
@@ -61,17 +68,23 @@ export function MotorIssuance() {
         {STEPS.map((s, i) => (
           <div key={s.n} className="flex items-center">
             <div className="flex flex-col items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all ${
-                s.n < step ? 'bg-[#6BCABA] text-white' : s.n === step ? 'bg-[#19058C] text-white' : 'border-2'
-              }`} style={{ borderColor: s.n > step ? borderColor : 'transparent', color: s.n > step ? textSecondary : 'white', fontSize: '12px' }}>
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all"
+                style={{
+                  background: s.n < step ? doneStep : s.n === step ? activeStep : 'transparent',
+                  color: s.n >= step && s.n > step ? textSecondary : '#FFFFFF',
+                  border: s.n > step ? `2px solid ${borderColor}` : 'none',
+                  fontSize: '12px',
+                }}
+              >
                 {s.n < step ? <Check size={13} /> : s.n}
               </div>
-              <span className="mt-1" style={{ fontSize: '10px', color: s.n === step ? '#19058C' : textSecondary, textAlign: 'center', minWidth: '60px' }}>
+              <span className="mt-1" style={{ fontSize: '10px', color: s.n === step ? activeStep : textSecondary, textAlign: 'center', minWidth: '60px' }}>
                 {isAr ? s.labelAr : s.label}
               </span>
             </div>
             {i < STEPS.length - 1 && (
-              <div className="w-10 h-0.5 mb-4 mx-0.5" style={{ background: s.n < step ? '#00C896' : borderColor }} />
+              <div className="w-10 h-0.5 mb-4 mx-0.5" style={{ background: s.n < step ? doneStep : borderColor }} />
             )}
           </div>
         ))}
@@ -91,7 +104,7 @@ export function MotorIssuance() {
                 ].map(zone => (
                   <div key={zone.label} className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:border-[#D28C64]/50 transition-all"
                     style={{ borderColor }}>
-                    <Upload size={24} style={{ color: '#6B7A9B', margin: '0 auto 8px' }} />
+                    <Upload size={24} style={{ color: textSecondary, margin: '0 auto 8px' }} />
                     <p style={{ fontSize: '12px', fontWeight: 500, color: textPrimary }}>{zone.label}</p>
                     <p style={{ fontSize: '11px', color: textSecondary, marginTop: '4px' }}>JPG, PNG, PDF</p>
                   </div>
@@ -100,9 +113,9 @@ export function MotorIssuance() {
 
               {ocrState === 'done' && (
                 <div className="flex items-center gap-2 p-2.5 rounded-lg"
-                  style={{ background: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.2)' }}>
-                  <CheckCircle size={14} style={{ color: '#00C896' }} />
-                  <span style={{ fontSize: '12px', color: '#00C896', fontWeight: 500 }}>
+                  style={{ background: `${B.seafoam}14`, border: `1px solid ${B.seafoam}35` }}>
+                  <CheckCircle size={14} style={{ color: B.seafoam }} />
+                  <span style={{ fontSize: '12px', color: B.seafoam, fontWeight: 500 }}>
                     {isAr ? 'تم استخراج البيانات بنجاح' : 'Vehicle data extracted successfully'}
                   </span>
                 </div>
@@ -157,8 +170,8 @@ export function MotorIssuance() {
                 </div>
                 {isOwner === 'no' && (
                   <div className="mt-2 flex items-center gap-2 p-2.5 rounded-lg"
-                    style={{ background: 'rgba(240,176,48,0.08)', border: '1px solid rgba(240,176,48,0.2)' }}>
-                    <AlertTriangle size={14} style={{ color: '#F0B030' }} />
+                    style={{ background: `${B.roseGold}12`, border: `1px solid ${B.roseGold}35` }}>
+                    <AlertTriangle size={14} style={{ color: B.roseGold }} />
                     <span style={{ fontSize: '12px', color: textSecondary }}>{isAr ? 'تحذير: الهوية الوطنية لن تُطابق سجلات JOIF' : 'Warning: National ID won\'t match JOIF records'}</span>
                   </div>
                 )}
@@ -191,9 +204,9 @@ export function MotorIssuance() {
                 <Input label={isAr ? 'انتهاء رخصة القيادة' : 'License Expiry'} type="date" defaultValue="2027-06-15" />
               </div>
               <div className="flex items-center gap-2 p-2.5 rounded-lg"
-                style={{ background: 'rgba(0,200,150,0.08)', border: '1px solid rgba(0,200,150,0.2)' }}>
-                <CheckCircle size={14} style={{ color: '#00C896' }} />
-                <span style={{ fontSize: '12px', color: '#00C896', fontWeight: 500 }}>
+                style={{ background: `${B.seafoam}14`, border: `1px solid ${B.seafoam}35` }}>
+                <CheckCircle size={14} style={{ color: B.seafoam }} />
+                <span style={{ fontSize: '12px', color: B.seafoam, fontWeight: 500 }}>
                   {isAr ? 'تم التحقق من الهوية مع نظام ESKA' : '✓ ID verified with ESKA system'}
                 </span>
               </div>
@@ -240,11 +253,11 @@ export function MotorIssuance() {
                                 <td className="py-2" style={{ fontSize: '12px', color: textPrimary }}>{a.type}</td>
                                 <td className="py-2" style={{ fontSize: '12px', color: textSecondary }}>{a.damage}</td>
                                 <td className="py-2">
-                                  <span style={{ fontSize: '11px', fontWeight: 600, color: a.atFault ? '#D28C64' : '#6BCABA' }}>
+                                  <span style={{ fontSize: '11px', fontWeight: 600, color: a.atFault ? B.roseGold : B.seafoam }}>
                                     {a.atFault ? (isAr ? 'نعم' : 'Yes') : (isAr ? 'لا' : 'No')}
                                   </span>
                                 </td>
-                                <td className="py-2 font-mono font-bold" style={{ fontSize: '12px', color: '#F0B030' }}>{a.impact}</td>
+                                <td className="py-2 font-mono font-bold" style={{ fontSize: '12px', color: B.roseGold }}>{a.impact}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -256,8 +269,8 @@ export function MotorIssuance() {
               </div>
 
               <div className="flex items-center gap-3 p-4 rounded-xl"
-                style={{ background: 'rgba(240,176,48,0.08)', border: '1px solid rgba(240,176,48,0.25)' }}>
-                <AlertTriangle size={18} style={{ color: '#F0B030', flexShrink: 0 }} />
+                style={{ background: `${B.roseGold}14`, border: `1px solid ${B.roseGold}40` }}>
+                <AlertTriangle size={18} style={{ color: B.roseGold, flexShrink: 0 }} />
                 <div>
                   <p style={{ fontSize: '13px', fontWeight: 600, color: textPrimary }}>
                     {isAr ? 'تعديل القسط المقدر: +15%' : 'Estimated premium adjustment: +15%'}
@@ -369,7 +382,7 @@ export function MotorIssuance() {
                 </label>
                 <div className="border-2 border-dashed rounded-xl p-5 text-center"
                   style={{ borderColor }}>
-                  <Upload size={20} style={{ color: '#6B7A9B', margin: '0 auto 6px' }} />
+                  <Upload size={20} style={{ color: textSecondary, margin: '0 auto 6px' }} />
                   <p style={{ fontSize: '12px', color: textSecondary }}>
                     {isAr ? 'اسحب أو انقر · 5MB الحد الأقصى' : 'Drag or click · Max 5MB'}
                   </p>
@@ -430,8 +443,8 @@ export function MotorIssuance() {
               )}
 
               <div className="flex items-start gap-3 p-3 rounded-xl"
-                style={{ background: 'rgba(240,176,48,0.08)', border: '1px solid rgba(240,176,48,0.25)' }}>
-                <AlertTriangle size={16} style={{ color: '#F0B030', flexShrink: 0, marginTop: '2px' }} />
+                style={{ background: `${B.roseGold}14`, border: `1px solid ${B.roseGold}40` }}>
+                <AlertTriangle size={16} style={{ color: B.roseGold, flexShrink: 0, marginTop: '2px' }} />
                 <p style={{ fontSize: '12px', color: textSecondary, lineHeight: '1.6' }}>
                   {isAr
                     ? 'بعد التقديم، سيراجع فريق GIG الفيديو خلال 24 ساعة قبل إصدار الوثيقة.'

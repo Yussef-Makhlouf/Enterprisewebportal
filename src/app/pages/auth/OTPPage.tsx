@@ -47,6 +47,9 @@ export function OTPPage() {
   const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#3D3560';
   const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.12)';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   return (
     <div className={`min-h-screen flex ${theme === 'dark' ? 'dark' : ''}`}
       style={{ background: bg, fontFamily: isAr ? "'Tajawal', sans-serif" : "'IBM Plex Sans', sans-serif" }}>

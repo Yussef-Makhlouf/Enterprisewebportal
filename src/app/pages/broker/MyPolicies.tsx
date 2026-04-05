@@ -63,7 +63,7 @@ export function MyPolicies() {
   const textSec     = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
   const rowHover    = isDark ? 'rgba(128,148,230,0.07)' : 'rgba(25,5,140,0.03)';
   const inputBg     = isDark ? 'rgba(128,148,230,0.06)' : '#F5F7FB';
-  const ff  = "'Georama', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
   const ffM = "'IBM Plex Mono', monospace";
 
   const filtered = POLICIES.filter(p => {

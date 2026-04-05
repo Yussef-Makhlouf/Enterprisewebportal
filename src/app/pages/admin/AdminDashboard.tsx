@@ -84,10 +84,10 @@ export function AdminDashboard() {
   const grid  = gridLine(isDark);
 
   /* fonts */
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif"  : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"    : "'Reforma', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"    : "'Georama', Verdana, sans-serif";
   const ffM = "'IBM Plex Mono', monospace";
-  const tt  = tooltipStyle(ff);
+  const tt  = tooltipStyle(ff, isDark);
 
   /* bar colors adapt to dark */
   const barPrem = isDark ? B.ocean   : B.indigo;
@@ -241,7 +241,7 @@ export function AdminDashboard() {
         <div className="col-span-1 lg:col-span-2 p-6 rounded-xl"
           style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
           <div className="flex items-center justify-between mb-5">
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
               {isAr ? 'حجم الأقساط الشهرية' : 'Monthly Premium Volume'}
             </h3>
             <div className="flex items-center gap-4">
@@ -254,7 +254,7 @@ export function AdminDashboard() {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={monthlyData} barSize={13} barGap={3}>
+            <BarChart data={monthlyData} barSize={13} barGap={3} >
               <CartesianGrid strokeDasharray="3 3" stroke={grid} vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 10, fill: tMute, fontFamily: ff }} axisLine={false} tickLine={false} dy={10} />
               <YAxis
@@ -274,7 +274,7 @@ export function AdminDashboard() {
         {/* Donut */}
         <div className="p-6 rounded-xl flex flex-col"
           style={{ background: bg, border: `1px solid ${bdr}`, boxShadow: sdw }}>
-          <h3 className="mb-4" style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+          <h3 className="mb-4" style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
             {isAr ? 'توزيع خطوط الأعمال' : 'LOB Distribution'}
           </h3>
           <div className="flex-1 flex flex-col justify-center">
@@ -371,7 +371,7 @@ export function AdminDashboard() {
               style={{ border: `2px solid ${B.roseGold}`, background: 'rgba(210,140,100,0.10)' }}>
               <AlertTriangle size={13} style={{ color: B.roseGold }} />
             </div>
-            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ffH }}>
+            <h3 style={{ fontSize: '15px', fontWeight: 600, color: tHero, fontFamily: ff }}>
               {isAr ? 'تنبيهات انتهاء الرخص' : 'License Expiry Alerts'}
             </h3>
           </div>

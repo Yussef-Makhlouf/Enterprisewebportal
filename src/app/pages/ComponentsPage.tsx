@@ -24,11 +24,14 @@ export function ComponentsPage() {
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
 
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
+
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="mb-8">
       <div className="flex items-center gap-3 mb-4">
         <div className="w-1 h-5 rounded-full bg-[#C8102E]" />
-        <h2 style={{ fontSize: '15px', fontWeight: 700, color: textPrimary }}>{title}</h2>
+        <h2 style={{ fontSize: '15px', fontWeight: 700, color: textPrimary, fontFamily: ffH }}>{title}</h2>
       </div>
       {children}
     </div>

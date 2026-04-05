@@ -167,8 +167,8 @@ export function Shell() {
   const fgPrimary = isDark ? '#E8F0FF' : GIG.indigo;
 
   /* font families */
-  const ff  = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
-  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"   : "'Reforma', Verdana, sans-serif";
+  const ff  = "'Almarai', Verdana, sans-serif";
+  const ffH = isAr ? "'Kufam', Tahoma, sans-serif"   : "'Georama', Verdana, sans-serif";
 
   const getBreadcrumb = () => {
     const flat  = navItems.flatMap(g => g.items);

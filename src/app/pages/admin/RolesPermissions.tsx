@@ -92,8 +92,8 @@ export function RolesPermissions() {
   const textH      = isDark ? '#E8F0FF' : '#19058C';
   const textSub    = isDark ? 'rgba(180,205,255,0.55)' : '#5A6A8A';
   const borderCol  = isDark ? 'rgba(128,148,230,0.14)' : 'rgba(25,5,140,0.09)';
-  const ff         = isAr ? "'Almarai', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
-  const ffH        = isAr ? "'Kufam', Tahoma, sans-serif"  : "'Reforma', Verdana, sans-serif";
+  const ff         = "'Almarai', Verdana, sans-serif";
+  const ffH        = isAr ? "'Kufam', Tahoma, sans-serif"  : "'Georama', Verdana, sans-serif";
 
   const toggleRole = (id: number) => {
     setRoles(prev => prev.map(r => r.id === id ? { ...r, active: !r.active } : r));

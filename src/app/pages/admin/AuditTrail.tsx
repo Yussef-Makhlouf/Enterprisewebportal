@@ -4,6 +4,7 @@ import {
   Download, Search, LogIn, Pencil, Mail, CheckCircle,
   Ban, KeyRound, ClipboardList, Plane, type LucideIcon
 } from 'lucide-react';
+import { B } from '../../utils/darkPalette';
 
 interface AuditItem {
   id: number;
@@ -25,56 +26,56 @@ const AUDIT_ITEMS: AuditItem[] = [
     action: 'User Login', actionAr: 'تسجيل دخول مستخدم',
     desc: 'Ahmed Al-Rashidi logged in from IP 192.168.1.45', descAr: 'أحمد الراشدي سجّل دخوله من IP 192.168.1.45',
     user: 'Ahmed Al-Rashidi', userAr: 'أحمد الراشدي',
-    time: 'Today, 09:15', color: '#0DB4CC', type: 'auth'
+    time: 'Today, 09:15', color: B.ocean, type: 'auth'
   },
   {
     id: 2, Icon: Pencil,
     action: 'Broker Profile Edited', actionAr: 'تعديل ملف وسيط',
     desc: 'LOBs updated for Khalid Al-Mansouri — added Medical coverage', descAr: 'تم تحديث خطوط الأعمال لخالد المنصوري — إضافة التغطية الطبية',
     user: 'Ahmed Al-Rashidi', userAr: 'أحمد الراشدي',
-    time: 'Today, 08:44', color: '#C8962A', type: 'edit'
+    time: 'Today, 08:44', color: B.roseGold, type: 'edit'
   },
   {
     id: 3, Icon: Mail,
     action: 'Invitation Sent', actionAr: 'إرسال دعوة',
     desc: 'Portal invitation sent to sara.qasim@email.com', descAr: 'تم إرسال دعوة البوابة إلى sara.qasim@email.com',
     user: 'Ahmed Al-Rashidi', userAr: 'أحمد الراشدي',
-    time: 'Today, 08:30', color: '#00C896', type: 'invite'
+    time: 'Today, 08:30', color: B.seafoam, type: 'invite'
   },
   {
     id: 4, Icon: CheckCircle,
     action: 'License Renewed', actionAr: 'تجديد رخصة',
     desc: 'License LIC-2024-004821 renewed until 31/12/2025', descAr: 'تم تجديد الرخصة LIC-2024-004821 حتى 31/12/2025',
     user: 'Sara Al-Qasim', userAr: 'سارة القاسم',
-    time: 'Yesterday, 16:20', color: '#00C896', type: 'approval'
+    time: 'Yesterday, 16:20', color: B.seafoam, type: 'approval'
   },
   {
     id: 5, Icon: Ban,
     action: 'Account Blocked', actionAr: 'حظر حساب',
     desc: 'Broker account for Rania Khalil has been blocked', descAr: 'تم حظر حساب وسيط رانيا خليل',
     user: 'Ahmed Al-Rashidi', userAr: 'أحمد الراشدي',
-    time: 'Yesterday, 14:05', color: '#D28C64', type: 'block'
+    time: 'Yesterday, 14:05', color: B.roseGold, type: 'block'
   },
   {
     id: 6, Icon: KeyRound,
     action: 'Password Changed', actionAr: 'تغيير كلمة المرور',
     desc: 'Password changed for Hassan Al-Rawabdeh account', descAr: 'تم تغيير كلمة المرور لحساب حسن الروابدة',
     user: 'Hassan Al-Rawabdeh', userAr: 'حسن الروابدة',
-    time: 'Yesterday, 11:30', color: '#0DB4CC', type: 'auth'
+    time: 'Yesterday, 11:30', color: B.ocean, type: 'auth'
   },
   {
     id: 7, Icon: ClipboardList,
     action: 'Role Assigned', actionAr: 'تعيين دور',
     desc: 'Travel Broker role assigned to Layla Nasser', descAr: 'تم تعيين دور وسيط السفر لليلى ناصر',
     user: 'Ahmed Al-Rashidi', userAr: 'أحمد الراشدي',
-    time: '2 days ago', color: '#7B61FF', type: 'edit'
+    time: '2 days ago', color: B.purple, type: 'edit'
   },
   {
     id: 8, Icon: Plane,
     action: 'Policy Issued', actionAr: 'إصدار وثيقة',
     desc: 'Travel policy POL-2025-45182 issued for Ahmad', descAr: 'تم إصدار وثيقة سفر POL-2025-45182 لأحمد',
     user: 'Khalid Al-Mansouri', userAr: 'خالد المنصوري',
-    time: '2 days ago', color: '#8094E6', type: 'approval'
+    time: '2 days ago', color: B.ocean, type: 'approval'
   },
 ];
 
@@ -85,12 +86,19 @@ export function AuditTrail() {
   const [search, setSearch] = useState('');
 
   const isDark = theme === 'dark';
-  const bg          = isDark ? '#070D18' : '#F8F7FC';
-  const cardBg      = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
-  const textPrimary = isDark ? '#E8F0FF' : '#19058C';
-  const textSecondary = isDark ? 'rgba(180,205,255,0.65)' : '#3D3560';
+
+  /* ── Palette ─────────────────────────────────── */
+  const bg            = isDark ? '#0C1221' : '#F8F7FC';
+  const cardBg        = isDark ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
+  const textPrimary   = isDark ? '#E8F0FF' : '#19058C';
+  const textSecondary = isDark ? 'rgba(180,205,255,0.78)' : '#3D3560';
   const borderColor   = isDark ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.10)';
-  const rowBg         = isDark ? 'rgba(128,148,230,0.05)' : '#F5F7FB';
+  const inputBg       = isDark ? 'rgba(128,148,230,0.06)' : '#F5F7FB';
+
+  /* Active filter: ocean in dark, indigo in light — both legible */
+  const activeFilterColor = isDark ? B.ocean : B.indigo;
+  const activeFilterBg    = isDark ? 'rgba(128,148,230,0.14)' : 'rgba(25,5,140,0.08)';
+  const activeFilterBdr   = isDark ? `${B.ocean}50` : `${B.indigo}30`;
 
   const filtered = AUDIT_ITEMS.filter(a => {
     const matchSearch = !search || a.action.toLowerCase().includes(search.toLowerCase()) || a.user.toLowerCase().includes(search.toLowerCase());
@@ -110,8 +118,10 @@ export function AuditTrail() {
           </p>
         </div>
         <button
-          className="px-4 py-2 rounded-lg border text-sm font-medium flex items-center gap-2 hover:opacity-80"
+          className="px-4 py-2 rounded-lg border text-sm font-medium flex items-center gap-2 transition-all"
           style={{ borderColor, color: textSecondary }}
+          onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = `${B.roseGold}70`; (e.currentTarget as HTMLElement).style.color = B.roseGold; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = borderColor; (e.currentTarget as HTMLElement).style.color = textSecondary; }}
         >
           <Download size={15} />
           {isAr ? 'تصدير' : 'Export'}
@@ -132,27 +142,33 @@ export function AuditTrail() {
             </label>
             <div className="space-y-1">
               {[
-                { key: 'All', label: isAr ? 'الكل' : 'All' },
-                { key: 'auth', label: isAr ? 'تسجيل دخول' : 'Login' },
-                { key: 'edit', label: isAr ? 'تعديل' : 'Edit' },
-                { key: 'invite', label: isAr ? 'دعوة' : 'Invite' },
-                { key: 'approval', label: isAr ? 'موافقة' : 'Approval' },
-                { key: 'block', label: isAr ? 'حظر' : 'Block' },
-              ].map(opt => (
-                <button
-                  key={opt.key}
-                  className="w-full text-left px-3 py-2 rounded-lg text-sm transition-all"
-                  style={{
-                    background: actionFilter === opt.key ? 'rgba(25,5,140,0.10)' : 'transparent',
-                    color: actionFilter === opt.key ? '#19058C' : textSecondary,
-                    fontWeight: actionFilter === opt.key ? 600 : 400,
-                    textAlign: isRTL ? 'right' : 'left',
-                  }}
-                  onClick={() => setActionFilter(opt.key)}
-                >
-                  {opt.label}
-                </button>
-              ))}
+                { key: 'All',      label: isAr ? 'الكل'       : 'All'      },
+                { key: 'auth',     label: isAr ? 'تسجيل دخول' : 'Login'    },
+                { key: 'edit',     label: isAr ? 'تعديل'       : 'Edit'     },
+                { key: 'invite',   label: isAr ? 'دعوة'        : 'Invite'   },
+                { key: 'approval', label: isAr ? 'موافقة'      : 'Approval' },
+                { key: 'block',    label: isAr ? 'حظر'         : 'Block'    },
+              ].map(opt => {
+                const isActive = actionFilter === opt.key;
+                return (
+                  <button
+                    key={opt.key}
+                    className="w-full px-3 py-2 rounded-lg text-sm transition-all"
+                    style={{
+                      background:   isActive ? activeFilterBg    : 'transparent',
+                      color:        isActive ? activeFilterColor  : textSecondary,
+                      fontWeight:   isActive ? 600 : 400,
+                      border:       isActive ? `1px solid ${activeFilterBdr}` : '1px solid transparent',
+                      textAlign:    isRTL ? 'right' : 'left',
+                    }}
+                    onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.07)' : 'rgba(25,5,140,0.04)'; } }}
+                    onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
+                    onClick={() => setActionFilter(opt.key)}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -162,7 +178,7 @@ export function AuditTrail() {
               {isAr ? 'المستخدم' : 'User'}
             </label>
             <select className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
-              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB', borderColor, color: textPrimary }}>
+              style={{ background: inputBg, borderColor, color: textPrimary }}>
               <option>{isAr ? 'جميع المستخدمين' : 'All Users'}</option>
               <option>Ahmed Al-Rashidi</option>
               <option>Sara Al-Qasim</option>
@@ -176,15 +192,20 @@ export function AuditTrail() {
             </label>
             <div className="space-y-2">
               <input type="date" className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
-                style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB', borderColor, color: textPrimary }} />
+                style={{ background: inputBg, borderColor, color: textPrimary }} />
               <input type="date" className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
-                style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB', borderColor, color: textPrimary }} />
+                style={{ background: inputBg, borderColor, color: textPrimary }} />
             </div>
           </div>
 
           <button
-            className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90"
-            style={{ background: '#19058C', boxShadow: '0 2px 8px rgba(25,5,140,0.30)' }}
+            className="w-full py-2.5 rounded-xl text-white text-sm font-medium hover:opacity-90 transition-opacity"
+            style={{
+              background: isDark
+                ? `linear-gradient(135deg, ${B.ocean} 0%, #6B7FD4 100%)`
+                : `linear-gradient(135deg, ${B.indigo} 0%, #2D1A9E 100%)`,
+              boxShadow: isDark ? '0 2px 8px rgba(128,148,230,0.30)' : '0 2px 8px rgba(25,5,140,0.30)',
+            }}
           >
             {isAr ? 'تطبيق الفلتر' : 'Apply Filter'}
           </button>
@@ -197,9 +218,9 @@ export function AuditTrail() {
             <div className="relative">
               <Search size={14} className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2`} style={{ color: textSecondary }} />
               <input
-                className="w-full rounded-lg border py-2 text-sm outline-none"
+                className="w-full rounded-lg border py-2 text-sm outline-none transition-all"
                 style={{
-                  background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB',
+                  background: inputBg,
                   borderColor,
                   color: textPrimary,
                   paddingLeft: isRTL ? '12px' : '36px',
@@ -208,6 +229,8 @@ export function AuditTrail() {
                 placeholder={isAr ? 'بحث في السجل...' : 'Search audit log...'}
                 value={search}
                 onChange={e => setSearch(e.target.value)}
+                onFocus={e => { e.currentTarget.style.borderColor = `${B.roseGold}80`; }}
+                onBlur={e  => { e.currentTarget.style.borderColor = borderColor; }}
               />
             </div>
           </div>
@@ -225,7 +248,7 @@ export function AuditTrail() {
                 {i < filtered.length - 1 && (
                   <div className="absolute top-10 bottom-0 w-0.5"
                     style={{
-                      background: theme === 'dark' ? 'rgba(255,255,255,0.06)' : 'rgba(13,31,60,0.06)',
+                      background: isDark ? 'rgba(128,148,230,0.10)' : 'rgba(13,31,60,0.08)',
                       left: isRTL ? 'auto' : '16px',
                       right: isRTL ? '16px' : 'auto'
                     }} />
@@ -233,7 +256,7 @@ export function AuditTrail() {
 
                 {/* Icon */}
                 <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 z-10"
-                  style={{ background: item.color + '20', border: `1.5px solid ${item.color}40` }}>
+                  style={{ background: item.color + '22', border: `1.5px solid ${item.color}50` }}>
                   <item.Icon size={14} style={{ color: item.color }} />
                 </div>
 
