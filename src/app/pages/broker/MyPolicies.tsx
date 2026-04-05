@@ -118,7 +118,8 @@ export function MyPolicies() {
       {/* LOB Filter Tabs */}
       <div className="flex gap-2 mb-4 flex-wrap">
         {LOB_TABS.map(tab => {
-          const color  = LOB_COLORS[tab.key] || B.ocean;
+          const rawColor = LOB_COLORS[tab.key] || B.ocean;
+          const color  = (isDark && rawColor === B.indigo) ? B.ocean : rawColor;
           const count  = tab.key === 'All' ? POLICIES.length : POLICIES.filter(p => p.typeKey === tab.key).length;
           const active = activeTab === tab.key;
           return (
@@ -209,7 +210,8 @@ export function MyPolicies() {
               {filtered.map((p) => {
                 const st         = STATUS_STYLES[p.status] || STATUS_STYLES.Active;
                 const PolicyIcon = LOB_ICONS[p.typeKey] || Plane;
-                const lobColor   = LOB_COLORS[p.typeKey] || B.ocean;
+                const rawLobColor = LOB_COLORS[p.typeKey] || B.ocean;
+                const lobColor   = (isDark && rawLobColor === B.indigo) ? B.ocean : rawLobColor;
                 return (
                   <tr key={p.id}
                     className="border-b last:border-0 transition-colors cursor-pointer"

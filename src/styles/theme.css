@@ -98,6 +98,7 @@
    DARK MODE  ·  Base: #0C1221 Deep Navy
 ───────────────────────────────────────────── */
 .dark {
+  color-scheme: dark;
   /* ── Base surfaces ──────────────────────── */
   --background:             #0C1221;    /* deepest page bg       */
   --foreground:             #E8F0FF;    /* cool white text       */

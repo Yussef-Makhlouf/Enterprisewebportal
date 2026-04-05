@@ -166,7 +166,7 @@ export function SubBrokers() {
     {
       label: isAr ? 'إجمالي الوسطاء' : 'TOTAL SUB-BROKERS',
       value: String(brokers.length),
-      icon: Users, stripe: B.indigo, glow: 'rgba(128,148,230,0.22)',
+      icon: Users, stripe: isDark ? B.ocean : B.indigo, glow: 'rgba(128,148,230,0.22)',
       sub: isAr ? 'مسجّل' : 'registered',
     },
     {

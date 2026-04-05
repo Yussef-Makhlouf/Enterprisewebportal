@@ -111,7 +111,7 @@ export function LoginPage() {
           {/* Feature pills */}
           <div className="flex flex-wrap gap-3">
             {[
-              { icon: Shield, label: isAr ? 'أمان عالي المستوى' : 'Enterprise Security', color: B.indigo },
+              { icon: Shield, label: isAr ? 'أمان عالي المستوى' : 'Enterprise Security', color: B.ocean },
               { icon: BarChart3, label: isAr ? 'تحليلات متقدمة' : 'Advanced Analytics', color: B.ocean },
               { icon: Languages, label: isAr ? 'ثنائي اللغة' : 'Bilingual AR / EN', color: B.seafoam },
             ].map((f) => (
