@@ -79,9 +79,9 @@ export function BrokerDashboard() {
   /* KPIs */
   const kpis = [
     { label: isAr ? 'وثائقي النشطة'          : 'MY ACTIVE POLICIES', value: '47',     delta: '+5',      up: true,  sub: isAr ? 'هذا الشهر' : 'this month',  stripe: isDark ? B.ocean : B.indigo,   glow: 'rgba(128,148,230,0.22)', Icon: FileText   },
-    { label: isAr ? 'الأقساط الشهرية (دينار)' : 'THIS MONTH PREMIUM', value: '12,450', delta: '+12.3%',  up: true,  sub: isAr ? 'مارس 2025' : 'March 2025',   stripe: B.ocean,    glow: 'rgba(128,148,230,0.22)', Icon: DollarSign },
-    { label: isAr ? 'عمولاتي (دينار)'         : 'MY COMMISSIONS',     value: '996',    delta: '+8.1%',   up: true,  sub: isAr ? 'هذا الشهر' : 'this month',  stripe: B.seafoam,  glow: 'rgba(107,202,186,0.18)', Icon: TrendingUp },
-    { label: isAr ? 'التجديدات المعلقة'        : 'PENDING RENEWALS',   value: '3',      delta: '2 urgent',up: false, sub: isAr ? 'هذا الشهر' : 'this month',  stripe: B.roseGold, glow: 'rgba(210,140,100,0.18)', Icon: Clock      },
+    { label: isAr ? 'الأقساط الشهرية (دينار)' : 'THIS MONTH PREMIUM', value: '12,450', delta: '+12.3%',  up: true,  sub: isAr ? 'مارس 2025' : 'March 2025',   stripe: isDark ? B.ocean : B.indigo,    glow: 'rgba(128,148,230,0.22)', Icon: DollarSign },
+    { label: isAr ? 'عمولاتي (دينار)'         : 'MY COMMISSIONS',     value: '996',    delta: '+8.1%',   up: true,  sub: isAr ? 'هذا الشهر' : 'this month',  stripe: isDark ? B.seafoam : '#2C8E7D',  glow: 'rgba(107,202,186,0.18)', Icon: TrendingUp },
+    { label: isAr ? 'التجديدات المعلقة'        : 'PENDING RENEWALS',   value: '3',      delta: '2 urgent',up: false, sub: isAr ? 'هذا الشهر' : 'this month',  stripe: isDark ? B.roseGold : '#B65C2B', glow: 'rgba(210,140,100,0.18)', Icon: Clock      },
   ];
 
   const cardStyle = (stripe: string) => ({
@@ -176,7 +176,7 @@ export function BrokerDashboard() {
             )}
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span style={{ fontSize: '10px', color: isDark ? '#FFFFFF' : tMute, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
+                <span style={{ fontSize: '10px', color: isDark ? '#FFFFFF' : '#3D3560', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
                   {kpi.label}
                 </span>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -192,7 +192,7 @@ export function BrokerDashboard() {
                 {kpi.value}
               </div>
               <div className="flex items-center justify-between mt-3">
-                <div style={{ fontSize: '12px', color: isDark ? '#FFFFFF' : tMute, fontFamily: ff }}>{kpi.sub}</div>
+                <div style={{ fontSize: '12px', color: isDark ? '#FFFFFF' : '#3D3560', fontFamily: ff }}>{kpi.sub}</div>
                 <span className="flex items-center gap-1 px-2 py-0.5 rounded-full"
                   style={{
                     fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', fontFamily: ff,

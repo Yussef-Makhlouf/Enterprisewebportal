@@ -172,19 +172,19 @@ export function SubBrokers() {
     {
       label: isAr ? 'الوسطاء النشطون' : 'ACTIVE SUB-BROKERS',
       value: String(brokers.filter(b => b.subBrokerStatus === 'Active').length),
-      icon: UserCheck, stripe: B.seafoam, glow: 'rgba(107,202,186,0.18)',
+      icon: UserCheck, stripe: isDark ? B.seafoam : '#2C8E7D', glow: 'rgba(107,202,186,0.18)',
       sub: isAr ? 'نشط حالياً' : 'currently active',
     },
     {
       label: isAr ? 'دعوات معلقة' : 'PENDING INVITATIONS',
       value: String(brokers.filter(b => b.invitationStatus === 'Pending').length),
-      icon: Mail, stripe: B.roseGold, glow: 'rgba(210,140,100,0.18)',
+      icon: Mail, stripe: isDark ? B.roseGold : '#B65C2B', glow: 'rgba(210,140,100,0.18)',
       sub: isAr ? 'لم تُقبَل بعد' : 'awaiting acceptance',
     },
     {
       label: isAr ? 'غير نشطين / محظورين' : 'INACTIVE / BLOCKED',
       value: String(brokers.filter(b => b.subBrokerStatus !== 'Active').length),
-      icon: UserX, stripe: B.ocean, glow: 'rgba(128,148,230,0.18)',
+      icon: UserX, stripe: isDark ? B.ocean : B.indigo, glow: 'rgba(128,148,230,0.18)',
       sub: isAr ? 'يحتاج مراجعة' : 'needs review',
     },
   ];
@@ -459,7 +459,7 @@ export function SubBrokers() {
             )}
             <div className="relative z-10">
               <div className="flex items-center justify-between mb-3">
-                <span style={{ fontSize: '10px', color: tM, fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
+                <span style={{ fontSize: '10px', color: isDark ? '#FFFFFF' : '#3D3560', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', fontFamily: ff }}>
                   {kpi.label}
                 </span>
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center"
@@ -474,7 +474,7 @@ export function SubBrokers() {
               <div style={{ fontFamily: ffH, fontSize: '2.2rem', fontWeight: 700, color: isDark ? '#FFFFFF' : kpi.stripe, lineHeight: 1, letterSpacing: '-0.02em' }}>
                 {kpi.value}
               </div>
-              <p style={{ fontSize: '12px', color: tM, marginTop: '8px', fontFamily: ff }}>
+              <p style={{ fontSize: '12px', color: isDark ? '#FFFFFF' : '#3D3560', marginTop: '8px', fontFamily: ff }}>
                 {kpi.sub}
               </p>
             </div>
