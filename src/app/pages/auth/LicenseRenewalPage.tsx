@@ -30,7 +30,7 @@ export function LicenseRenewalPage() {
 
   const bg          = theme === 'dark' ? '#0C1221' : '#F8F7FC';
   const cardBg      = theme === 'dark' ? 'linear-gradient(145deg, #111C2E 0%, #172236 100%)' : '#FFFFFF';
-  const textPrimary = theme === 'dark' ? '#E8F0FF' : '#0D1F3C';
+  const textPrimary   = theme === 'dark' ? '#E8F0FF' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? 'rgba(180,205,255,0.65)' : '#6B7A9B';
   const borderColor   = theme === 'dark' ? 'rgba(128,148,230,0.16)' : 'rgba(13,31,60,0.12)';
 

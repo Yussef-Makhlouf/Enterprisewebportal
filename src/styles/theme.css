@@ -248,6 +248,12 @@
     @apply border-border outline-ring/50;
   }
 
+  /* Native Select Option Dropdowns */
+  select option {
+    background-color: var(--card);
+    color: var(--foreground);
+  }
+
   /* Body — Secondary: Almarai */
   body {
     @apply bg-background text-foreground;

@@ -12,6 +12,14 @@ export function RootLayout() {
     document.documentElement.lang = language;
   }, [language]);
 
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
   return (
     <div
       className={`min-h-screen w-full ${theme === 'dark' ? 'dark' : ''}`}
