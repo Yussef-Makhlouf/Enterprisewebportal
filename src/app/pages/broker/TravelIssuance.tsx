@@ -68,14 +68,14 @@ export function TravelIssuance() {
             <div className="flex flex-col items-center">
               <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all"
                 style={{
-                  background: s.n < step ? B.seafoam : s.n === step ? B.indigo : 'transparent',
+                  background: s.n < step ? B.seafoam : s.n === step ? (isDark ? B.ocean : B.indigo) : 'transparent',
                   color: s.n <= step ? '#FFFFFF' : textMuted,
                   border: s.n > step ? `2px solid ${bdr}` : 'none',
                   fontSize: '12px',
                 }}>
                 {s.n < step ? <Check size={14} /> : s.n}
               </div>
-              <span style={{ fontSize: '11px', color: s.n === step ? B.indigo : textMuted, textAlign: 'center', minWidth: '80px', marginTop: '4px' }}>
+              <span style={{ fontSize: '11px', color: s.n === step ? (isDark ? textPrimary : B.indigo) : textMuted, textAlign: 'center', minWidth: '80px', marginTop: '4px' }}>
                 {isAr ? s.labelAr : s.label}
               </span>
             </div>

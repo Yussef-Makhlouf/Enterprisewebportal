@@ -65,16 +65,17 @@ export function LicenseRenewalPage() {
               <div className="flex flex-col items-center">
                 <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold transition-all ${
                   s.n < step ? 'bg-[#6BCABA] text-white' :
-                  s.n === step ? 'bg-[#19058C] text-white' :
-                  'border-2 text-[#4A5878]'
+                  s.n > step ? 'border-2 text-[#4A5878]' : ''
                 }`}
                   style={{
+                    background: s.n === step ? (theme === 'dark' ? '#8094E6' : '#19058C') : undefined,
+                    color: s.n === step ? '#ffffff' : undefined,
                     borderColor: s.n > step ? borderColor : 'transparent',
                     fontSize: '14px'
                   }}>
                   {s.n < step ? <Check size={16} /> : s.n}
                 </div>
-                <span className="mt-1 text-center" style={{ fontSize: '11px', color: s.n === step ? '#19058C' : textSecondary, width: '100px' }}>
+                <span className="mt-1 text-center" style={{ fontSize: '11px', color: s.n === step ? (theme === 'dark' ? textPrimary : '#19058C') : textSecondary, width: '100px' }}>
                   {s.label}
                 </span>
               </div>
@@ -152,11 +153,11 @@ export function LicenseRenewalPage() {
                       }}
                       onClick={() => toggleLOB(lob.key)}
                     >
-                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${selectedLOBs.includes(lob.key) ? 'bg-[#19058C] border-[#19058C]' : ''}`}
-                        style={{ borderColor: selectedLOBs.includes(lob.key) ? '#19058C' : (theme === 'dark' ? '#4A5878' : '#C0CBDE') }}>
+                      <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${selectedLOBs.includes(lob.key) ? 'text-white' : ''}`}
+                        style={{ borderColor: selectedLOBs.includes(lob.key) ? (theme === 'dark' ? '#8094E6' : '#19058C') : (theme === 'dark' ? '#4A5878' : '#C0CBDE'), background: selectedLOBs.includes(lob.key) ? (theme === 'dark' ? '#8094E6' : '#19058C') : 'transparent' }}>
                         {selectedLOBs.includes(lob.key) && <Check size={10} className="text-white" />}
                       </div>
-                      <lob.Icon size={12} style={{ color: selectedLOBs.includes(lob.key) ? '#19058C' : textPrimary }} />
+                      <lob.Icon size={12} style={{ color: selectedLOBs.includes(lob.key) ? (theme === 'dark' ? '#8094E6' : '#19058C') : textPrimary }} />
                       <span style={{ fontSize: '12px', color: textPrimary, fontWeight: selectedLOBs.includes(lob.key) ? 600 : 400 }}>
                         {isAr ? lob.labelAr : lob.label}
                       </span>

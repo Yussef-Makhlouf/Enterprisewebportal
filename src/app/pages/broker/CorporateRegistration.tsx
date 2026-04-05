@@ -17,6 +17,7 @@ export function CorporateRegistration() {
   const textPrimary = theme === 'dark' ? '#E8EDF5' : '#0D1F3C';
   const textSecondary = theme === 'dark' ? '#6B7A9B' : '#6B7A9B';
   const inputBg = theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#F5F7FB';
+  const actCol = theme === 'dark' ? '#8094E6' : '#1e0f4d';
 
   const ff  = "'Almarai', Verdana, sans-serif";
   const ffH = isAr ? "'Kufam', Tahoma, sans-serif" : "'Georama', Verdana, sans-serif";
@@ -65,12 +66,16 @@ export function CorporateRegistration() {
         {steps.map((s, i) => (
           <div key={s.n} className="flex items-center">
             <div className="flex flex-col items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all ${
-                s.n < step ? 'bg-[#00C896] text-white' : s.n === step ? 'bg-[#1e0f4d] text-white' : 'border-2'
-              }`} style={{ borderColor: s.n > step ? borderColor : 'transparent', color: s.n > step ? textSecondary : 'white', fontSize: '12px' }}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold transition-all border-2`}
+                style={{
+                  background: s.n < step ? '#00C896' : s.n === step ? actCol : 'transparent',
+                  borderColor: s.n > step ? borderColor : 'transparent', 
+                  color: s.n > step ? textSecondary : '#ffffff', 
+                  fontSize: '12px' 
+                }}>
                 {s.n < step ? <Check size={14} /> : s.n}
               </div>
-              <span className="mt-1" style={{ fontSize: '11px', color: s.n === step ? '#1e0f4d' : textSecondary }}>{s.label}</span>
+              <span className="mt-1" style={{ fontSize: '11px', color: s.n === step ? (theme === 'dark' ? textPrimary : actCol) : textSecondary }}>{s.label}</span>
             </div>
             {i < steps.length - 1 && (
               <div className="w-24 h-0.5 mb-4 mx-1" style={{ background: s.n < step ? '#00C896' : borderColor }} />
@@ -116,10 +121,10 @@ export function CorporateRegistration() {
                 <div className="space-y-2 mb-4">
                   {['+962 79 *** ***1', '+962 77 *** ***5'].map((num, i) => (
                     <label key={num} className="flex items-center gap-3 p-3 rounded-lg cursor-pointer"
-                      style={{ background: i === 0 ? 'rgba(200,16,46,0.08)' : 'transparent', border: `1px solid ${i === 0 ? '#1e0f4d' : borderColor}` }}>
+                      style={{ background: i === 0 ? 'rgba(200,16,46,0.08)' : 'transparent', border: `1px solid ${i === 0 ? actCol : borderColor}` }}>
                       <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center`}
-                        style={{ borderColor: i === 0 ? '#1e0f4d' : textSecondary }}>
-                        {i === 0 && <div className="w-2 h-2 rounded-full bg-[#1e0f4d]" />}
+                        style={{ borderColor: i === 0 ? actCol : textSecondary }}>
+                        {i === 0 && <div className="w-2 h-2 rounded-full" style={{ background: actCol }} />}
                       </div>
                       <span className="font-mono" style={{ fontSize: '14px', color: textPrimary }}>{num}</span>
                     </label>
@@ -130,7 +135,7 @@ export function CorporateRegistration() {
                     <input key={i} type="text" maxLength={1} value={d}
                       onChange={e => { const v = [...otp]; v[i] = e.target.value; setOtp(v); }}
                       className="w-11 h-12 text-center rounded-xl border-2 outline-none font-mono font-bold text-xl"
-                      style={{ background: inputBg, borderColor: d ? '#1e0f4d' : borderColor, color: textPrimary }} />
+                      style={{ background: inputBg, borderColor: d ? actCol : borderColor, color: textPrimary }} />
                   ))}
                 </div>
               </div>
@@ -190,7 +195,7 @@ export function CorporateRegistration() {
           </button>
           <button
             className="px-6 py-2.5 rounded-xl text-white text-sm font-medium flex items-center gap-2 hover:opacity-90"
-            style={{ background: '#1e0f4d', boxShadow: '0 2px 10px rgba(200,16,46,0.3)' }}
+            style={{ background: actCol, boxShadow: '0 2px 10px rgba(25,5,140,0.3)' }}
             onClick={() => {
               if (step < 3) setStep(s => s + 1);
               else addToast({ type: 'success', title: isAr ? 'تم التسجيل' : 'Registered Successfully' });
