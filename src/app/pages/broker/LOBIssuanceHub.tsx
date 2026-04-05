@@ -118,7 +118,7 @@ export function LOBIssuanceHub() {
                   )}
                 </div>
 
-                <h3 className="mb-1.5" style={{ fontSize: '15px', fontWeight: 700, color: isHov ? lob.color : textPrimary, fontFamily: ffH }}>
+                <h3 className="mb-1.5" style={{ fontSize: '15px', fontWeight: 700, color: isHov ? (isDark && lob.color === B.indigo ? B.ocean : lob.color) : textPrimary, fontFamily: ffH }}>
                   {isAr ? lob.labelAr : lob.label}
                 </h3>
                 <p className="mb-4" style={{ fontSize: '12px', color: textSecondary, lineHeight: '1.6', fontFamily: ff }}>
@@ -131,7 +131,7 @@ export function LOBIssuanceHub() {
                   </span>
                   {lob.available && (
                     <div className={`flex items-center gap-1 font-bold transition-all ${isHov ? (isRTL ? '-translate-x-1' : 'translate-x-1') : ''}`}
-                      style={{ fontSize: '11px', color: lob.color, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: ff }}>
+                      style={{ fontSize: '11px', color: (isDark && lob.color === B.indigo) ? B.ocean : lob.color, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: ff }}>
                       {isAr ? 'ابدأ' : 'Issue'}
                       <ArrowRight size={13} className={isRTL ? 'rotate-180' : ''} />
                     </div>

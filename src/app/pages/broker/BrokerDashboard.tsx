@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import {
   B, cardBg, cardSdw, cardBdr, innerBg, innerBdr,
-  textHero, textBody, textMuted, gridLine, tooltipStyle, STATUS
+  textHero, textBody, textMuted, gridLine, tooltipStyle, STATUS,
+  hoverBg, hoverBorder
 } from '../../utils/darkPalette';
 
 /* ── Static data ─────────────────────────────────────────── */
@@ -21,7 +22,7 @@ const policyData = Array.from({ length: 12 }, (_, i) => ({
 }));
 
 const commissionData = [
-  { name: 'Travel',  value: 45, color: B.indigo   },
+  { name: 'Travel',  value: 45, color: B.purple   },
   { name: 'Motor',   value: 30, color: B.ocean     },
   { name: 'Medical', value: 15, color: B.seafoam   },
   { name: 'Home',    value: 10, color: B.roseGold  },
@@ -77,7 +78,7 @@ export function BrokerDashboard() {
 
   /* KPIs */
   const kpis = [
-    { label: isAr ? 'وثائقي النشطة'          : 'MY ACTIVE POLICIES', value: '47',     delta: '+5',      up: true,  sub: isAr ? 'هذا الشهر' : 'this month',  stripe: B.indigo,   glow: 'rgba(128,148,230,0.22)', Icon: FileText   },
+    { label: isAr ? 'وثائقي النشطة'          : 'MY ACTIVE POLICIES', value: '47',     delta: '+5',      up: true,  sub: isAr ? 'هذا الشهر' : 'this month',  stripe: isDark ? B.ocean : B.indigo,   glow: 'rgba(128,148,230,0.22)', Icon: FileText   },
     { label: isAr ? 'الأقساط الشهرية (دينار)' : 'THIS MONTH PREMIUM', value: '12,450', delta: '+12.3%',  up: true,  sub: isAr ? 'مارس 2025' : 'March 2025',   stripe: B.ocean,    glow: 'rgba(128,148,230,0.22)', Icon: DollarSign },
     { label: isAr ? 'عمولاتي (دينار)'         : 'MY COMMISSIONS',     value: '996',    delta: '+8.1%',   up: true,  sub: isAr ? 'هذا الشهر' : 'this month',  stripe: B.seafoam,  glow: 'rgba(107,202,186,0.18)', Icon: TrendingUp },
     { label: isAr ? 'التجديدات المعلقة'        : 'PENDING RENEWALS',   value: '3',      delta: '2 urgent',up: false, sub: isAr ? 'هذا الشهر' : 'this month',  stripe: B.roseGold, glow: 'rgba(210,140,100,0.18)', Icon: Clock      },
@@ -251,7 +252,7 @@ export function BrokerDashboard() {
                 axisLine={false} tickLine={false}
                 dx={isRTL ? 10 : -10}
               />
-              <Tooltip contentStyle={tt} />
+              <Tooltip contentStyle={tt} itemStyle={{ color: isDark ? '#E8F0FF' : undefined }} />
               <Line
                 type="monotone"
                 dataKey="policies"
@@ -275,22 +276,20 @@ export function BrokerDashboard() {
                 <Pie data={commissionData} cx="50%" cy="50%" innerRadius={44} outerRadius={62} dataKey="value" strokeWidth={0}>
                   {commissionData.map((e, i) => <Cell key={`pie-cell-${i}`} fill={e.color} />)}
                 </Pie>
-                <Tooltip contentStyle={tt} />
+                <Tooltip contentStyle={tt} itemStyle={{ color: isDark ? '#E8F0FF' : undefined }} />
               </PieChart>
             </ResponsiveContainer>
-            {!isDark && (
-              <div className="space-y-1.5 mt-3">
-                {commissionData.map((l, i) => (
-                  <div key={`legend-${i}`} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: l.color }} />
-                      <span style={{ fontSize: '11px', color: tMute, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: ff }}>{l.name}</span>
-                    </div>
-                    <span style={{ fontFamily: ffM, fontSize: '12px', fontWeight: 600, color: tHero }}>{l.value}%</span>
+            <div className="space-y-1.5 mt-3">
+              {commissionData.map((l, i) => (
+                <div key={`legend-${i}`} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-2.5 h-2.5 rounded-sm shrink-0" style={{ background: l.color }} />
+                    <span style={{ fontSize: '11px', color: tMute, textTransform: 'uppercase', letterSpacing: '0.07em', fontFamily: ff }}>{l.name}</span>
                   </div>
-                ))}
-              </div>
-            )}
+                  <span style={{ fontFamily: ffM, fontSize: '12px', fontWeight: 600, color: tHero }}>{l.value}%</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -320,7 +319,7 @@ export function BrokerDashboard() {
                 <div key={p.no}
                   className="flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all"
                   style={{ background: iBg, border: `1px solid ${iBdr}` }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(128,148,230,0.35)'; (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.08)' : 'rgba(25,5,140,0.04)'; }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = hoverBorder(isDark); (e.currentTarget as HTMLElement).style.background = hoverBg(isDark); }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = iBdr; (e.currentTarget as HTMLElement).style.background = iBg; }}
                 >
                   <div className="flex items-center gap-3.5">
@@ -374,7 +373,7 @@ export function BrokerDashboard() {
                 <div key={sb.name}
                   className="flex items-center gap-4 p-3.5 rounded-xl cursor-pointer transition-all"
                   style={{ background: iBg, border: `1px solid ${iBdr}` }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(128,148,230,0.35)'; (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.08)' : 'rgba(25,5,140,0.04)'; }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = hoverBorder(isDark); (e.currentTarget as HTMLElement).style.background = hoverBg(isDark); }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = iBdr; (e.currentTarget as HTMLElement).style.background = iBg; }}
                 >
                   <div className="w-10 h-10 rounded-full flex items-center justify-center text-white shrink-0"

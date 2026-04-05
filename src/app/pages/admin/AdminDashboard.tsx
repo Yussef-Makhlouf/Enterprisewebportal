@@ -14,7 +14,8 @@ import { EditBrokerDrawer }   from '../../components/admin/EditBrokerDrawer';
 import { SendInvitationModal } from '../../components/admin/SendInvitationModal';
 import {
   B, cardBg, cardSdw, cardBdr, innerBg, innerBdr,
-  textHero, textBody, textMuted, gridLine, tooltipStyle, STATUS
+  textHero, textBody, textMuted, gridLine, tooltipStyle, STATUS,
+  hoverBg, hoverBorder
 } from '../../utils/darkPalette';
 
 /* ── Static data ─────────────────────────────────────────── */
@@ -34,7 +35,7 @@ const monthlyData = [
 ];
 
 const lobData = [
-  { name: 'Travel',   value: 38, color: B.indigo   },
+  { name: 'Travel',   value: 38, color: B.purple   },
   { name: 'Motor',    value: 28, color: B.ocean     },
   { name: 'Medical',  value: 20, color: B.seafoam   },
   { name: 'Home',     value:  8, color: B.roseGold  },
@@ -95,7 +96,7 @@ export function AdminDashboard() {
 
   /* KPIs */
   const kpis = [
-    { label: isAr ? 'إجمالي الوسطاء'         : 'TOTAL BROKERS',   value: '148',   delta: '+12%',  up: true,  sub: isAr ? '124 نشط'       : '124 active',  stripe: B.indigo,   glow: 'rgba(128,148,230,0.22)', icon: Users      },
+    { label: isAr ? 'إجمالي الوسطاء'         : 'TOTAL BROKERS',   value: '148',   delta: '+12%',  up: true,  sub: isAr ? '124 نشط'       : '124 active',  stripe: isDark ? B.ocean : B.indigo,   glow: 'rgba(128,148,230,0.22)', icon: Users      },
     { label: isAr ? 'الوثائق النشطة'          : 'ACTIVE POLICIES', value: '2,847', delta: '+8.3%', up: true,  sub: isAr ? '47 هذا الأسبوع' : '47 this week', stripe: B.ocean,    glow: 'rgba(128,148,230,0.22)', icon: FileText   },
     { label: isAr ? 'الأقساط الشهرية (دينار)' : 'MONTHLY PREMIUM', value: '1.2M',  delta: '+5.1%', up: true,  sub: isAr ? 'أكتوبر 2025'   : 'October 2025', stripe: B.seafoam,  glow: 'rgba(107,202,186,0.18)', icon: DollarSign },
     { label: isAr ? 'المهام المعلقة'          : 'PENDING TASKS',   value: '23',    delta: '-3',    up: false, sub: isAr ? '5 عاجلة'       : '5 urgent',     stripe: B.roseGold, glow: 'rgba(210,140,100,0.18)', icon: Clock      },
@@ -264,7 +265,7 @@ export function AdminDashboard() {
                 dx={isRTL ? 10 : -10}
                 tickFormatter={(v) => `${(v / 1000).toFixed(0)}K`}
               />
-              <Tooltip contentStyle={tt} formatter={(val: any) => [`JOD ${(val / 1000).toFixed(0)}K`]} />
+              <Tooltip contentStyle={tt} itemStyle={{ color: isDark ? '#E8F0FF' : undefined }} formatter={(val: any) => [`JOD ${(val / 1000).toFixed(0)}K`]} />
               <Bar dataKey="premium"    fill={barPrem} radius={[4,4,0,0]} />
               <Bar dataKey="commission" fill={barComm} radius={[4,4,0,0]} />
             </BarChart>
@@ -283,7 +284,7 @@ export function AdminDashboard() {
                 <Pie data={lobData} cx="50%" cy="50%" innerRadius={48} outerRadius={68} dataKey="value" strokeWidth={0}>
                   {lobData.map((e) => <Cell key={e.name} fill={e.color} />)}
                 </Pie>
-                <Tooltip contentStyle={tt} />
+                <Tooltip contentStyle={tt} itemStyle={{ color: isDark ? '#E8F0FF' : undefined }} />
               </PieChart>
             </ResponsiveContainer>
             <div className="space-y-1.5 mt-3">
@@ -326,7 +327,7 @@ export function AdminDashboard() {
                   key={broker.id}
                   className="group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all"
                   style={{ background: iBg, border: `1px solid ${iBdr}` }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(128,148,230,0.35)'; (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.08)' : 'rgba(25,5,140,0.04)'; }}
+                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = hoverBorder(isDark); (e.currentTarget as HTMLElement).style.background = hoverBg(isDark); }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = iBdr; (e.currentTarget as HTMLElement).style.background = iBg; }}
                   onClick={() => { setSelectedBroker(broker); setDrawerOpen(true); }}
                 >

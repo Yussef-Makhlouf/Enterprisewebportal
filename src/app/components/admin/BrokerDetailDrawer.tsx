@@ -18,7 +18,7 @@ interface LOBItem {
 }
 
 const LOBS: LOBItem[] = [
-  { key: 'travel',     Icon: Plane,       label: 'Travel',     labelAr: 'سفر',    active: true,  color: '#19058C' },
+  { key: 'travel',     Icon: Plane,       label: 'Travel',     labelAr: 'سفر',    active: true,  color: '#8094E6' /* mapped to ocean for dark mode visibility */ },
   { key: 'motor',      Icon: Car,         label: 'Motor',      labelAr: 'مركبات', active: true,  color: '#8094E6' },
   { key: 'medical',    Icon: Stethoscope, label: 'Medical',    labelAr: 'طبي',    active: false, color: '#6BCABA' },
   { key: 'home',       Icon: Home,        label: 'Home',       labelAr: 'منزل',   active: false, color: '#D28C64' },

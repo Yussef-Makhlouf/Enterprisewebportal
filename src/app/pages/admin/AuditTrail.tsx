@@ -4,7 +4,7 @@ import {
   Download, Search, LogIn, Pencil, Mail, CheckCircle,
   Ban, KeyRound, ClipboardList, Plane, type LucideIcon
 } from 'lucide-react';
-import { B } from '../../utils/darkPalette';
+import { B, hoverBg, hoverBorder, tableRowHover } from '../../utils/darkPalette';
 
 interface AuditItem {
   id: number;
@@ -161,7 +161,7 @@ export function AuditTrail() {
                       border:       isActive ? `1px solid ${activeFilterBdr}` : '1px solid transparent',
                       textAlign:    isRTL ? 'right' : 'left',
                     }}
-                    onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = isDark ? 'rgba(128,148,230,0.07)' : 'rgba(25,5,140,0.04)'; } }}
+                    onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = hoverBg(isDark); } }}
                     onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; } }}
                     onClick={() => setActionFilter(opt.key)}
                   >

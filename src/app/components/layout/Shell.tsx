@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 
 import { useState, useEffect, useRef } from 'react';
+import { B, hoverBg, hoverBorder, navHoverBg } from '../../utils/darkPalette';
 // Add these interfaces near the top of Shell.tsx
 interface NavItem {
   icon: any; // Or LucideIcon if imported
@@ -141,9 +142,9 @@ export function Shell() {
   }, []);
 
   const RECENT_NOTIFS = [
-    { id: 1, Icon: AlertTriangle, title: 'License Expiring Soon', titleAr: 'الرخصة تنتهي قريباً', time: '2h', type: 'warning', color: '#F0B030', bg: 'rgba(240,176,48,0.12)', unread: true },
-    { id: 2, Icon: FileText, title: 'Policy Approval Required', titleAr: 'الموافقة على الوثيقة مطلوبة', time: '4h', type: 'approval', color: '#D28C64', bg: 'rgba(210,140,100,0.12)', unread: true },
-    { id: 3, Icon: CheckCircle, title: 'Travel Policy Issued', titleAr: 'تم إصدار وثيقة السفر', time: '1d', type: 'success', color: '#00C896', bg: 'rgba(0,200,150,0.12)', unread: false },
+    { id: 1, Icon: AlertTriangle, title: 'License Expiring Soon', titleAr: 'الرخصة تنتهي قريباً', time: '2h', type: 'warning', color: B.roseGold, bg: 'rgba(210,140,100,0.12)', unread: true },
+    { id: 2, Icon: FileText, title: 'Policy Approval Required', titleAr: 'الموافقة على الوثيقة مطلوبة', time: '4h', type: 'approval', color: B.seafoam, bg: 'rgba(107,202,186,0.12)', unread: true },
+    { id: 3, Icon: CheckCircle, title: 'Travel Policy Issued', titleAr: 'تم إصدار وثيقة السفر', time: '1d', type: 'success', color: B.ocean, bg: 'rgba(128,148,230,0.12)', unread: false },
   ];
 
   useEffect(() => {
@@ -248,7 +249,7 @@ export function Shell() {
                     color: isActive ? '#FFFFFF' : 'rgba(255,255,255,0.40)',
                     borderInlineStart: isActive ? `2px solid ${activeAccent}` : '2px solid transparent',
                   }}
-                  onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.08)'; (e.currentTarget as HTMLElement).style.color = '#FFFFFF'; } }}
+                  onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = navHoverBg(isDark); (e.currentTarget as HTMLElement).style.color = '#FFFFFF'; } }}
                   onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.40)'; } }}
                   onClick={() => {
                     const flat  = navItems.flatMap(g => g.items);

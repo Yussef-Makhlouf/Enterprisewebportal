@@ -9,16 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#19058C] text-white hover:bg-[#8094E6] shadow-sm uppercase tracking-wider font-bold text-[13px] rounded-full",
+        default: "bg-[#19058C] text-white hover:bg-[#8094E6] shadow-sm uppercase tracking-wider font-bold text-[13px] rounded-full dark:bg-[#19058C] dark:text-white dark:shadow-md dark:hover:bg-[#8094E6]",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 rounded-full",
         outline:
-          "border border-[#19058C] bg-transparent text-[#19058C] dark:text-[#8094E6] dark:border-[#8094E6] hover:bg-[#19058C] hover:text-white dark:hover:bg-[#8094E6] dark:hover:text-white uppercase tracking-wider font-bold text-[13px] rounded-full",
+          "border border-[#19058C] bg-transparent text-[#19058C] dark:text-[#E8F0FF] dark:border-[#8094E6] dark:bg-transparent hover:bg-[#19058C] hover:text-white dark:hover:bg-[#8094E6] dark:hover:text-white dark:hover:border-[#8094E6] uppercase tracking-wider font-bold text-[13px] rounded-full",
         secondary:
-          "bg-[#8094E6] text-white hover:bg-[#19058C] rounded-full uppercase tracking-wider font-bold text-[13px]",
+          "bg-[#8094E6] text-white hover:bg-[#19058C] rounded-full uppercase tracking-wider font-bold text-[13px] dark:bg-[#8094E6] dark:text-white dark:hover:bg-[#19058C]",
         ghost:
-          "hover:bg-[#E5E5E5] dark:hover:bg-input/50 rounded-full",
-        link: "text-[#19058C] dark:text-[#8094E6] underline-offset-4 hover:underline",
+          "hover:bg-[#E5E5E5] dark:hover:bg-[#172236] dark:hover:text-[#E8F0FF] rounded-full dark:text-[#B4CDFF]",
+        link: "text-[#19058C] dark:text-[#8094E6] underline-offset-4 hover:underline dark:hover:text-[#A78BF0]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

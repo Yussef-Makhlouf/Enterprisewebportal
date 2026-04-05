@@ -90,7 +90,7 @@ export function RolesPermissions() {
   /* palette */
   const pageBg     = isDark ? '#0C1221' : '#F3F4F8';
   const textH      = isDark ? '#E8F0FF' : '#19058C';
-  const textSub    = isDark ? 'rgba(180,205,255,0.55)' : '#5A6A8A';
+  const textSub    = isDark ? 'rgba(180,205,255,0.72)' : '#5A6A8A';
   const borderCol  = isDark ? 'rgba(128,148,230,0.14)' : 'rgba(25,5,140,0.09)';
   const ff         = "'Almarai', Verdana, sans-serif";
   const ffH        = isAr ? "'Kufam', Tahoma, sans-serif"  : "'Georama', Verdana, sans-serif";
@@ -136,8 +136,12 @@ export function RolesPermissions() {
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white transition-all hover:opacity-90"
             style={{
               fontFamily: ff, fontSize: '13px', fontWeight: 700,
-              background: '#19058C',
-              boxShadow: '0 4px 16px rgba(25,5,140,0.35)',
+              background: isDark
+                ? `linear-gradient(135deg, #8094E6 0%, #6B7FD4 100%)`
+                : '#19058C',
+              boxShadow: isDark
+                ? '0 4px 16px rgba(128,148,230,0.35)'
+                : '0 4px 16px rgba(25,5,140,0.35)',
             }}
             onClick={() => setCreateDrawerOpen(true)}
           >
@@ -278,7 +282,7 @@ export function RolesPermissions() {
                 <p style={{
                   fontFamily: ff,
                   fontSize: '12px',
-                  color: isDark ? 'rgba(180,205,255,0.50)' : '#6B7A99',
+                  color: isDark ? 'rgba(180,205,255,0.60)' : '#6B7A99',
                   lineHeight: '1.7',
                   minHeight: '40px',
                   marginBottom: '14px',

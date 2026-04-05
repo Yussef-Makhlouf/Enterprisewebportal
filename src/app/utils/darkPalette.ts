@@ -109,3 +109,55 @@ export const STATUS: Record<string, { color: string; bg: string; labelEn: string
   Inactive:  { color: 'rgba(128,148,230,0.70)', bg: 'rgba(128,148,230,0.10)', labelEn: 'Inactive',  labelAr: 'غير نشط' },
   Cancelled: { color: '#D28C64', bg: 'rgba(210,140,100,0.14)', labelEn: 'Cancelled', labelAr: 'ملغي'    },
 };
+
+/** Hover state colors */
+export const hoverBg = (isDark: boolean) =>
+  isDark ? 'rgba(128,148,230,0.12)' : 'rgba(25,5,140,0.06)';
+
+export const hoverBorder = (isDark: boolean) =>
+  isDark ? 'rgba(128,148,230,0.30)' : 'rgba(25,5,140,0.15)';
+
+export const hoverText = (isDark: boolean) =>
+  isDark ? '#FFFFFF' : '#19058C';
+
+/** Table row hover */
+export const tableRowHover = (isDark: boolean) =>
+  isDark ? 'rgba(128,148,230,0.08)' : 'rgba(25,5,140,0.04)';
+
+/** Input focus border */
+export const inputFocusBorder = (isDark: boolean) =>
+  isDark ? 'rgba(210,140,100,0.50)' : 'rgba(25,5,140,0.40)';
+
+/** Link colors */
+export const linkColor = (isDark: boolean) =>
+  isDark ? '#8094E6' : '#19058C';
+
+export const linkHoverColor = (isDark: boolean) =>
+  isDark ? '#A78BF0' : '#19058C';
+
+/** Button primary hover */
+export const primaryBtnHover = (isDark: boolean) =>
+  isDark ? '#8094E6' : '#1F0F4D';
+
+/** Secondary button colors */
+export const secondaryBtnBg = (isDark: boolean) =>
+  isDark ? 'rgba(128,148,230,0.15)' : 'rgba(25,5,140,0.08)';
+
+export const secondaryBtnHover = (isDark: boolean) =>
+  isDark ? 'rgba(128,148,230,0.25)' : 'rgba(25,5,140,0.15)';
+
+export const secondaryBtnText = (isDark: boolean) =>
+  isDark ? '#E8F0FF' : '#19058C';
+
+export const tableRowSelected = (isDark: boolean) =>
+  isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)';
+
+export const focusRing = (isDark: boolean) =>
+  isDark ? 'rgba(210,140,100,0.50)' : 'rgba(25,5,140,0.40)';
+
+/** Navigation hover - for sidebar items */
+export const navHoverBg = (isDark: boolean) =>
+  isDark ? 'rgba(255,255,255,0.08)' : 'rgba(255,255,255,0.13)';
+
+export const navHoverText = (isDark: boolean) =>
+  isDark ? '#FFFFFF' : '#19058C';

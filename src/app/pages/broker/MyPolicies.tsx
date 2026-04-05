@@ -6,7 +6,7 @@ import {
   ChevronLeft, ChevronRight, Plane, Car, Stethoscope, Home, HardHat, type LucideIcon
 } from 'lucide-react';
 import { PolicyDetailDrawer } from '../../components/broker/PolicyDetailDrawer';
-import { B } from '../../utils/darkPalette';
+import { B, tableRowHover, tableRowSelected } from '../../utils/darkPalette';
 
 /* ── LOB config ───────────────────────────────────────── */
 const LOB_ICONS: Record<string, LucideIcon> = {
@@ -213,9 +213,9 @@ export function MyPolicies() {
                 return (
                   <tr key={p.id}
                     className="border-b last:border-0 transition-colors cursor-pointer"
-                    style={{ borderColor: bdr, background: selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent' }}
-                    onMouseEnter={e => (e.currentTarget.style.background = rowHover)}
-                    onMouseLeave={e => (e.currentTarget.style.background = selectedIds.includes(p.id) ? (isDark ? 'rgba(128,148,230,0.06)' : 'rgba(25,5,140,0.03)') : 'transparent')}
+                    style={{ borderColor: bdr, background: selectedIds.includes(p.id) ? tableRowSelected(isDark) : 'transparent' }}
+                    onMouseEnter={e => (e.currentTarget.style.background = tableRowHover(isDark))}
+                    onMouseLeave={e => (e.currentTarget.style.background = selectedIds.includes(p.id) ? tableRowSelected(isDark) : 'transparent')}
                     onClick={() => setSelectedPolicy(p)}
                   >
                     {/* Checkbox */}
