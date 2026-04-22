@@ -45,7 +45,7 @@ const LOB_TABS = [
 ];
 
 export function MyPolicies() {
-  const { theme, language, isRTL } = useApp();
+  const { theme, language, isRTL, addToast } = useApp();
   const navigate = useNavigate();
   const isAr  = language === 'ar';
   const isDark = theme === 'dark';
