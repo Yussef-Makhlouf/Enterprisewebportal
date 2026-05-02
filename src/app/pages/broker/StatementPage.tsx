@@ -32,9 +32,39 @@ export function StatementPage() {
   ];
 
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [search, setSearch] = useState('');
+  const [typeFilter, setTypeFilter] = useState('All');
+  const [dateFrom, setDateFrom] = useState('2025-01-01');
+  const [dateTo, setDateTo] = useState('2025-03-31');
+  const [minAmount, setMinAmount] = useState('');
+  const [maxAmount, setMaxAmount] = useState('');
+  const [showFilters, setShowFilters] = useState(false);
 
-  const allSelected  = TRANSACTIONS.length > 0 && TRANSACTIONS.every((_, i) => selectedIds.includes(i));
-  const someSelected = TRANSACTIONS.some((_, i) => selectedIds.includes(i)) && !allSelected;
+  const filtered = TRANSACTIONS.filter(tx => {
+    const q = search.toLowerCase();
+    const matchSearch = !search || tx.desc.toLowerCase().includes(q) || (tx.descAr && tx.descAr.includes(q));
+    const matchType = typeFilter === 'All' || tx.type === typeFilter;
+    
+    // Amount filter
+    let matchAmount = true;
+    const amt = parseFloat(tx.credit || tx.debit || '0');
+    if (minAmount && amt < parseFloat(minAmount)) matchAmount = false;
+    if (maxAmount && amt > parseFloat(maxAmount)) matchAmount = false;
+
+    // Date filter
+    let matchDate = true;
+    if (dateFrom || dateTo) {
+      const [d, m, y] = tx.date.split('/').map(Number);
+      const tDate = new Date(y, m - 1, d);
+      if (dateFrom && tDate < new Date(dateFrom)) matchDate = false;
+      if (dateTo && tDate > new Date(dateTo)) matchDate = false;
+    }
+
+    return matchSearch && matchType && matchAmount && matchDate;
+  });
+
+  const allSelected  = filtered.length > 0 && filtered.every((_, i) => selectedIds.includes(i));
+  const someSelected = filtered.some((_, i) => selectedIds.includes(i)) && !allSelected;
 
   const toggleSelectAll = () => {
     if (allSelected) {
@@ -55,16 +85,99 @@ export function StatementPage() {
           <p style={{ fontSize: '13px', color: textSecondary, fontFamily: ff }}>{isAr ? 'سجل المعاملات المالية الكاملة' : 'Complete financial transaction record'}</p>
         </div>
         <div className="flex gap-3">
-          <input type="date" className="px-3 py-2 rounded-lg border text-sm outline-none"
-            style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} defaultValue="2025-01-01" />
-          <input type="date" className="px-3 py-2 rounded-lg border text-sm outline-none"
-            style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} defaultValue="2025-03-31" />
+          <button 
+            onClick={() => setShowFilters(!showFilters)}
+            className="px-4 py-2 rounded-lg border text-sm font-medium flex items-center gap-2 transition-all"
+            style={{ 
+              background: showFilters ? 'rgba(128,148,230,0.1)' : 'transparent',
+              borderColor: showFilters ? '#8094E6' : borderColor,
+              color: showFilters ? '#8094E6' : textSecondary
+            }}
+          >
+            <Download size={15} />{isAr ? 'تصفية النتائج' : 'Filter Results'}
+          </button>
           <button className="px-4 py-2 rounded-lg text-white text-sm font-medium flex items-center gap-2 hover:opacity-90"
             style={{ background: `linear-gradient(135deg, #D28C64 0%, #E8B98A 50%, #D28C64 100%)`, boxShadow: '0 2px 10px rgba(210,140,100,0.25)' }}>
             <Download size={15} />{isAr ? 'تصدير PDF' : 'Export PDF'}
           </button>
         </div>
       </div>
+
+      {/* Advanced Filter Drawer */}
+      {showFilters && (
+        <div className="rounded-xl p-5 mb-5 grid grid-cols-1 md:grid-cols-4 gap-4 animate-in fade-in zoom-in duration-200"
+          style={{ background: cardBg, border: `1px solid ${borderColor}` }}>
+          
+          <div className="md:col-span-2">
+            <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+              {isAr ? 'البحث في الوصف' : 'Search Description'}
+            </label>
+            <input type="text" value={search} onChange={e => setSearch(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }}
+              placeholder={isAr ? 'مثال: عمولة سفر...' : 'e.g. Travel Commission...'} />
+          </div>
+
+          <div>
+            <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+              {isAr ? 'نوع المعاملة' : 'Transaction Type'}
+            </label>
+            <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }}>
+              <option value="All">{isAr ? 'الكل' : 'All Types'}</option>
+              <option value="credit">{isAr ? 'إضافة (Credit)' : 'Credit'}</option>
+              <option value="debit">{isAr ? 'خصم (Debit)' : 'Debit'}</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+              {isAr ? 'من تاريخ' : 'From Date'}
+            </label>
+            <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} />
+          </div>
+
+          <div>
+            <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+              {isAr ? 'إلى تاريخ' : 'To Date'}
+            </label>
+            <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} />
+          </div>
+
+          <div>
+            <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+              {isAr ? 'أدنى مبلغ' : 'Min Amount'}
+            </label>
+            <input type="number" value={minAmount} onChange={e => setMinAmount(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none font-mono"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} placeholder="0" />
+          </div>
+
+          <div>
+            <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+              {isAr ? 'أقصى مبلغ' : 'Max Amount'}
+            </label>
+            <input type="number" value={maxAmount} onChange={e => setMaxAmount(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg border text-sm outline-none font-mono"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : '#FFFFFF', borderColor, color: textPrimary }} placeholder="1000" />
+          </div>
+
+          <div className="flex items-end">
+            <button 
+              onClick={() => { setSearch(''); setTypeFilter('All'); setDateFrom('2025-01-01'); setDateTo('2025-03-31'); setMinAmount(''); setMaxAmount(''); }}
+              className="w-full py-2 rounded-lg text-sm font-bold uppercase transition-all hover:opacity-80"
+              style={{ color: '#D28C64', border: '1px dashed #D28C64' }}
+            >
+              {isAr ? 'إعادة ضبط' : 'Reset'}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
@@ -113,7 +226,7 @@ export function StatementPage() {
               </tr>
             </thead>
             <tbody>
-              {TRANSACTIONS.map((tx, i) => (
+              {filtered.map((tx, i) => (
                 <tr key={i}
                   className="border-b transition-all"
                   style={{

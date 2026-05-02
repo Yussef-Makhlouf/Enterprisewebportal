@@ -54,6 +54,14 @@ export function MyPolicies() {
   const [search,         setSearch]         = useState('');
   const [selectedPolicy, setSelectedPolicy] = useState<any>(null);
   const [selectedIds,    setSelectedIds]    = useState<number[]>([]);
+  const [showFilters,    setShowFilters]    = useState(false);
+
+  /* filter state */
+  const [dateFrom,       setDateFrom]       = useState('');
+  const [dateTo,         setDateTo]         = useState('');
+  const [minPremium,     setMinPremium]     = useState('');
+  const [maxPremium,     setMaxPremium]     = useState('');
+  const [statusFilter,   setStatusFilter]   = useState('All');
 
   /* palette */
   const bg          = isDark ? '#0C1221' : '#F8F7FC';
@@ -69,7 +77,23 @@ export function MyPolicies() {
   const filtered = POLICIES.filter(p => {
     const matchTab    = activeTab === 'All' || p.typeKey === activeTab;
     const matchSearch = !search || p.no.toLowerCase().includes(search.toLowerCase()) || p.name.toLowerCase().includes(search.toLowerCase());
-    return matchTab && matchSearch;
+    const matchStatus = statusFilter === 'All' || p.status === statusFilter;
+    
+    // Date filter
+    let matchDate = true;
+    if (dateFrom || dateTo) {
+      const [d, m, y] = p.issueDate.split('/').map(Number);
+      const pDate = new Date(y, m - 1, d);
+      if (dateFrom && pDate < new Date(dateFrom)) matchDate = false;
+      if (dateTo && pDate > new Date(dateTo)) matchDate = false;
+    }
+
+    // Premium filter
+    let matchPremium = true;
+    if (minPremium && parseFloat(p.premium) < parseFloat(minPremium)) matchPremium = false;
+    if (maxPremium && parseFloat(p.premium) > parseFloat(maxPremium)) matchPremium = false;
+
+    return matchTab && matchSearch && matchStatus && matchDate && matchPremium;
   });
 
   const allVisibleIds = filtered.map(p => p.id);
@@ -166,14 +190,96 @@ export function MyPolicies() {
               onBlur={e  => { e.currentTarget.style.borderColor = bdr; }}
             />
           </div>
-          <select className="px-3 py-2 rounded-lg border text-sm outline-none"
-            style={{ background: inputBg, borderColor: bdr, color: textSec, fontFamily: ff }}>
-            <option>{isAr ? 'جميع الحالات' : 'All Status'}</option>
-            <option>{isAr ? 'نشط' : 'Active'}</option>
-            <option>{isAr ? 'منتهي' : 'Expired'}</option>
-            <option>{isAr ? 'ملغي' : 'Cancelled'}</option>
-          </select>
+          <div className="flex items-center gap-2">
+            <select 
+              className="px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: inputBg, borderColor: bdr, color: textSec, fontFamily: ff }}
+              value={statusFilter}
+              onChange={e => setStatusFilter(e.target.value)}
+            >
+              <option value="All">{isAr ? 'جميع الحالات' : 'All Status'}</option>
+              <option value="Active">{isAr ? 'نشط' : 'Active'}</option>
+              <option value="Expired">{isAr ? 'منتهي' : 'Expired'}</option>
+              <option value="Cancelled">{isAr ? 'ملغي' : 'Cancelled'}</option>
+            </select>
+            <button 
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-all"
+              style={{ 
+                borderColor: showFilters ? B.roseGold : bdr, 
+                color: showFilters ? B.roseGold : textSec,
+                background: showFilters ? `${B.roseGold}10` : 'transparent'
+              }}
+            >
+              <Search size={14} />
+              {isAr ? 'تصفية متقدمة' : 'Advanced Filters'}
+            </button>
+          </div>
         </div>
+
+        {/* Advanced Filters Drawer */}
+        {showFilters && (
+          <div className="px-4 py-4 border-b grid grid-cols-1 md:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-200" 
+            style={{ borderColor: bdr, background: isDark ? 'rgba(128,148,230,0.03)' : 'rgba(25,5,140,0.01)' }}>
+            
+            {/* Date From */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSec, textTransform: 'uppercase' }}>
+                {isAr ? 'من تاريخ' : 'Date From'}
+              </label>
+              <input type="date" value={dateFrom} onChange={e => setDateFrom(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                style={{ background: inputBg, borderColor: bdr, color: textPrimary }} />
+            </div>
+
+            {/* Date To */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSec, textTransform: 'uppercase' }}>
+                {isAr ? 'إلى تاريخ' : 'Date To'}
+              </label>
+              <input type="date" value={dateTo} onChange={e => setDateTo(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                style={{ background: inputBg, borderColor: bdr, color: textPrimary }} />
+            </div>
+
+            {/* Min Premium */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSec, textTransform: 'uppercase' }}>
+                {isAr ? 'أدنى قسط' : 'Min Premium'}
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold" style={{ color: textSec }}>JOD</span>
+                <input type="number" value={minPremium} onChange={e => setMinPremium(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2 rounded-lg border text-sm outline-none font-mono"
+                  style={{ background: inputBg, borderColor: bdr, color: textPrimary }} placeholder="0" />
+              </div>
+            </div>
+
+            {/* Max Premium */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSec, textTransform: 'uppercase' }}>
+                {isAr ? 'أقصى قسط' : 'Max Premium'}
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] font-bold" style={{ color: textSec }}>JOD</span>
+                <input type="number" value={maxPremium} onChange={e => setMaxPremium(e.target.value)}
+                  className="w-full pl-10 pr-3 py-2 rounded-lg border text-sm outline-none font-mono"
+                  style={{ background: inputBg, borderColor: bdr, color: textPrimary }} placeholder="5000" />
+              </div>
+            </div>
+
+            {/* Reset Button */}
+            <div className="md:col-span-4 flex justify-end">
+              <button 
+                onClick={() => { setDateFrom(''); setDateTo(''); setMinPremium(''); setMaxPremium(''); setStatusFilter('All'); setSearch(''); }}
+                className="text-[11px] font-bold uppercase tracking-wider underline hover:opacity-80 transition-all"
+                style={{ color: B.roseGold }}
+              >
+                {isAr ? 'إعادة ضبط الفلاتر' : 'Reset All Filters'}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Table */}
         <div className="overflow-x-auto">

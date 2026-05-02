@@ -44,6 +44,15 @@ export function ManageBrokers() {
   const [inviteBroker, setInviteBroker] = useState<any>(null);
   const [confirmModal, setConfirmModal] = useState<any>(null);
   const [page, setPage] = useState(1);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  
+  /* advanced filters */
+  const [minComm, setMinComm] = useState('');
+  const [maxComm, setMaxComm] = useState('');
+  const [lobFilter, setLobFilter] = useState('All');
+  const [expiryFrom, setExpiryFrom] = useState('');
+  const [expiryTo, setExpiryTo] = useState('');
+
   const perPage = 8;
 
   const isDark = theme === 'dark';
@@ -63,7 +72,25 @@ export function ManageBrokers() {
     const matchFilter = activeFilter === 'All' ||
       b.type === activeFilter ||
       b.status === activeFilter;
-    return matchSearch && matchFilter;
+    
+    // LOB filter
+    const matchLob = lobFilter === 'All' || b.lobs.includes(lobFilter);
+
+    // Commission filter
+    let matchComm = true;
+    if (minComm && parseFloat(b.commission) < parseFloat(minComm)) matchComm = false;
+    if (maxComm && parseFloat(b.commission) > parseFloat(maxComm)) matchComm = false;
+
+    // Expiry filter
+    let matchExpiry = true;
+    if (expiryFrom || expiryTo) {
+      const [d, m, y] = b.expiry.split('/').map(Number);
+      const eDate = new Date(y, m - 1, d);
+      if (expiryFrom && eDate < new Date(expiryFrom)) matchExpiry = false;
+      if (expiryTo && eDate > new Date(expiryTo)) matchExpiry = false;
+    }
+
+    return matchSearch && matchFilter && matchLob && matchComm && matchExpiry;
   });
 
   const stats = [
@@ -179,21 +206,104 @@ export function ManageBrokers() {
               onChange={e => setSearch(e.target.value)}
             />
           </div>
-          <select
-            className="px-3 py-2 rounded-lg border text-sm outline-none"
-            style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }}
-          >
-            <option>{isAr ? 'جميع الحالات' : 'All Statuses'}</option>
-            <option>Active</option>
-            <option>Pending</option>
-            <option>Expired</option>
-          </select>
-          <button className="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm"
-            style={{ borderColor, color: textSecondary }}>
-            <Filter size={14} />
-            {isAr ? 'الأعمدة' : 'Columns'}
-          </button>
+          <div className="flex items-center gap-2">
+            <select
+              className="px-3 py-2 rounded-lg border text-sm outline-none"
+              style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }}
+              value={activeFilter}
+              onChange={e => setActiveFilter(e.target.value)}
+            >
+              <option value="All">{isAr ? 'جميع الحالات' : 'All Statuses'}</option>
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="Expired">Expired</option>
+              <option value="Blocked">Blocked</option>
+            </select>
+            <button 
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-all"
+              style={{ 
+                borderColor: showAdvanced ? B.ocean : borderColor, 
+                color: showAdvanced ? B.ocean : textSecondary,
+                background: showAdvanced ? `${B.ocean}15` : 'transparent'
+              }}
+              onClick={() => setShowAdvanced(!showAdvanced)}
+            >
+              <Filter size={14} />
+              {isAr ? 'تصفية متقدمة' : 'Advanced'}
+            </button>
+            <button className="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm"
+              style={{ borderColor, color: textSecondary }}>
+              {isAr ? 'الأعمدة' : 'Columns'}
+            </button>
+          </div>
         </div>
+
+        {/* Advanced Filters Drawer */}
+        {showAdvanced && (
+          <div className="px-4 py-4 border-b grid grid-cols-1 md:grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-200" 
+            style={{ borderColor, background: isDark ? 'rgba(128,148,230,0.03)' : 'rgba(25,5,140,0.01)' }}>
+            
+            {/* LOBs */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+                {isAr ? 'خطوط الأعمال' : 'LOB Filter'}
+              </label>
+              <select value={lobFilter} onChange={e => setLobFilter(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }}>
+                <option value="All">{isAr ? 'الكل' : 'All LOBs'}</option>
+                {Object.keys(LOB_COLORS).map(lob => <option key={lob} value={lob}>{lob}</option>)}
+              </select>
+            </div>
+
+            {/* Expiry From */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+                {isAr ? 'انتهاء من' : 'Expiry From'}
+              </label>
+              <input type="date" value={expiryFrom} onChange={e => setExpiryFrom(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }} />
+            </div>
+
+            {/* Expiry To */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+                {isAr ? 'انتهاء إلى' : 'Expiry To'}
+              </label>
+              <input type="date" value={expiryTo} onChange={e => setExpiryTo(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg border text-sm outline-none"
+                style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }} />
+            </div>
+
+            {/* Commission Range */}
+            <div>
+              <label className="block mb-1.5" style={{ fontSize: '11px', fontWeight: 600, color: textSecondary, textTransform: 'uppercase' }}>
+                {isAr ? 'مدى العمولة' : 'Commission % Range'}
+              </label>
+              <div className="flex items-center gap-2">
+                <input type="number" value={minComm} onChange={e => setMinComm(e.target.value)}
+                  className="w-full px-2 py-2 rounded-lg border text-sm outline-none font-mono text-center"
+                  style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }} placeholder="Min" />
+                <span style={{ color: textSecondary }}>-</span>
+                <input type="number" value={maxComm} onChange={e => setMaxComm(e.target.value)}
+                  className="w-full px-2 py-2 rounded-lg border text-sm outline-none font-mono text-center"
+                  style={{ background: theme === 'dark' ? 'rgba(255,255,255,0.04)' : '#F5F7FB', borderColor, color: textPrimary }} placeholder="Max" />
+              </div>
+            </div>
+
+            {/* Reset Button */}
+            <div className="md:col-span-4 flex justify-end">
+              <button 
+                onClick={() => { setMinComm(''); setMaxComm(''); setLobFilter('All'); setExpiryFrom(''); setExpiryTo(''); setSearch(''); setActiveFilter('All'); }}
+                className="text-[11px] font-bold uppercase tracking-wider underline hover:opacity-80 transition-all"
+                style={{ color: B.ocean }}
+              >
+                {isAr ? 'إعادة ضبط' : 'Reset Filters'}
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Table */}
         <div className="overflow-x-auto">

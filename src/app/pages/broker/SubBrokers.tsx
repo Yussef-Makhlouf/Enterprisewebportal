@@ -117,6 +117,11 @@ export function SubBrokers() {
   const [brokers, setBrokers]       = useState<SubBroker[]>(SEED);
   const [search,  setSearch]        = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
+  const [showFilters,    setShowFilters]    = useState(false);
+  const [roleFilter,     setRoleFilter]     = useState('All');
+  const [genderFilter,   setGenderFilter]   = useState('All');
+  const [dateFrom,       setDateFrom]       = useState('');
+  const [dateTo,         setDateTo]         = useState('');
   const [page,    setPage]          = useState(1);
   const PER = 10;
 
@@ -142,7 +147,18 @@ export function SubBrokers() {
       b.nationalId.includes(q) ||
       b.mobile.includes(q);
     const matchStatus = statusFilter === 'All' || b.subBrokerStatus === statusFilter;
-    return matchSearch && matchStatus;
+    const matchRole   = roleFilter === 'All' || b.role === roleFilter;
+    const matchGender = genderFilter === 'All' || b.gender === genderFilter;
+    
+    let matchDate = true;
+    if (dateFrom || dateTo) {
+      const [d, m, y] = b.creationDate.split('/').map(Number);
+      const cDate = new Date(y, m - 1, d);
+      if (dateFrom && cDate < new Date(dateFrom)) matchDate = false;
+      if (dateTo && cDate > new Date(dateTo)) matchDate = false;
+    }
+
+    return matchSearch && matchStatus && matchRole && matchGender && matchDate;
   });
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER));
   const rows = filtered.slice((page - 1) * PER, page * PER);
@@ -208,7 +224,7 @@ export function SubBrokers() {
       thirdNameAr: b.thirdNameAr, lastNameAr: b.lastNameAr,
       firstNameEn: b.firstNameEn, secondNameEn: b.secondNameEn,
       thirdNameEn: b.thirdNameEn, lastNameEn: b.lastNameEn,
-      email: b.email, mobile: b.mobile, gender: b.gender, nationalId: b.nationalId,
+      email: b.email, mobile: b.mobile, gender: b.gender, nationalId: b.nationalId, role: b.role,
     });
     setEditSubStatus(b.subBrokerStatus);
     setEditInvStatus(b.invitationStatus);
@@ -391,6 +407,15 @@ export function SubBrokers() {
         <Field label={isAr ? 'رقم الهوية الوطنية *' : 'National ID Number *'}
           value={f.nationalId} onChange={v => setF(p => ({ ...p, nationalId: v }))}
           placeholder="9921000955" mono errKey="nationalId" />
+        <SelectField
+          label={isAr ? 'الدور' : 'Role'}
+          value={f.role}
+          onChange={v => setF(p => ({ ...p, role: v as FormData['role'] }))}
+          options={[
+            { value: 'Manager', label: isAr ? 'مدير' : 'Manager' },
+            { value: 'Agent', label: isAr ? 'وكيل' : 'Agent' },
+          ]}
+        />
       </div>
     </div>
   );
