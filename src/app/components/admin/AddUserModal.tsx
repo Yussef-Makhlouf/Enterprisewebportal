@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'motion';
 import { X, UserPlus, Mail, Phone, Shield, Building, IdCard, User } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { B, modalBg, modalSdw, cardBdr, textHero, textMuted, inputBg } from '../../utils/darkPalette';
