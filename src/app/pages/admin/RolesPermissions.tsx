@@ -6,6 +6,7 @@ import {
   IconMotorBroker, IconMedicalBroker, IconMultiLine,
   IconUserPlus, IconPlus, IconMore,
 } from '../../components/icons/RoleIcons';
+import { AddUserModal } from '../../components/admin/AddUserModal';
 
 /* ── Role data ───────────────────────────────────────────── */
 const ROLES = [
@@ -82,6 +83,7 @@ export function RolesPermissions() {
   const { theme, language, isRTL, addToast } = useApp();
   const isAr = language === 'ar';
   const [createDrawerOpen, setCreateDrawerOpen] = useState(false);
+  const [addUserOpen, setAddUserOpen] = useState(false);
   const [editRole, setEditRole] = useState<any>(null);
   const [roles, setRoles] = useState(ROLES);
 
@@ -120,18 +122,19 @@ export function RolesPermissions() {
         </div>
 
         <div className="flex gap-2.5">
-          <button
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all"
-            style={{
-              fontFamily: ff, fontSize: '13px', fontWeight: 600,
-              border: `1.5px solid ${borderCol}`,
-              color: isDark ? 'rgba(180,205,255,0.70)' : '#5A6A8A',
-              background: isDark ? 'rgba(255,255,255,0.03)' : '#FFFFFF',
-            }}
-          >
-            <IconUserPlus color={isDark ? '#8094E6' : '#19058C'} size={15} />
-            {isAr ? 'إضافة مستخدم GIG' : 'Add GIG User'}
-          </button>
+            <button
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                fontFamily: ff, fontSize: '13px', fontWeight: 600,
+                border: `1.5px solid ${borderCol}`,
+                color: isDark ? 'rgba(180,205,255,0.70)' : '#5A6A8A',
+                background: isDark ? 'rgba(255,255,255,0.03)' : '#FFFFFF',
+              }}
+              onClick={() => setAddUserOpen(true)}
+            >
+              <IconUserPlus color={isDark ? '#8094E6' : '#19058C'} size={15} />
+              {isAr ? 'إضافة مستخدم GIG' : 'Add GIG User'}
+            </button>
           <button
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white transition-all hover:opacity-90"
             style={{
@@ -390,7 +393,7 @@ export function RolesPermissions() {
         })}
       </div>
 
-      {/* ── Drawers ─────────────────────────────────── */}
+      {/* Drawers & Modals ─────────────────────────────── */}
       {(createDrawerOpen || editRole) && (
         <CreateRoleDrawer
           role={editRole}
@@ -400,6 +403,13 @@ export function RolesPermissions() {
             setEditRole(null);
             addToast({ type: 'success', title: isAr ? 'تم الحفظ' : 'Role Saved' });
           }}
+        />
+      )}
+
+      {addUserOpen && (
+        <AddUserModal 
+          onClose={() => setAddUserOpen(false)} 
+          onSuccess={() => setAddUserOpen(false)}
         />
       )}
     </div>

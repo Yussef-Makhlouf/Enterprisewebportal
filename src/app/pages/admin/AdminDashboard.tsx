@@ -12,6 +12,7 @@ import {
 import { BrokerDetailDrawer } from '../../components/admin/BrokerDetailDrawer';
 import { EditBrokerDrawer }   from '../../components/admin/EditBrokerDrawer';
 import { SendInvitationModal } from '../../components/admin/SendInvitationModal';
+import { AddUserModal } from '../../components/admin/AddUserModal';
 import {
   B, cardBg, cardSdw, cardBdr, innerBg, innerBdr,
   textHero, textBody, textMuted, gridLine, tooltipStyle, STATUS,
@@ -66,6 +67,7 @@ export function AdminDashboard() {
   const [drawerOpen,    setDrawerOpen]    = useState(false);
   const [editOpen,      setEditOpen]      = useState(false);
   const [inviteOpen,    setInviteOpen]    = useState(false);
+  const [addUserOpen,   setAddUserOpen]   = useState(false);
   const [selectedBroker, setSelectedBroker] = useState<any>(null);
 
   const hour     = new Date().getHours();
@@ -159,18 +161,33 @@ export function AdminDashboard() {
             </span>
           </p>
         </div>
-        <button
-          className="flex items-center gap-2 px-6 py-3 rounded-full text-white uppercase tracking-wider hover:opacity-90 transition-all"
-          style={{
-            background: `linear-gradient(135deg, ${B.roseGold} 0%, #E8B98A 50%, ${B.roseGold} 100%)`,
-            boxShadow: `0 4px 20px rgba(210,140,100,0.40)`,
-            fontSize: '13px', fontWeight: 700, letterSpacing: '0.06em', fontFamily: ff,
-          }}
-          onClick={() => { setSelectedBroker(recentBrokers[0]); setInviteOpen(true); }}
-        >
-          <Plus size={15} />
-          {isAr ? 'إرسال دعوة' : 'Send Invitation'}
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <button
+            className="flex items-center gap-2 px-5 py-3 rounded-full text-white uppercase tracking-wider hover:opacity-90 transition-all"
+            style={{
+              background: isDark ? 'rgba(255,255,255,0.05)' : '#FFFFFF',
+              border: `1.5px solid ${bdr}`,
+              color: tBody,
+              fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', fontFamily: ff,
+            }}
+            onClick={() => setAddUserOpen(true)}
+          >
+            <Users size={15} style={{ color: B.ocean }} />
+            {isAr ? 'إضافة مستخدم' : 'Add User'}
+          </button>
+          <button
+            className="flex items-center gap-2 px-6 py-3 rounded-full text-white uppercase tracking-wider hover:opacity-90 transition-all"
+            style={{
+              background: `linear-gradient(135deg, ${B.roseGold} 0%, #E8B98A 50%, ${B.roseGold} 100%)`,
+              boxShadow: `0 4px 20px rgba(210,140,100,0.40)`,
+              fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', fontFamily: ff,
+            }}
+            onClick={() => { setSelectedBroker(recentBrokers[0]); setInviteOpen(true); }}
+          >
+            <Plus size={15} />
+            {isAr ? 'إرسال دعوة' : 'Send Invitation'}
+          </button>
+        </div>
       </div>
 
       {/* ── KPI Cards ─────────────────────────────────── */}
@@ -434,6 +451,12 @@ export function AdminDashboard() {
             setInviteOpen(false);
             addToast({ type: 'success', title: isAr ? 'تم الإرسال' : 'Invitation Sent', description: isAr ? 'تم إرسال الدعوة بنجاح' : 'Sent successfully' });
           }}
+        />
+      )}
+      {addUserOpen && (
+        <AddUserModal 
+          onClose={() => setAddUserOpen(false)} 
+          onSuccess={() => setAddUserOpen(false)}
         />
       )}
     </div>
